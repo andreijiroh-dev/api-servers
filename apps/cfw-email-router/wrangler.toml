@@ -1,0 +1,8 @@
+name = "personal-email-routing"
+main = "src/worker.js"
+compatibility_date = "2024-06-08"
+workers_dev = false
+
+[vars]
+MAIN_ADDRESS = "ajhalili2006@gmail.com"
+MULTIFANDOM_ADDRESS = "mfhellscapes@gmail.com"

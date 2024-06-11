@@ -5,6 +5,12 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
+"@ajhalili2006/api-servers-lib@workspace:packages/lib":
+  version: 0.0.0-use.local
+  resolution: "@ajhalili2006/api-servers-lib@workspace:packages/lib"
+  languageName: unknown
+  linkType: soft
+
 "@ajhalili2006/api-servers@workspace:.":
   version: 0.0.0-use.local
   resolution: "@ajhalili2006/api-servers@workspace:."
@@ -13,6 +19,15 @@ __metadata:
     "@yarnpkg/sdks": "npm:^3.1.2"
     prettier: "npm:^3.3.1"
     typescript: "npm:^5.4.5"
+    wrangler: "npm:^3.60.0"
+  languageName: unknown
+  linkType: soft
+
+"@ajhalili2006/cfw-email-router@workspace:apps/cfw-email-router":
+  version: 0.0.0-use.local
+  resolution: "@ajhalili2006/cfw-email-router@workspace:apps/cfw-email-router"
+  dependencies:
+    wrangler: "npm:^3.60.0"
   languageName: unknown
   linkType: soft
 
@@ -752,14 +767,6 @@ __metadata:
   checksum: 10c0/83d559c3d59126ee39295973bf2e9228cd4b559c81bfc938268c63deba4020f0df6ce2f2d1e2b7d7e4421de21f4854424b774ab9ac4d9a66d1c57d2fef7da870
   languageName: node
   linkType: hard
-
-"cfw-email-router@workspace:apps/cfw-email-router":
-  version: 0.0.0-use.local
-  resolution: "cfw-email-router@workspace:apps/cfw-email-router"
-  dependencies:
-    wrangler: "npm:^3.60.0"
-  languageName: unknown
-  linkType: soft
 
 "chalk@npm:^3.0.0":
   version: 3.0.0

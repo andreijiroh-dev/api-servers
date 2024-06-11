@@ -15,19 +15,24 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:."\
     },\
     {\
-      "name": "cfw-email-router",\
+      "name": "@ajhalili2006/cfw-email-router",\
       "reference": "workspace:apps/cfw-email-router"\
     },\
     {\
       "name": "golinks",\
       "reference": "workspace:apps/golinks"\
+    },\
+    {\
+      "name": "@ajhalili2006/api-servers-lib",\
+      "reference": "workspace:packages/lib"\
     }\
   ],\
   "enableTopLevelFallback": true,\
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "fallbackExclusionList": [\
     ["@ajhalili2006/api-servers", ["workspace:."]],\
-    ["cfw-email-router", ["workspace:apps/cfw-email-router"]],\
+    ["@ajhalili2006/api-servers-lib", ["workspace:packages/lib"]],\
+    ["@ajhalili2006/cfw-email-router", ["workspace:apps/cfw-email-router"]],\
     ["golinks", ["workspace:apps/golinks"]]\
   ],\
   "fallbackPool": [\
@@ -40,7 +45,8 @@ const RAW_RUNTIME_STATE =
           ["@cloudflare/workers-types", "npm:4.20240605.0"],\
           ["@yarnpkg/sdks", "npm:3.1.2"],\
           ["prettier", "npm:3.3.1"],\
-          ["typescript", "patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"]\
+          ["typescript", "patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"],\
+          ["wrangler", "virtual:b491428cd5ca9d856b97da360acee30e86f1b510f374f701123168a645155a13f4ca2f9efef288e542f409fe22410ee9da0832a1878b10bbeaf1ddd7adaa1de3#npm:3.60.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -53,14 +59,34 @@ const RAW_RUNTIME_STATE =
           ["@cloudflare/workers-types", "npm:4.20240605.0"],\
           ["@yarnpkg/sdks", "npm:3.1.2"],\
           ["prettier", "npm:3.3.1"],\
-          ["typescript", "patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"]\
+          ["typescript", "patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"],\
+          ["wrangler", "virtual:b491428cd5ca9d856b97da360acee30e86f1b510f374f701123168a645155a13f4ca2f9efef288e542f409fe22410ee9da0832a1878b10bbeaf1ddd7adaa1de3#npm:3.60.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@ajhalili2006/api-servers-lib", [\
+      ["workspace:packages/lib", {\
+        "packageLocation": "./packages/lib/",\
+        "packageDependencies": [\
+          ["@ajhalili2006/api-servers-lib", "workspace:packages/lib"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@ajhalili2006/cfw-email-router", [\
+      ["workspace:apps/cfw-email-router", {\
+        "packageLocation": "./apps/cfw-email-router/",\
+        "packageDependencies": [\
+          ["@ajhalili2006/cfw-email-router", "workspace:apps/cfw-email-router"],\
+          ["wrangler", "virtual:bb8afa2238942fa8c5adc8a9aa1d5c49054640a22decb3ba9c97a41d36e5cf8b9f31e97fb54614bc6c4df0e4bf949e0c1591d8b243db67cc39e47e48fe13bf65#npm:3.60.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
     ]],\
     ["@arcanis/slice-ansi", [\
       ["npm:1.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@arcanis-slice-ansi-npm-1.1.1-a69aa37ccc-10c0.zip/node_modules/@arcanis/slice-ansi/",\
+        "packageLocation": "./.yarn/cache/@arcanis-slice-ansi-npm-1.1.1-a69aa37ccc-2f222b121b.zip/node_modules/@arcanis/slice-ansi/",\
         "packageDependencies": [\
           ["@arcanis/slice-ansi", "npm:1.1.1"],\
           ["grapheme-splitter", "npm:1.0.4"]\
@@ -70,7 +96,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@cloudflare/kv-asset-handler", [\
       ["npm:0.3.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@cloudflare-kv-asset-handler-npm-0.3.2-7ca3d4a329-10c0.zip/node_modules/@cloudflare/kv-asset-handler/",\
+        "packageLocation": "./.yarn/cache/@cloudflare-kv-asset-handler-npm-0.3.2-7ca3d4a329-90e726d18e.zip/node_modules/@cloudflare/kv-asset-handler/",\
         "packageDependencies": [\
           ["@cloudflare/kv-asset-handler", "npm:0.3.2"],\
           ["mime", "npm:3.0.0"]\
@@ -125,7 +151,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@cloudflare/workers-types", [\
       ["npm:4.20240605.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@cloudflare-workers-types-npm-4.20240605.0-f9a9d5753d-10c0.zip/node_modules/@cloudflare/workers-types/",\
+        "packageLocation": "./.yarn/cache/@cloudflare-workers-types-npm-4.20240605.0-f9a9d5753d-ad7e2d1f31.zip/node_modules/@cloudflare/workers-types/",\
         "packageDependencies": [\
           ["@cloudflare/workers-types", "npm:4.20240605.0"]\
         ],\
@@ -134,7 +160,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@cspotcode/source-map-support", [\
       ["npm:0.8.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@cspotcode-source-map-support-npm-0.8.1-964f2de99d-10c0.zip/node_modules/@cspotcode/source-map-support/",\
+        "packageLocation": "./.yarn/cache/@cspotcode-source-map-support-npm-0.8.1-964f2de99d-05c5368c13.zip/node_modules/@cspotcode/source-map-support/",\
         "packageDependencies": [\
           ["@cspotcode/source-map-support", "npm:0.8.1"],\
           ["@jridgewell/trace-mapping", "npm:0.3.9"]\
@@ -144,16 +170,16 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@esbuild-plugins/node-globals-polyfill", [\
       ["npm:0.2.3", {\
-        "packageLocation": "./.yarn/unplugged/@esbuild-plugins-node-globals-polyfill-virtual-97d3de8bb2/node_modules/@esbuild-plugins/node-globals-polyfill/",\
+        "packageLocation": "./.yarn/unplugged/@esbuild-plugins-node-globals-polyfill-virtual-c0942400d6/node_modules/@esbuild-plugins/node-globals-polyfill/",\
         "packageDependencies": [\
           ["@esbuild-plugins/node-globals-polyfill", "npm:0.2.3"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:207371dd5fff0e490ca35701dae612bb54d7ade994e224f703a51d672f73bde799679c20c587ab1261e7297857418b523f6426b7b2ae3ed3564f56b9f392b95b#npm:0.2.3", {\
-        "packageLocation": "./.yarn/unplugged/@esbuild-plugins-node-globals-polyfill-virtual-97d3de8bb2/node_modules/@esbuild-plugins/node-globals-polyfill/",\
+      ["virtual:c7ad9da3d025dacc7ada2c2907dded919993762275371a49b36511637ca8dcb894d02c26f712e9b1b60e205019fa85efa2898ec5b04cb3b4073e24853189dda7#npm:0.2.3", {\
+        "packageLocation": "./.yarn/unplugged/@esbuild-plugins-node-globals-polyfill-virtual-c0942400d6/node_modules/@esbuild-plugins/node-globals-polyfill/",\
         "packageDependencies": [\
-          ["@esbuild-plugins/node-globals-polyfill", "virtual:207371dd5fff0e490ca35701dae612bb54d7ade994e224f703a51d672f73bde799679c20c587ab1261e7297857418b523f6426b7b2ae3ed3564f56b9f392b95b#npm:0.2.3"],\
+          ["@esbuild-plugins/node-globals-polyfill", "virtual:c7ad9da3d025dacc7ada2c2907dded919993762275371a49b36511637ca8dcb894d02c26f712e9b1b60e205019fa85efa2898ec5b04cb3b4073e24853189dda7#npm:0.2.3"],\
           ["@types/esbuild", null],\
           ["esbuild", "npm:0.17.19"]\
         ],\
@@ -166,16 +192,16 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@esbuild-plugins/node-modules-polyfill", [\
       ["npm:0.2.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@esbuild-plugins-node-modules-polyfill-npm-0.2.2-f612681798-10c0.zip/node_modules/@esbuild-plugins/node-modules-polyfill/",\
+        "packageLocation": "./.yarn/cache/@esbuild-plugins-node-modules-polyfill-npm-0.2.2-f612681798-8573eb409d.zip/node_modules/@esbuild-plugins/node-modules-polyfill/",\
         "packageDependencies": [\
           ["@esbuild-plugins/node-modules-polyfill", "npm:0.2.2"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:207371dd5fff0e490ca35701dae612bb54d7ade994e224f703a51d672f73bde799679c20c587ab1261e7297857418b523f6426b7b2ae3ed3564f56b9f392b95b#npm:0.2.2", {\
-        "packageLocation": "./.yarn/__virtual__/@esbuild-plugins-node-modules-polyfill-virtual-e2034b1945/6/home/gildedguy/.yarn/berry/cache/@esbuild-plugins-node-modules-polyfill-npm-0.2.2-f612681798-10c0.zip/node_modules/@esbuild-plugins/node-modules-polyfill/",\
+      ["virtual:c7ad9da3d025dacc7ada2c2907dded919993762275371a49b36511637ca8dcb894d02c26f712e9b1b60e205019fa85efa2898ec5b04cb3b4073e24853189dda7#npm:0.2.2", {\
+        "packageLocation": "./.yarn/__virtual__/@esbuild-plugins-node-modules-polyfill-virtual-90d92745f9/0/cache/@esbuild-plugins-node-modules-polyfill-npm-0.2.2-f612681798-8573eb409d.zip/node_modules/@esbuild-plugins/node-modules-polyfill/",\
         "packageDependencies": [\
-          ["@esbuild-plugins/node-modules-polyfill", "virtual:207371dd5fff0e490ca35701dae612bb54d7ade994e224f703a51d672f73bde799679c20c587ab1261e7297857418b523f6426b7b2ae3ed3564f56b9f392b95b#npm:0.2.2"],\
+          ["@esbuild-plugins/node-modules-polyfill", "virtual:c7ad9da3d025dacc7ada2c2907dded919993762275371a49b36511637ca8dcb894d02c26f712e9b1b60e205019fa85efa2898ec5b04cb3b4073e24853189dda7#npm:0.2.2"],\
           ["@types/esbuild", null],\
           ["esbuild", "npm:0.17.19"],\
           ["escape-string-regexp", "npm:4.0.0"],\
@@ -388,7 +414,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@fastify/busboy", [\
       ["npm:2.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@fastify-busboy-npm-2.1.1-455d8b6bf5-10c0.zip/node_modules/@fastify/busboy/",\
+        "packageLocation": "./.yarn/cache/@fastify-busboy-npm-2.1.1-455d8b6bf5-6f8027a8cb.zip/node_modules/@fastify/busboy/",\
         "packageDependencies": [\
           ["@fastify/busboy", "npm:2.1.1"]\
         ],\
@@ -397,7 +423,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@isaacs/cliui", [\
       ["npm:8.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@isaacs-cliui-npm-8.0.2-f4364666d5-10c0.zip/node_modules/@isaacs/cliui/",\
+        "packageLocation": "./.yarn/cache/@isaacs-cliui-npm-8.0.2-f4364666d5-b1bf42535d.zip/node_modules/@isaacs/cliui/",\
         "packageDependencies": [\
           ["@isaacs/cliui", "npm:8.0.2"],\
           ["string-width", "npm:5.1.2"],\
@@ -421,7 +447,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@jridgewell/resolve-uri", [\
       ["npm:3.1.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@jridgewell-resolve-uri-npm-3.1.2-5bc4245992-10c0.zip/node_modules/@jridgewell/resolve-uri/",\
+        "packageLocation": "./.yarn/cache/@jridgewell-resolve-uri-npm-3.1.2-5bc4245992-d502e6fb51.zip/node_modules/@jridgewell/resolve-uri/",\
         "packageDependencies": [\
           ["@jridgewell/resolve-uri", "npm:3.1.2"]\
         ],\
@@ -430,7 +456,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@jridgewell/sourcemap-codec", [\
       ["npm:1.4.15", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@jridgewell-sourcemap-codec-npm-1.4.15-a055fb62cf-10c0.zip/node_modules/@jridgewell/sourcemap-codec/",\
+        "packageLocation": "./.yarn/cache/@jridgewell-sourcemap-codec-npm-1.4.15-a055fb62cf-0c6b5ae663.zip/node_modules/@jridgewell/sourcemap-codec/",\
         "packageDependencies": [\
           ["@jridgewell/sourcemap-codec", "npm:1.4.15"]\
         ],\
@@ -439,7 +465,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@jridgewell/trace-mapping", [\
       ["npm:0.3.9", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@jridgewell-trace-mapping-npm-0.3.9-91625cd7fb-10c0.zip/node_modules/@jridgewell/trace-mapping/",\
+        "packageLocation": "./.yarn/cache/@jridgewell-trace-mapping-npm-0.3.9-91625cd7fb-fa425b606d.zip/node_modules/@jridgewell/trace-mapping/",\
         "packageDependencies": [\
           ["@jridgewell/trace-mapping", "npm:0.3.9"],\
           ["@jridgewell/resolve-uri", "npm:3.1.2"],\
@@ -450,7 +476,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@nodelib/fs.scandir", [\
       ["npm:2.1.5", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@nodelib-fs.scandir-npm-2.1.5-89c67370dd-10c0.zip/node_modules/@nodelib/fs.scandir/",\
+        "packageLocation": "./.yarn/cache/@nodelib-fs.scandir-npm-2.1.5-89c67370dd-732c3b6d1b.zip/node_modules/@nodelib/fs.scandir/",\
         "packageDependencies": [\
           ["@nodelib/fs.scandir", "npm:2.1.5"],\
           ["@nodelib/fs.stat", "npm:2.0.5"],\
@@ -461,7 +487,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@nodelib/fs.stat", [\
       ["npm:2.0.5", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@nodelib-fs.stat-npm-2.0.5-01f4dd3030-10c0.zip/node_modules/@nodelib/fs.stat/",\
+        "packageLocation": "./.yarn/cache/@nodelib-fs.stat-npm-2.0.5-01f4dd3030-88dafe5e3e.zip/node_modules/@nodelib/fs.stat/",\
         "packageDependencies": [\
           ["@nodelib/fs.stat", "npm:2.0.5"]\
         ],\
@@ -470,7 +496,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@nodelib/fs.walk", [\
       ["npm:1.2.8", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@nodelib-fs.walk-npm-1.2.8-b4a89da548-10c0.zip/node_modules/@nodelib/fs.walk/",\
+        "packageLocation": "./.yarn/cache/@nodelib-fs.walk-npm-1.2.8-b4a89da548-db9de047c3.zip/node_modules/@nodelib/fs.walk/",\
         "packageDependencies": [\
           ["@nodelib/fs.walk", "npm:1.2.8"],\
           ["@nodelib/fs.scandir", "npm:2.1.5"],\
@@ -481,7 +507,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@npmcli/agent", [\
       ["npm:2.2.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@npmcli-agent-npm-2.2.2-e2f559d6c0-10c0.zip/node_modules/@npmcli/agent/",\
+        "packageLocation": "./.yarn/cache/@npmcli-agent-npm-2.2.2-e2f559d6c0-325e0db7b2.zip/node_modules/@npmcli/agent/",\
         "packageDependencies": [\
           ["@npmcli/agent", "npm:2.2.2"],\
           ["agent-base", "npm:7.1.1"],\
@@ -495,7 +521,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@npmcli/fs", [\
       ["npm:3.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@npmcli-fs-npm-3.1.1-c19bd09f3c-10c0.zip/node_modules/@npmcli/fs/",\
+        "packageLocation": "./.yarn/cache/@npmcli-fs-npm-3.1.1-c19bd09f3c-c37a5b4842.zip/node_modules/@npmcli/fs/",\
         "packageDependencies": [\
           ["@npmcli/fs", "npm:3.1.1"],\
           ["semver", "npm:7.6.2"]\
@@ -505,7 +531,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@pkgjs/parseargs", [\
       ["npm:0.11.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@pkgjs-parseargs-npm-0.11.0-cd2a3fe948-10c0.zip/node_modules/@pkgjs/parseargs/",\
+        "packageLocation": "./.yarn/cache/@pkgjs-parseargs-npm-0.11.0-cd2a3fe948-5bd7576bb1.zip/node_modules/@pkgjs/parseargs/",\
         "packageDependencies": [\
           ["@pkgjs/parseargs", "npm:0.11.0"]\
         ],\
@@ -514,7 +540,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@sindresorhus/is", [\
       ["npm:4.6.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@sindresorhus-is-npm-4.6.0-7cad05c55e-10c0.zip/node_modules/@sindresorhus/is/",\
+        "packageLocation": "./.yarn/cache/@sindresorhus-is-npm-4.6.0-7cad05c55e-33b6fb1d08.zip/node_modules/@sindresorhus/is/",\
         "packageDependencies": [\
           ["@sindresorhus/is", "npm:4.6.0"]\
         ],\
@@ -523,7 +549,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@szmarczak/http-timer", [\
       ["npm:4.0.6", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@szmarczak-http-timer-npm-4.0.6-6ace00d82d-10c0.zip/node_modules/@szmarczak/http-timer/",\
+        "packageLocation": "./.yarn/cache/@szmarczak-http-timer-npm-4.0.6-6ace00d82d-73946918c0.zip/node_modules/@szmarczak/http-timer/",\
         "packageDependencies": [\
           ["@szmarczak/http-timer", "npm:4.0.6"],\
           ["defer-to-connect", "npm:2.0.1"]\
@@ -533,7 +559,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@types/cacheable-request", [\
       ["npm:6.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@types-cacheable-request-npm-6.0.3-770619032a-10c0.zip/node_modules/@types/cacheable-request/",\
+        "packageLocation": "./.yarn/cache/@types-cacheable-request-npm-6.0.3-770619032a-10816a88e4.zip/node_modules/@types/cacheable-request/",\
         "packageDependencies": [\
           ["@types/cacheable-request", "npm:6.0.3"],\
           ["@types/http-cache-semantics", "npm:4.0.4"],\
@@ -546,7 +572,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@types/emscripten", [\
       ["npm:1.39.13", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@types-emscripten-npm-1.39.13-baf7427522-10c0.zip/node_modules/@types/emscripten/",\
+        "packageLocation": "./.yarn/cache/@types-emscripten-npm-1.39.13-baf7427522-99c314418b.zip/node_modules/@types/emscripten/",\
         "packageDependencies": [\
           ["@types/emscripten", "npm:1.39.13"]\
         ],\
@@ -555,7 +581,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@types/http-cache-semantics", [\
       ["npm:4.0.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@types-http-cache-semantics-npm-4.0.4-6d4f413ddd-10c0.zip/node_modules/@types/http-cache-semantics/",\
+        "packageLocation": "./.yarn/cache/@types-http-cache-semantics-npm-4.0.4-6d4f413ddd-51b72568b4.zip/node_modules/@types/http-cache-semantics/",\
         "packageDependencies": [\
           ["@types/http-cache-semantics", "npm:4.0.4"]\
         ],\
@@ -564,7 +590,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@types/keyv", [\
       ["npm:3.1.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@types-keyv-npm-3.1.4-a8082ea56b-10c0.zip/node_modules/@types/keyv/",\
+        "packageLocation": "./.yarn/cache/@types-keyv-npm-3.1.4-a8082ea56b-ff8f54fc49.zip/node_modules/@types/keyv/",\
         "packageDependencies": [\
           ["@types/keyv", "npm:3.1.4"],\
           ["@types/node", "npm:20.14.2"]\
@@ -574,7 +600,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@types/node", [\
       ["npm:20.14.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@types-node-npm-20.14.2-fa12d1e34b-10c0.zip/node_modules/@types/node/",\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.14.2-fa12d1e34b-2d86e5f222.zip/node_modules/@types/node/",\
         "packageDependencies": [\
           ["@types/node", "npm:20.14.2"],\
           ["undici-types", "npm:5.26.5"]\
@@ -584,7 +610,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@types/node-forge", [\
       ["npm:1.3.11", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@types-node-forge-npm-1.3.11-132541fb70-10c0.zip/node_modules/@types/node-forge/",\
+        "packageLocation": "./.yarn/cache/@types-node-forge-npm-1.3.11-132541fb70-3d7d23ca0b.zip/node_modules/@types/node-forge/",\
         "packageDependencies": [\
           ["@types/node-forge", "npm:1.3.11"],\
           ["@types/node", "npm:20.14.2"]\
@@ -594,7 +620,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@types/responselike", [\
       ["npm:1.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@types-responselike-npm-1.0.3-de0150f03d-10c0.zip/node_modules/@types/responselike/",\
+        "packageLocation": "./.yarn/cache/@types-responselike-npm-1.0.3-de0150f03d-a58ba341cb.zip/node_modules/@types/responselike/",\
         "packageDependencies": [\
           ["@types/responselike", "npm:1.0.3"],\
           ["@types/node", "npm:20.14.2"]\
@@ -604,7 +630,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@types/semver", [\
       ["npm:7.5.8", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@types-semver-npm-7.5.8-26073743d7-10c0.zip/node_modules/@types/semver/",\
+        "packageLocation": "./.yarn/cache/@types-semver-npm-7.5.8-26073743d7-8663ff9272.zip/node_modules/@types/semver/",\
         "packageDependencies": [\
           ["@types/semver", "npm:7.5.8"]\
         ],\
@@ -613,7 +639,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@types/treeify", [\
       ["npm:1.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@types-treeify-npm-1.0.3-ef5ef3400e-10c0.zip/node_modules/@types/treeify/",\
+        "packageLocation": "./.yarn/cache/@types-treeify-npm-1.0.3-ef5ef3400e-758902638f.zip/node_modules/@types/treeify/",\
         "packageDependencies": [\
           ["@types/treeify", "npm:1.0.3"]\
         ],\
@@ -622,7 +648,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@yarnpkg/core", [\
       ["npm:4.0.5", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@yarnpkg-core-npm-4.0.5-dba111670a-10c0.zip/node_modules/@yarnpkg/core/",\
+        "packageLocation": "./.yarn/cache/@yarnpkg-core-npm-4.0.5-dba111670a-c72836619f.zip/node_modules/@yarnpkg/core/",\
         "packageDependencies": [\
           ["@yarnpkg/core", "npm:4.0.5"],\
           ["@arcanis/slice-ansi", "npm:1.1.1"],\
@@ -657,7 +683,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@yarnpkg/fslib", [\
       ["npm:3.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@yarnpkg-fslib-npm-3.1.0-821f4faf89-10c0.zip/node_modules/@yarnpkg/fslib/",\
+        "packageLocation": "./.yarn/cache/@yarnpkg-fslib-npm-3.1.0-821f4faf89-e327aaf73f.zip/node_modules/@yarnpkg/fslib/",\
         "packageDependencies": [\
           ["@yarnpkg/fslib", "npm:3.1.0"],\
           ["tslib", "npm:2.6.3"]\
@@ -667,14 +693,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@yarnpkg/libzip", [\
       ["npm:3.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@yarnpkg-libzip-npm-3.1.0-73edb40bfc-10c0.zip/node_modules/@yarnpkg/libzip/",\
+        "packageLocation": "./.yarn/cache/@yarnpkg-libzip-npm-3.1.0-73edb40bfc-11e12724d9.zip/node_modules/@yarnpkg/libzip/",\
         "packageDependencies": [\
           ["@yarnpkg/libzip", "npm:3.1.0"]\
         ],\
         "linkType": "SOFT"\
       }],\
       ["virtual:dba111670a311f3155be96f30cd4b8deeba706d331c5f18a2371c73cff032a01ca4a270480a59b96e4ad584530c0f77b86f0bfa73d84903af67c0cda327740e6#npm:3.1.0", {\
-        "packageLocation": "./.yarn/__virtual__/@yarnpkg-libzip-virtual-b5f00f36b6/6/home/gildedguy/.yarn/berry/cache/@yarnpkg-libzip-npm-3.1.0-73edb40bfc-10c0.zip/node_modules/@yarnpkg/libzip/",\
+        "packageLocation": "./.yarn/__virtual__/@yarnpkg-libzip-virtual-b5f00f36b6/0/cache/@yarnpkg-libzip-npm-3.1.0-73edb40bfc-11e12724d9.zip/node_modules/@yarnpkg/libzip/",\
         "packageDependencies": [\
           ["@yarnpkg/libzip", "virtual:dba111670a311f3155be96f30cd4b8deeba706d331c5f18a2371c73cff032a01ca4a270480a59b96e4ad584530c0f77b86f0bfa73d84903af67c0cda327740e6#npm:3.1.0"],\
           ["@types/emscripten", "npm:1.39.13"],\
@@ -691,7 +717,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@yarnpkg/parsers", [\
       ["npm:3.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@yarnpkg-parsers-npm-3.0.2-c5e3ccc563-10c0.zip/node_modules/@yarnpkg/parsers/",\
+        "packageLocation": "./.yarn/cache/@yarnpkg-parsers-npm-3.0.2-c5e3ccc563-a0c340e131.zip/node_modules/@yarnpkg/parsers/",\
         "packageDependencies": [\
           ["@yarnpkg/parsers", "npm:3.0.2"],\
           ["js-yaml", "npm:3.14.1"],\
@@ -702,7 +728,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@yarnpkg/sdks", [\
       ["npm:3.1.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@yarnpkg-sdks-npm-3.1.2-f53baaea7e-10c0.zip/node_modules/@yarnpkg/sdks/",\
+        "packageLocation": "./.yarn/cache/@yarnpkg-sdks-npm-3.1.2-f53baaea7e-c0a3766c87.zip/node_modules/@yarnpkg/sdks/",\
         "packageDependencies": [\
           ["@yarnpkg/sdks", "npm:3.1.2"],\
           ["@yarnpkg/core", "npm:4.0.5"],\
@@ -719,7 +745,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@yarnpkg/shell", [\
       ["npm:4.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/@yarnpkg-shell-npm-4.0.2-79bd705dbf-10c0.zip/node_modules/@yarnpkg/shell/",\
+        "packageLocation": "./.yarn/cache/@yarnpkg-shell-npm-4.0.2-79bd705dbf-b78b6a00a6.zip/node_modules/@yarnpkg/shell/",\
         "packageDependencies": [\
           ["@yarnpkg/shell", "npm:4.0.2"],\
           ["@yarnpkg/fslib", "npm:3.1.0"],\
@@ -736,7 +762,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["abbrev", [\
       ["npm:2.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/abbrev-npm-2.0.0-0eb38a17e5-10c0.zip/node_modules/abbrev/",\
+        "packageLocation": "./.yarn/cache/abbrev-npm-2.0.0-0eb38a17e5-f742a5a107.zip/node_modules/abbrev/",\
         "packageDependencies": [\
           ["abbrev", "npm:2.0.0"]\
         ],\
@@ -745,7 +771,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["acorn", [\
       ["npm:8.11.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/acorn-npm-8.11.3-0d7ab48b38-10c0.zip/node_modules/acorn/",\
+        "packageLocation": "./.yarn/cache/acorn-npm-8.11.3-0d7ab48b38-3ff155f881.zip/node_modules/acorn/",\
         "packageDependencies": [\
           ["acorn", "npm:8.11.3"]\
         ],\
@@ -754,7 +780,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["acorn-walk", [\
       ["npm:8.3.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/acorn-walk-npm-8.3.2-df039a42bf-10c0.zip/node_modules/acorn-walk/",\
+        "packageLocation": "./.yarn/cache/acorn-walk-npm-8.3.2-df039a42bf-7e2a8dad54.zip/node_modules/acorn-walk/",\
         "packageDependencies": [\
           ["acorn-walk", "npm:8.3.2"]\
         ],\
@@ -763,7 +789,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["agent-base", [\
       ["npm:7.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/agent-base-npm-7.1.1-c9e1a4b59e-10c0.zip/node_modules/agent-base/",\
+        "packageLocation": "./.yarn/cache/agent-base-npm-7.1.1-c9e1a4b59e-e59ce7bed9.zip/node_modules/agent-base/",\
         "packageDependencies": [\
           ["agent-base", "npm:7.1.1"],\
           ["debug", "virtual:c9e1a4b59e37cb479517edede3bf2093b28c0ca1a9d0e517f3c345075bd1e468980b94b4957e389116607ee7155441dfd7d09e19a4229d5d09bcf06244401590#npm:4.3.5"]\
@@ -773,7 +799,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["aggregate-error", [\
       ["npm:3.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/aggregate-error-npm-3.1.0-415a406f4e-10c0.zip/node_modules/aggregate-error/",\
+        "packageLocation": "./.yarn/cache/aggregate-error-npm-3.1.0-415a406f4e-a42f67faa7.zip/node_modules/aggregate-error/",\
         "packageDependencies": [\
           ["aggregate-error", "npm:3.1.0"],\
           ["clean-stack", "npm:2.2.0"],\
@@ -784,14 +810,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["ansi-regex", [\
       ["npm:5.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/ansi-regex-npm-5.0.1-c963a48615-10c0.zip/node_modules/ansi-regex/",\
+        "packageLocation": "./.yarn/cache/ansi-regex-npm-5.0.1-c963a48615-9a64bb8627.zip/node_modules/ansi-regex/",\
         "packageDependencies": [\
           ["ansi-regex", "npm:5.0.1"]\
         ],\
         "linkType": "HARD"\
       }],\
       ["npm:6.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/ansi-regex-npm-6.0.1-8d663a607d-10c0.zip/node_modules/ansi-regex/",\
+        "packageLocation": "./.yarn/cache/ansi-regex-npm-6.0.1-8d663a607d-cbe16dbd2c.zip/node_modules/ansi-regex/",\
         "packageDependencies": [\
           ["ansi-regex", "npm:6.0.1"]\
         ],\
@@ -800,7 +826,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["ansi-styles", [\
       ["npm:4.3.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/ansi-styles-npm-4.3.0-245c7d42c7-10c0.zip/node_modules/ansi-styles/",\
+        "packageLocation": "./.yarn/cache/ansi-styles-npm-4.3.0-245c7d42c7-895a23929d.zip/node_modules/ansi-styles/",\
         "packageDependencies": [\
           ["ansi-styles", "npm:4.3.0"],\
           ["color-convert", "npm:2.0.1"]\
@@ -808,7 +834,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:6.2.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/ansi-styles-npm-6.2.1-d43647018c-10c0.zip/node_modules/ansi-styles/",\
+        "packageLocation": "./.yarn/cache/ansi-styles-npm-6.2.1-d43647018c-5d1ec38c12.zip/node_modules/ansi-styles/",\
         "packageDependencies": [\
           ["ansi-styles", "npm:6.2.1"]\
         ],\
@@ -817,7 +843,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["anymatch", [\
       ["npm:3.1.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/anymatch-npm-3.1.3-bc81d103b1-10c0.zip/node_modules/anymatch/",\
+        "packageLocation": "./.yarn/cache/anymatch-npm-3.1.3-bc81d103b1-57b06ae984.zip/node_modules/anymatch/",\
         "packageDependencies": [\
           ["anymatch", "npm:3.1.3"],\
           ["normalize-path", "npm:3.0.0"],\
@@ -828,7 +854,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["argparse", [\
       ["npm:1.0.10", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/argparse-npm-1.0.10-528934e59d-10c0.zip/node_modules/argparse/",\
+        "packageLocation": "./.yarn/cache/argparse-npm-1.0.10-528934e59d-b2972c5c23.zip/node_modules/argparse/",\
         "packageDependencies": [\
           ["argparse", "npm:1.0.10"],\
           ["sprintf-js", "npm:1.0.3"]\
@@ -838,7 +864,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["as-table", [\
       ["npm:1.0.55", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/as-table-npm-1.0.55-d648539c6d-10c0.zip/node_modules/as-table/",\
+        "packageLocation": "./.yarn/cache/as-table-npm-1.0.55-d648539c6d-8c5693a846.zip/node_modules/as-table/",\
         "packageDependencies": [\
           ["as-table", "npm:1.0.55"],\
           ["printable-characters", "npm:1.0.42"]\
@@ -848,7 +874,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["balanced-match", [\
       ["npm:1.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/balanced-match-npm-1.0.2-a53c126459-10c0.zip/node_modules/balanced-match/",\
+        "packageLocation": "./.yarn/cache/balanced-match-npm-1.0.2-a53c126459-9308baf0a7.zip/node_modules/balanced-match/",\
         "packageDependencies": [\
           ["balanced-match", "npm:1.0.2"]\
         ],\
@@ -857,7 +883,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["binary-extensions", [\
       ["npm:2.3.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/binary-extensions-npm-2.3.0-bd3f20d865-10c0.zip/node_modules/binary-extensions/",\
+        "packageLocation": "./.yarn/cache/binary-extensions-npm-2.3.0-bd3f20d865-75a59cafc1.zip/node_modules/binary-extensions/",\
         "packageDependencies": [\
           ["binary-extensions", "npm:2.3.0"]\
         ],\
@@ -866,7 +892,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["blake3-wasm", [\
       ["npm:2.1.5", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/blake3-wasm-npm-2.1.5-17f8c813ae-10c0.zip/node_modules/blake3-wasm/",\
+        "packageLocation": "./.yarn/cache/blake3-wasm-npm-2.1.5-17f8c813ae-5dc729d8e3.zip/node_modules/blake3-wasm/",\
         "packageDependencies": [\
           ["blake3-wasm", "npm:2.1.5"]\
         ],\
@@ -875,7 +901,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["brace-expansion", [\
       ["npm:2.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/brace-expansion-npm-2.0.1-17aa2616f9-10c0.zip/node_modules/brace-expansion/",\
+        "packageLocation": "./.yarn/cache/brace-expansion-npm-2.0.1-17aa2616f9-b358f2fe06.zip/node_modules/brace-expansion/",\
         "packageDependencies": [\
           ["brace-expansion", "npm:2.0.1"],\
           ["balanced-match", "npm:1.0.2"]\
@@ -885,7 +911,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["braces", [\
       ["npm:3.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/braces-npm-3.0.3-582c14023c-10c0.zip/node_modules/braces/",\
+        "packageLocation": "./.yarn/cache/braces-npm-3.0.3-582c14023c-7c6dfd30c3.zip/node_modules/braces/",\
         "packageDependencies": [\
           ["braces", "npm:3.0.3"],\
           ["fill-range", "npm:7.1.1"]\
@@ -895,7 +921,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["cacache", [\
       ["npm:18.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/cacache-npm-18.0.3-7936f526c3-10c0.zip/node_modules/cacache/",\
+        "packageLocation": "./.yarn/cache/cacache-npm-18.0.3-7936f526c3-dfda92840b.zip/node_modules/cacache/",\
         "packageDependencies": [\
           ["cacache", "npm:18.0.3"],\
           ["@npmcli/fs", "npm:3.1.1"],\
@@ -916,7 +942,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["cacheable-lookup", [\
       ["npm:5.0.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/cacheable-lookup-npm-5.0.4-8f13e8b44b-10c0.zip/node_modules/cacheable-lookup/",\
+        "packageLocation": "./.yarn/cache/cacheable-lookup-npm-5.0.4-8f13e8b44b-a6547fb495.zip/node_modules/cacheable-lookup/",\
         "packageDependencies": [\
           ["cacheable-lookup", "npm:5.0.4"]\
         ],\
@@ -925,7 +951,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["cacheable-request", [\
       ["npm:7.0.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/cacheable-request-npm-7.0.4-92bf077a92-10c0.zip/node_modules/cacheable-request/",\
+        "packageLocation": "./.yarn/cache/cacheable-request-npm-7.0.4-92bf077a92-0834a7d17a.zip/node_modules/cacheable-request/",\
         "packageDependencies": [\
           ["cacheable-request", "npm:7.0.4"],\
           ["clone-response", "npm:1.0.3"],\
@@ -941,7 +967,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["camelcase", [\
       ["npm:5.3.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/camelcase-npm-5.3.1-5db8af62c5-10c0.zip/node_modules/camelcase/",\
+        "packageLocation": "./.yarn/cache/camelcase-npm-5.3.1-5db8af62c5-92ff9b443b.zip/node_modules/camelcase/",\
         "packageDependencies": [\
           ["camelcase", "npm:5.3.1"]\
         ],\
@@ -950,7 +976,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["capnp-ts", [\
       ["npm:0.7.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/capnp-ts-npm-0.7.0-300a60f261-10c0.zip/node_modules/capnp-ts/",\
+        "packageLocation": "./.yarn/cache/capnp-ts-npm-0.7.0-300a60f261-83d559c3d5.zip/node_modules/capnp-ts/",\
         "packageDependencies": [\
           ["capnp-ts", "npm:0.7.0"],\
           ["debug", "virtual:c9e1a4b59e37cb479517edede3bf2093b28c0ca1a9d0e517f3c345075bd1e468980b94b4957e389116607ee7155441dfd7d09e19a4229d5d09bcf06244401590#npm:4.3.5"],\
@@ -959,19 +985,9 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["cfw-email-router", [\
-      ["workspace:apps/cfw-email-router", {\
-        "packageLocation": "./apps/cfw-email-router/",\
-        "packageDependencies": [\
-          ["cfw-email-router", "workspace:apps/cfw-email-router"],\
-          ["wrangler", "virtual:299756fc75124a660a419d12bd8440fba512603928be9e4793921969e00bfb29cbccf72fa84042dd3353c5330c3047a67c63dcdff3107a5e0cee4c6df3d612d5#npm:3.60.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["chalk", [\
       ["npm:3.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/chalk-npm-3.0.0-e813208025-10c0.zip/node_modules/chalk/",\
+        "packageLocation": "./.yarn/cache/chalk-npm-3.0.0-e813208025-ee650b0a06.zip/node_modules/chalk/",\
         "packageDependencies": [\
           ["chalk", "npm:3.0.0"],\
           ["ansi-styles", "npm:4.3.0"],\
@@ -982,7 +998,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["chokidar", [\
       ["npm:3.6.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/chokidar-npm-3.6.0-3c413a828f-10c0.zip/node_modules/chokidar/",\
+        "packageLocation": "./.yarn/cache/chokidar-npm-3.6.0-3c413a828f-8361dcd013.zip/node_modules/chokidar/",\
         "packageDependencies": [\
           ["chokidar", "npm:3.6.0"],\
           ["anymatch", "npm:3.1.3"],\
@@ -999,7 +1015,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["chownr", [\
       ["npm:2.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/chownr-npm-2.0.0-638f1c9c61-10c0.zip/node_modules/chownr/",\
+        "packageLocation": "./.yarn/cache/chownr-npm-2.0.0-638f1c9c61-594754e130.zip/node_modules/chownr/",\
         "packageDependencies": [\
           ["chownr", "npm:2.0.0"]\
         ],\
@@ -1008,7 +1024,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["ci-info", [\
       ["npm:3.9.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/ci-info-npm-3.9.0-646784ca0e-10c0.zip/node_modules/ci-info/",\
+        "packageLocation": "./.yarn/cache/ci-info-npm-3.9.0-646784ca0e-6f0109e36e.zip/node_modules/ci-info/",\
         "packageDependencies": [\
           ["ci-info", "npm:3.9.0"]\
         ],\
@@ -1017,7 +1033,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["clean-stack", [\
       ["npm:2.2.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/clean-stack-npm-2.2.0-a8ce435a5c-10c0.zip/node_modules/clean-stack/",\
+        "packageLocation": "./.yarn/cache/clean-stack-npm-2.2.0-a8ce435a5c-1f90262d5f.zip/node_modules/clean-stack/",\
         "packageDependencies": [\
           ["clean-stack", "npm:2.2.0"]\
         ],\
@@ -1026,14 +1042,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["clipanion", [\
       ["npm:4.0.0-rc.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/clipanion-npm-4.0.0-rc.3-e62cc70585-10c0.zip/node_modules/clipanion/",\
+        "packageLocation": "./.yarn/cache/clipanion-npm-4.0.0-rc.3-e62cc70585-5171fd0453.zip/node_modules/clipanion/",\
         "packageDependencies": [\
           ["clipanion", "npm:4.0.0-rc.3"]\
         ],\
         "linkType": "SOFT"\
       }],\
       ["virtual:79bd705dbf206d6bd5005d5f35924cece8938d35eed524c3106dd8d8c6d56228b3ffaf764b0b711713e3d2dfeba0155ac81f45b66f87f4323e61be254172e9b5#npm:4.0.0-rc.3", {\
-        "packageLocation": "./.yarn/__virtual__/clipanion-virtual-a05d028d3b/6/home/gildedguy/.yarn/berry/cache/clipanion-npm-4.0.0-rc.3-e62cc70585-10c0.zip/node_modules/clipanion/",\
+        "packageLocation": "./.yarn/__virtual__/clipanion-virtual-a05d028d3b/0/cache/clipanion-npm-4.0.0-rc.3-e62cc70585-5171fd0453.zip/node_modules/clipanion/",\
         "packageDependencies": [\
           ["clipanion", "virtual:79bd705dbf206d6bd5005d5f35924cece8938d35eed524c3106dd8d8c6d56228b3ffaf764b0b711713e3d2dfeba0155ac81f45b66f87f4323e61be254172e9b5#npm:4.0.0-rc.3"],\
           ["@types/typanion", null],\
@@ -1047,7 +1063,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["clone-response", [\
       ["npm:1.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/clone-response-npm-1.0.3-f71cb6aff5-10c0.zip/node_modules/clone-response/",\
+        "packageLocation": "./.yarn/cache/clone-response-npm-1.0.3-f71cb6aff5-06a2b61182.zip/node_modules/clone-response/",\
         "packageDependencies": [\
           ["clone-response", "npm:1.0.3"],\
           ["mimic-response", "npm:1.0.1"]\
@@ -1057,7 +1073,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["color-convert", [\
       ["npm:2.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/color-convert-npm-2.0.1-79730e935b-10c0.zip/node_modules/color-convert/",\
+        "packageLocation": "./.yarn/cache/color-convert-npm-2.0.1-79730e935b-37e1150172.zip/node_modules/color-convert/",\
         "packageDependencies": [\
           ["color-convert", "npm:2.0.1"],\
           ["color-name", "npm:1.1.4"]\
@@ -1067,7 +1083,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["color-name", [\
       ["npm:1.1.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/color-name-npm-1.1.4-025792b0ea-10c0.zip/node_modules/color-name/",\
+        "packageLocation": "./.yarn/cache/color-name-npm-1.1.4-025792b0ea-a1a3f91415.zip/node_modules/color-name/",\
         "packageDependencies": [\
           ["color-name", "npm:1.1.4"]\
         ],\
@@ -1076,7 +1092,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["comment-json", [\
       ["npm:2.4.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/comment-json-npm-2.4.2-ad40caa02b-10c0.zip/node_modules/comment-json/",\
+        "packageLocation": "./.yarn/cache/comment-json-npm-2.4.2-ad40caa02b-409aafaab6.zip/node_modules/comment-json/",\
         "packageDependencies": [\
           ["comment-json", "npm:2.4.2"],\
           ["core-util-is", "npm:1.0.3"],\
@@ -1089,7 +1105,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["consola", [\
       ["npm:3.2.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/consola-npm-3.2.3-fb2514b783-10c0.zip/node_modules/consola/",\
+        "packageLocation": "./.yarn/cache/consola-npm-3.2.3-fb2514b783-c606220524.zip/node_modules/consola/",\
         "packageDependencies": [\
           ["consola", "npm:3.2.3"]\
         ],\
@@ -1098,7 +1114,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["cookie", [\
       ["npm:0.5.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/cookie-npm-0.5.0-e2d58a161a-10c0.zip/node_modules/cookie/",\
+        "packageLocation": "./.yarn/cache/cookie-npm-0.5.0-e2d58a161a-c01ca3ef8d.zip/node_modules/cookie/",\
         "packageDependencies": [\
           ["cookie", "npm:0.5.0"]\
         ],\
@@ -1107,7 +1123,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["core-util-is", [\
       ["npm:1.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/core-util-is-npm-1.0.3-ca74b76c90-10c0.zip/node_modules/core-util-is/",\
+        "packageLocation": "./.yarn/cache/core-util-is-npm-1.0.3-ca74b76c90-90a0e40abb.zip/node_modules/core-util-is/",\
         "packageDependencies": [\
           ["core-util-is", "npm:1.0.3"]\
         ],\
@@ -1116,7 +1132,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["cross-spawn", [\
       ["npm:7.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/cross-spawn-npm-7.0.3-e4ff3e65b3-10c0.zip/node_modules/cross-spawn/",\
+        "packageLocation": "./.yarn/cache/cross-spawn-npm-7.0.3-e4ff3e65b3-5738c31238.zip/node_modules/cross-spawn/",\
         "packageDependencies": [\
           ["cross-spawn", "npm:7.0.3"],\
           ["path-key", "npm:3.1.1"],\
@@ -1128,7 +1144,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["data-uri-to-buffer", [\
       ["npm:2.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/data-uri-to-buffer-npm-2.0.2-fb132dceb3-10c0.zip/node_modules/data-uri-to-buffer/",\
+        "packageLocation": "./.yarn/cache/data-uri-to-buffer-npm-2.0.2-fb132dceb3-341b6191ed.zip/node_modules/data-uri-to-buffer/",\
         "packageDependencies": [\
           ["data-uri-to-buffer", "npm:2.0.2"]\
         ],\
@@ -1137,14 +1153,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["debug", [\
       ["npm:4.3.5", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/debug-npm-4.3.5-b5001f59b7-10c0.zip/node_modules/debug/",\
+        "packageLocation": "./.yarn/cache/debug-npm-4.3.5-b5001f59b7-082c375a2b.zip/node_modules/debug/",\
         "packageDependencies": [\
           ["debug", "npm:4.3.5"]\
         ],\
         "linkType": "SOFT"\
       }],\
       ["virtual:c9e1a4b59e37cb479517edede3bf2093b28c0ca1a9d0e517f3c345075bd1e468980b94b4957e389116607ee7155441dfd7d09e19a4229d5d09bcf06244401590#npm:4.3.5", {\
-        "packageLocation": "./.yarn/__virtual__/debug-virtual-8512d6e1cc/6/home/gildedguy/.yarn/berry/cache/debug-npm-4.3.5-b5001f59b7-10c0.zip/node_modules/debug/",\
+        "packageLocation": "./.yarn/__virtual__/debug-virtual-8512d6e1cc/0/cache/debug-npm-4.3.5-b5001f59b7-082c375a2b.zip/node_modules/debug/",\
         "packageDependencies": [\
           ["debug", "virtual:c9e1a4b59e37cb479517edede3bf2093b28c0ca1a9d0e517f3c345075bd1e468980b94b4957e389116607ee7155441dfd7d09e19a4229d5d09bcf06244401590#npm:4.3.5"],\
           ["@types/supports-color", null],\
@@ -1160,7 +1176,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["decompress-response", [\
       ["npm:6.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/decompress-response-npm-6.0.0-359de2878c-10c0.zip/node_modules/decompress-response/",\
+        "packageLocation": "./.yarn/cache/decompress-response-npm-6.0.0-359de2878c-bd89d23141.zip/node_modules/decompress-response/",\
         "packageDependencies": [\
           ["decompress-response", "npm:6.0.0"],\
           ["mimic-response", "npm:3.1.0"]\
@@ -1170,7 +1186,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["defer-to-connect", [\
       ["npm:2.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/defer-to-connect-npm-2.0.1-9005cc8c60-10c0.zip/node_modules/defer-to-connect/",\
+        "packageLocation": "./.yarn/cache/defer-to-connect-npm-2.0.1-9005cc8c60-625ce28e1b.zip/node_modules/defer-to-connect/",\
         "packageDependencies": [\
           ["defer-to-connect", "npm:2.0.1"]\
         ],\
@@ -1179,7 +1195,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["defu", [\
       ["npm:6.1.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/defu-npm-6.1.4-c791c7f2cc-10c0.zip/node_modules/defu/",\
+        "packageLocation": "./.yarn/cache/defu-npm-6.1.4-c791c7f2cc-2d6cc36626.zip/node_modules/defu/",\
         "packageDependencies": [\
           ["defu", "npm:6.1.4"]\
         ],\
@@ -1188,7 +1204,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["diff", [\
       ["npm:5.2.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/diff-npm-5.2.0-f523a581f3-10c0.zip/node_modules/diff/",\
+        "packageLocation": "./.yarn/cache/diff-npm-5.2.0-f523a581f3-aed0941f20.zip/node_modules/diff/",\
         "packageDependencies": [\
           ["diff", "npm:5.2.0"]\
         ],\
@@ -1197,7 +1213,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["dotenv", [\
       ["npm:16.4.5", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/dotenv-npm-16.4.5-bcb20eb95d-10c0.zip/node_modules/dotenv/",\
+        "packageLocation": "./.yarn/cache/dotenv-npm-16.4.5-bcb20eb95d-48d9287007.zip/node_modules/dotenv/",\
         "packageDependencies": [\
           ["dotenv", "npm:16.4.5"]\
         ],\
@@ -1206,7 +1222,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["eastasianwidth", [\
       ["npm:0.2.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/eastasianwidth-npm-0.2.0-c37eb16bd1-10c0.zip/node_modules/eastasianwidth/",\
+        "packageLocation": "./.yarn/cache/eastasianwidth-npm-0.2.0-c37eb16bd1-26f364ebcd.zip/node_modules/eastasianwidth/",\
         "packageDependencies": [\
           ["eastasianwidth", "npm:0.2.0"]\
         ],\
@@ -1215,14 +1231,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["emoji-regex", [\
       ["npm:8.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/emoji-regex-npm-8.0.0-213764015c-10c0.zip/node_modules/emoji-regex/",\
+        "packageLocation": "./.yarn/cache/emoji-regex-npm-8.0.0-213764015c-b6053ad399.zip/node_modules/emoji-regex/",\
         "packageDependencies": [\
           ["emoji-regex", "npm:8.0.0"]\
         ],\
         "linkType": "HARD"\
       }],\
       ["npm:9.2.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/emoji-regex-npm-9.2.2-e6fac8d058-10c0.zip/node_modules/emoji-regex/",\
+        "packageLocation": "./.yarn/cache/emoji-regex-npm-9.2.2-e6fac8d058-af014e759a.zip/node_modules/emoji-regex/",\
         "packageDependencies": [\
           ["emoji-regex", "npm:9.2.2"]\
         ],\
@@ -1231,7 +1247,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["encoding", [\
       ["npm:0.1.13", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/encoding-npm-0.1.13-82a1837d30-10c0.zip/node_modules/encoding/",\
+        "packageLocation": "./.yarn/cache/encoding-npm-0.1.13-82a1837d30-36d938712f.zip/node_modules/encoding/",\
         "packageDependencies": [\
           ["encoding", "npm:0.1.13"],\
           ["iconv-lite", "npm:0.6.3"]\
@@ -1241,7 +1257,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["end-of-stream", [\
       ["npm:1.4.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/end-of-stream-npm-1.4.4-497fc6dee1-10c0.zip/node_modules/end-of-stream/",\
+        "packageLocation": "./.yarn/cache/end-of-stream-npm-1.4.4-497fc6dee1-870b423afb.zip/node_modules/end-of-stream/",\
         "packageDependencies": [\
           ["end-of-stream", "npm:1.4.4"],\
           ["once", "npm:1.4.0"]\
@@ -1251,7 +1267,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["env-paths", [\
       ["npm:2.2.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/env-paths-npm-2.2.1-7c7577428c-10c0.zip/node_modules/env-paths/",\
+        "packageLocation": "./.yarn/cache/env-paths-npm-2.2.1-7c7577428c-285325677b.zip/node_modules/env-paths/",\
         "packageDependencies": [\
           ["env-paths", "npm:2.2.1"]\
         ],\
@@ -1260,7 +1276,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["err-code", [\
       ["npm:2.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/err-code-npm-2.0.3-082e0ff9a7-10c0.zip/node_modules/err-code/",\
+        "packageLocation": "./.yarn/cache/err-code-npm-2.0.3-082e0ff9a7-b642f7b4dd.zip/node_modules/err-code/",\
         "packageDependencies": [\
           ["err-code", "npm:2.0.3"]\
         ],\
@@ -1300,7 +1316,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["escape-string-regexp", [\
       ["npm:4.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/escape-string-regexp-npm-4.0.0-4b531d8d59-10c0.zip/node_modules/escape-string-regexp/",\
+        "packageLocation": "./.yarn/cache/escape-string-regexp-npm-4.0.0-4b531d8d59-9497d4dd30.zip/node_modules/escape-string-regexp/",\
         "packageDependencies": [\
           ["escape-string-regexp", "npm:4.0.0"]\
         ],\
@@ -1309,7 +1325,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["esprima", [\
       ["npm:4.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/esprima-npm-4.0.1-1084e98778-10c0.zip/node_modules/esprima/",\
+        "packageLocation": "./.yarn/cache/esprima-npm-4.0.1-1084e98778-ad4bab9ead.zip/node_modules/esprima/",\
         "packageDependencies": [\
           ["esprima", "npm:4.0.1"]\
         ],\
@@ -1318,7 +1334,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["estree-walker", [\
       ["npm:0.6.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/estree-walker-npm-0.6.1-fe92d0e1f6-10c0.zip/node_modules/estree-walker/",\
+        "packageLocation": "./.yarn/cache/estree-walker-npm-0.6.1-fe92d0e1f6-6dabc855fa.zip/node_modules/estree-walker/",\
         "packageDependencies": [\
           ["estree-walker", "npm:0.6.1"]\
         ],\
@@ -1327,7 +1343,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["exit-hook", [\
       ["npm:2.2.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/exit-hook-npm-2.2.1-c030fd7edc-10c0.zip/node_modules/exit-hook/",\
+        "packageLocation": "./.yarn/cache/exit-hook-npm-2.2.1-c030fd7edc-0803726d1b.zip/node_modules/exit-hook/",\
         "packageDependencies": [\
           ["exit-hook", "npm:2.2.1"]\
         ],\
@@ -1336,7 +1352,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["exponential-backoff", [\
       ["npm:3.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/exponential-backoff-npm-3.1.1-04df458b30-10c0.zip/node_modules/exponential-backoff/",\
+        "packageLocation": "./.yarn/cache/exponential-backoff-npm-3.1.1-04df458b30-160456d2d6.zip/node_modules/exponential-backoff/",\
         "packageDependencies": [\
           ["exponential-backoff", "npm:3.1.1"]\
         ],\
@@ -1345,7 +1361,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["fast-glob", [\
       ["npm:3.3.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/fast-glob-npm-3.3.2-0a8cb4f2ca-10c0.zip/node_modules/fast-glob/",\
+        "packageLocation": "./.yarn/cache/fast-glob-npm-3.3.2-0a8cb4f2ca-42baad7b9c.zip/node_modules/fast-glob/",\
         "packageDependencies": [\
           ["fast-glob", "npm:3.3.2"],\
           ["@nodelib/fs.stat", "npm:2.0.5"],\
@@ -1359,7 +1375,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["fastq", [\
       ["npm:1.17.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/fastq-npm-1.17.1-56d4554993-10c0.zip/node_modules/fastq/",\
+        "packageLocation": "./.yarn/cache/fastq-npm-1.17.1-56d4554993-1095f16cea.zip/node_modules/fastq/",\
         "packageDependencies": [\
           ["fastq", "npm:1.17.1"],\
           ["reusify", "npm:1.0.4"]\
@@ -1369,7 +1385,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["fill-range", [\
       ["npm:7.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/fill-range-npm-7.1.1-bf491486db-10c0.zip/node_modules/fill-range/",\
+        "packageLocation": "./.yarn/cache/fill-range-npm-7.1.1-bf491486db-b75b691bbe.zip/node_modules/fill-range/",\
         "packageDependencies": [\
           ["fill-range", "npm:7.1.1"],\
           ["to-regex-range", "npm:5.0.1"]\
@@ -1379,7 +1395,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["foreground-child", [\
       ["npm:3.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/foreground-child-npm-3.1.1-77e78ed774-10c0.zip/node_modules/foreground-child/",\
+        "packageLocation": "./.yarn/cache/foreground-child-npm-3.1.1-77e78ed774-9700a02856.zip/node_modules/foreground-child/",\
         "packageDependencies": [\
           ["foreground-child", "npm:3.1.1"],\
           ["cross-spawn", "npm:7.0.3"],\
@@ -1390,7 +1406,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["fs-minipass", [\
       ["npm:2.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/fs-minipass-npm-2.1.0-501ef87306-10c0.zip/node_modules/fs-minipass/",\
+        "packageLocation": "./.yarn/cache/fs-minipass-npm-2.1.0-501ef87306-703d16522b.zip/node_modules/fs-minipass/",\
         "packageDependencies": [\
           ["fs-minipass", "npm:2.1.0"],\
           ["minipass", "npm:3.3.6"]\
@@ -1398,7 +1414,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:3.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/fs-minipass-npm-3.0.3-d148d6ac19-10c0.zip/node_modules/fs-minipass/",\
+        "packageLocation": "./.yarn/cache/fs-minipass-npm-3.0.3-d148d6ac19-63e80da2ff.zip/node_modules/fs-minipass/",\
         "packageDependencies": [\
           ["fs-minipass", "npm:3.0.3"],\
           ["minipass", "npm:7.1.2"]\
@@ -1418,7 +1434,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["function-bind", [\
       ["npm:1.1.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/function-bind-npm-1.1.2-7a55be9b03-10c0.zip/node_modules/function-bind/",\
+        "packageLocation": "./.yarn/cache/function-bind-npm-1.1.2-7a55be9b03-d8680ee1e5.zip/node_modules/function-bind/",\
         "packageDependencies": [\
           ["function-bind", "npm:1.1.2"]\
         ],\
@@ -1427,7 +1443,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["get-source", [\
       ["npm:2.0.12", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/get-source-npm-2.0.12-98e6ec7e98-10c0.zip/node_modules/get-source/",\
+        "packageLocation": "./.yarn/cache/get-source-npm-2.0.12-98e6ec7e98-b1db46d289.zip/node_modules/get-source/",\
         "packageDependencies": [\
           ["get-source", "npm:2.0.12"],\
           ["data-uri-to-buffer", "npm:2.0.2"],\
@@ -1438,7 +1454,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["get-stream", [\
       ["npm:5.2.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/get-stream-npm-5.2.0-2cfd3b452b-10c0.zip/node_modules/get-stream/",\
+        "packageLocation": "./.yarn/cache/get-stream-npm-5.2.0-2cfd3b452b-43797ffd81.zip/node_modules/get-stream/",\
         "packageDependencies": [\
           ["get-stream", "npm:5.2.0"],\
           ["pump", "npm:3.0.0"]\
@@ -1448,7 +1464,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["glob", [\
       ["npm:10.4.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/glob-npm-10.4.1-a0d030e0a9-10c0.zip/node_modules/glob/",\
+        "packageLocation": "./.yarn/cache/glob-npm-10.4.1-a0d030e0a9-77f2900ed9.zip/node_modules/glob/",\
         "packageDependencies": [\
           ["glob", "npm:10.4.1"],\
           ["foreground-child", "npm:3.1.1"],\
@@ -1462,7 +1478,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["glob-parent", [\
       ["npm:5.1.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/glob-parent-npm-5.1.2-021ab32634-10c0.zip/node_modules/glob-parent/",\
+        "packageLocation": "./.yarn/cache/glob-parent-npm-5.1.2-021ab32634-cab87638e2.zip/node_modules/glob-parent/",\
         "packageDependencies": [\
           ["glob-parent", "npm:5.1.2"],\
           ["is-glob", "npm:4.0.3"]\
@@ -1472,7 +1488,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["glob-to-regexp", [\
       ["npm:0.4.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/glob-to-regexp-npm-0.4.1-cd697e0fc7-10c0.zip/node_modules/glob-to-regexp/",\
+        "packageLocation": "./.yarn/cache/glob-to-regexp-npm-0.4.1-cd697e0fc7-0486925072.zip/node_modules/glob-to-regexp/",\
         "packageDependencies": [\
           ["glob-to-regexp", "npm:0.4.1"]\
         ],\
@@ -1486,14 +1502,14 @@ const RAW_RUNTIME_STATE =
           ["golinks", "workspace:apps/golinks"],\
           ["@cloudflare/workers-types", "npm:4.20240605.0"],\
           ["typescript", "patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"],\
-          ["wrangler", "virtual:3c3b3cfb900a5a3518d6afa2e7f2d68cadaae8d262757b35f049197c58fd194f348865cd68b981cafd0e7e7ede797dc3a06c1756f42252562e3dfad0cf3e49e2#npm:3.60.0"]\
+          ["wrangler", "virtual:b491428cd5ca9d856b97da360acee30e86f1b510f374f701123168a645155a13f4ca2f9efef288e542f409fe22410ee9da0832a1878b10bbeaf1ddd7adaa1de3#npm:3.60.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
     ]],\
     ["got", [\
       ["npm:11.8.6", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/got-npm-11.8.6-89e7cd5d67-10c0.zip/node_modules/got/",\
+        "packageLocation": "./.yarn/cache/got-npm-11.8.6-89e7cd5d67-754dd44877.zip/node_modules/got/",\
         "packageDependencies": [\
           ["got", "npm:11.8.6"],\
           ["@sindresorhus/is", "npm:4.6.0"],\
@@ -1513,7 +1529,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["graceful-fs", [\
       ["npm:4.2.11", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/graceful-fs-npm-4.2.11-24bb648a68-10c0.zip/node_modules/graceful-fs/",\
+        "packageLocation": "./.yarn/cache/graceful-fs-npm-4.2.11-24bb648a68-386d011a55.zip/node_modules/graceful-fs/",\
         "packageDependencies": [\
           ["graceful-fs", "npm:4.2.11"]\
         ],\
@@ -1522,7 +1538,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["grapheme-splitter", [\
       ["npm:1.0.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/grapheme-splitter-npm-1.0.4-648f2bf509-10c0.zip/node_modules/grapheme-splitter/",\
+        "packageLocation": "./.yarn/cache/grapheme-splitter-npm-1.0.4-648f2bf509-108415fb07.zip/node_modules/grapheme-splitter/",\
         "packageDependencies": [\
           ["grapheme-splitter", "npm:1.0.4"]\
         ],\
@@ -1531,7 +1547,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["has-flag", [\
       ["npm:4.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/has-flag-npm-4.0.0-32af9f0536-10c0.zip/node_modules/has-flag/",\
+        "packageLocation": "./.yarn/cache/has-flag-npm-4.0.0-32af9f0536-2e789c61b7.zip/node_modules/has-flag/",\
         "packageDependencies": [\
           ["has-flag", "npm:4.0.0"]\
         ],\
@@ -1540,7 +1556,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["has-own-prop", [\
       ["npm:2.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/has-own-prop-npm-2.0.0-d895adfe8c-10c0.zip/node_modules/has-own-prop/",\
+        "packageLocation": "./.yarn/cache/has-own-prop-npm-2.0.0-d895adfe8c-2745497283.zip/node_modules/has-own-prop/",\
         "packageDependencies": [\
           ["has-own-prop", "npm:2.0.0"]\
         ],\
@@ -1549,7 +1565,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["hasown", [\
       ["npm:2.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/hasown-npm-2.0.2-80fe6c9901-10c0.zip/node_modules/hasown/",\
+        "packageLocation": "./.yarn/cache/hasown-npm-2.0.2-80fe6c9901-3769d43470.zip/node_modules/hasown/",\
         "packageDependencies": [\
           ["hasown", "npm:2.0.2"],\
           ["function-bind", "npm:1.1.2"]\
@@ -1559,7 +1575,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["http-cache-semantics", [\
       ["npm:4.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/http-cache-semantics-npm-4.1.1-1120131375-10c0.zip/node_modules/http-cache-semantics/",\
+        "packageLocation": "./.yarn/cache/http-cache-semantics-npm-4.1.1-1120131375-ce1319b8a3.zip/node_modules/http-cache-semantics/",\
         "packageDependencies": [\
           ["http-cache-semantics", "npm:4.1.1"]\
         ],\
@@ -1568,7 +1584,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["http-proxy-agent", [\
       ["npm:7.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/http-proxy-agent-npm-7.0.2-643ed7cc33-10c0.zip/node_modules/http-proxy-agent/",\
+        "packageLocation": "./.yarn/cache/http-proxy-agent-npm-7.0.2-643ed7cc33-4207b06a45.zip/node_modules/http-proxy-agent/",\
         "packageDependencies": [\
           ["http-proxy-agent", "npm:7.0.2"],\
           ["agent-base", "npm:7.1.1"],\
@@ -1579,7 +1595,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["http2-wrapper", [\
       ["npm:1.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/http2-wrapper-npm-1.0.3-5b58ade1df-10c0.zip/node_modules/http2-wrapper/",\
+        "packageLocation": "./.yarn/cache/http2-wrapper-npm-1.0.3-5b58ade1df-6a9b72a033.zip/node_modules/http2-wrapper/",\
         "packageDependencies": [\
           ["http2-wrapper", "npm:1.0.3"],\
           ["quick-lru", "npm:5.1.1"],\
@@ -1590,7 +1606,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["https-proxy-agent", [\
       ["npm:7.0.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/https-proxy-agent-npm-7.0.4-a51e13f5dc-10c0.zip/node_modules/https-proxy-agent/",\
+        "packageLocation": "./.yarn/cache/https-proxy-agent-npm-7.0.4-a51e13f5dc-bc4f7c38da.zip/node_modules/https-proxy-agent/",\
         "packageDependencies": [\
           ["https-proxy-agent", "npm:7.0.4"],\
           ["agent-base", "npm:7.1.1"],\
@@ -1601,7 +1617,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["iconv-lite", [\
       ["npm:0.6.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/iconv-lite-npm-0.6.3-24b8aae27e-10c0.zip/node_modules/iconv-lite/",\
+        "packageLocation": "./.yarn/cache/iconv-lite-npm-0.6.3-24b8aae27e-98102bc66b.zip/node_modules/iconv-lite/",\
         "packageDependencies": [\
           ["iconv-lite", "npm:0.6.3"],\
           ["safer-buffer", "npm:2.1.2"]\
@@ -1611,7 +1627,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["imurmurhash", [\
       ["npm:0.1.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/imurmurhash-npm-0.1.4-610c5068a0-10c0.zip/node_modules/imurmurhash/",\
+        "packageLocation": "./.yarn/cache/imurmurhash-npm-0.1.4-610c5068a0-8b51313850.zip/node_modules/imurmurhash/",\
         "packageDependencies": [\
           ["imurmurhash", "npm:0.1.4"]\
         ],\
@@ -1620,7 +1636,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["indent-string", [\
       ["npm:4.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/indent-string-npm-4.0.0-7b717435b2-10c0.zip/node_modules/indent-string/",\
+        "packageLocation": "./.yarn/cache/indent-string-npm-4.0.0-7b717435b2-1e1904ddb0.zip/node_modules/indent-string/",\
         "packageDependencies": [\
           ["indent-string", "npm:4.0.0"]\
         ],\
@@ -1629,7 +1645,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["ip-address", [\
       ["npm:9.0.5", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/ip-address-npm-9.0.5-9fa024d42a-10c0.zip/node_modules/ip-address/",\
+        "packageLocation": "./.yarn/cache/ip-address-npm-9.0.5-9fa024d42a-331cd07faf.zip/node_modules/ip-address/",\
         "packageDependencies": [\
           ["ip-address", "npm:9.0.5"],\
           ["jsbn", "npm:1.1.0"],\
@@ -1640,7 +1656,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["is-binary-path", [\
       ["npm:2.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/is-binary-path-npm-2.1.0-e61d46f557-10c0.zip/node_modules/is-binary-path/",\
+        "packageLocation": "./.yarn/cache/is-binary-path-npm-2.1.0-e61d46f557-a16eaee59a.zip/node_modules/is-binary-path/",\
         "packageDependencies": [\
           ["is-binary-path", "npm:2.1.0"],\
           ["binary-extensions", "npm:2.3.0"]\
@@ -1650,7 +1666,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["is-core-module", [\
       ["npm:2.13.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/is-core-module-npm-2.13.1-36e17434f9-10c0.zip/node_modules/is-core-module/",\
+        "packageLocation": "./.yarn/cache/is-core-module-npm-2.13.1-36e17434f9-2cba9903aa.zip/node_modules/is-core-module/",\
         "packageDependencies": [\
           ["is-core-module", "npm:2.13.1"],\
           ["hasown", "npm:2.0.2"]\
@@ -1660,7 +1676,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["is-extglob", [\
       ["npm:2.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/is-extglob-npm-2.1.1-0870ea68b5-10c0.zip/node_modules/is-extglob/",\
+        "packageLocation": "./.yarn/cache/is-extglob-npm-2.1.1-0870ea68b5-5487da3569.zip/node_modules/is-extglob/",\
         "packageDependencies": [\
           ["is-extglob", "npm:2.1.1"]\
         ],\
@@ -1669,7 +1685,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["is-fullwidth-code-point", [\
       ["npm:3.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/is-fullwidth-code-point-npm-3.0.0-1ecf4ebee5-10c0.zip/node_modules/is-fullwidth-code-point/",\
+        "packageLocation": "./.yarn/cache/is-fullwidth-code-point-npm-3.0.0-1ecf4ebee5-bb11d825e0.zip/node_modules/is-fullwidth-code-point/",\
         "packageDependencies": [\
           ["is-fullwidth-code-point", "npm:3.0.0"]\
         ],\
@@ -1678,7 +1694,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["is-glob", [\
       ["npm:4.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/is-glob-npm-4.0.3-cb87bf1bdb-10c0.zip/node_modules/is-glob/",\
+        "packageLocation": "./.yarn/cache/is-glob-npm-4.0.3-cb87bf1bdb-17fb4014e2.zip/node_modules/is-glob/",\
         "packageDependencies": [\
           ["is-glob", "npm:4.0.3"],\
           ["is-extglob", "npm:2.1.1"]\
@@ -1688,7 +1704,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["is-lambda", [\
       ["npm:1.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/is-lambda-npm-1.0.1-7ab55bc8a8-10c0.zip/node_modules/is-lambda/",\
+        "packageLocation": "./.yarn/cache/is-lambda-npm-1.0.1-7ab55bc8a8-85fee098ae.zip/node_modules/is-lambda/",\
         "packageDependencies": [\
           ["is-lambda", "npm:1.0.1"]\
         ],\
@@ -1697,7 +1713,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["is-number", [\
       ["npm:7.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/is-number-npm-7.0.0-060086935c-10c0.zip/node_modules/is-number/",\
+        "packageLocation": "./.yarn/cache/is-number-npm-7.0.0-060086935c-b4686d0d30.zip/node_modules/is-number/",\
         "packageDependencies": [\
           ["is-number", "npm:7.0.0"]\
         ],\
@@ -1706,14 +1722,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["isexe", [\
       ["npm:2.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/isexe-npm-2.0.0-b58870bd2e-10c0.zip/node_modules/isexe/",\
+        "packageLocation": "./.yarn/cache/isexe-npm-2.0.0-b58870bd2e-228cfa503f.zip/node_modules/isexe/",\
         "packageDependencies": [\
           ["isexe", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
       }],\
       ["npm:3.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/isexe-npm-3.1.1-9c0061eead-10c0.zip/node_modules/isexe/",\
+        "packageLocation": "./.yarn/cache/isexe-npm-3.1.1-9c0061eead-9ec2576540.zip/node_modules/isexe/",\
         "packageDependencies": [\
           ["isexe", "npm:3.1.1"]\
         ],\
@@ -1722,7 +1738,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["jackspeak", [\
       ["npm:3.4.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/jackspeak-npm-3.4.0-fdc2c6fcce-10c0.zip/node_modules/jackspeak/",\
+        "packageLocation": "./.yarn/cache/jackspeak-npm-3.4.0-fdc2c6fcce-7e42d1ea41.zip/node_modules/jackspeak/",\
         "packageDependencies": [\
           ["jackspeak", "npm:3.4.0"],\
           ["@isaacs/cliui", "npm:8.0.2"],\
@@ -1733,7 +1749,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["js-yaml", [\
       ["npm:3.14.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/js-yaml-npm-3.14.1-b968c6095e-10c0.zip/node_modules/js-yaml/",\
+        "packageLocation": "./.yarn/cache/js-yaml-npm-3.14.1-b968c6095e-6746baaaea.zip/node_modules/js-yaml/",\
         "packageDependencies": [\
           ["js-yaml", "npm:3.14.1"],\
           ["argparse", "npm:1.0.10"],\
@@ -1744,7 +1760,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["jsbn", [\
       ["npm:1.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/jsbn-npm-1.1.0-1da0181838-10c0.zip/node_modules/jsbn/",\
+        "packageLocation": "./.yarn/cache/jsbn-npm-1.1.0-1da0181838-4f907fb78d.zip/node_modules/jsbn/",\
         "packageDependencies": [\
           ["jsbn", "npm:1.1.0"]\
         ],\
@@ -1753,7 +1769,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["json-buffer", [\
       ["npm:3.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/json-buffer-npm-3.0.1-f8f6d20603-10c0.zip/node_modules/json-buffer/",\
+        "packageLocation": "./.yarn/cache/json-buffer-npm-3.0.1-f8f6d20603-0d1c91569d.zip/node_modules/json-buffer/",\
         "packageDependencies": [\
           ["json-buffer", "npm:3.0.1"]\
         ],\
@@ -1762,7 +1778,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["keyv", [\
       ["npm:4.5.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/keyv-npm-4.5.4-4c8e2cf7f7-10c0.zip/node_modules/keyv/",\
+        "packageLocation": "./.yarn/cache/keyv-npm-4.5.4-4c8e2cf7f7-aa52f3c5e1.zip/node_modules/keyv/",\
         "packageDependencies": [\
           ["keyv", "npm:4.5.4"],\
           ["json-buffer", "npm:3.0.1"]\
@@ -1772,7 +1788,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["lodash", [\
       ["npm:4.17.21", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/lodash-npm-4.17.21-6382451519-10c0.zip/node_modules/lodash/",\
+        "packageLocation": "./.yarn/cache/lodash-npm-4.17.21-6382451519-d8cbea072b.zip/node_modules/lodash/",\
         "packageDependencies": [\
           ["lodash", "npm:4.17.21"]\
         ],\
@@ -1781,7 +1797,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["lowercase-keys", [\
       ["npm:2.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/lowercase-keys-npm-2.0.0-1876065a32-10c0.zip/node_modules/lowercase-keys/",\
+        "packageLocation": "./.yarn/cache/lowercase-keys-npm-2.0.0-1876065a32-f82a2b3568.zip/node_modules/lowercase-keys/",\
         "packageDependencies": [\
           ["lowercase-keys", "npm:2.0.0"]\
         ],\
@@ -1790,7 +1806,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["lru-cache", [\
       ["npm:10.2.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/lru-cache-npm-10.2.2-c54b721fc3-10c0.zip/node_modules/lru-cache/",\
+        "packageLocation": "./.yarn/cache/lru-cache-npm-10.2.2-c54b721fc3-402d310943.zip/node_modules/lru-cache/",\
         "packageDependencies": [\
           ["lru-cache", "npm:10.2.2"]\
         ],\
@@ -1799,7 +1815,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["magic-string", [\
       ["npm:0.25.9", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/magic-string-npm-0.25.9-0b51c0ea50-10c0.zip/node_modules/magic-string/",\
+        "packageLocation": "./.yarn/cache/magic-string-npm-0.25.9-0b51c0ea50-37f5e01a7e.zip/node_modules/magic-string/",\
         "packageDependencies": [\
           ["magic-string", "npm:0.25.9"],\
           ["sourcemap-codec", "npm:1.4.8"]\
@@ -1809,7 +1825,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["make-fetch-happen", [\
       ["npm:13.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/make-fetch-happen-npm-13.0.1-4180f2aaa8-10c0.zip/node_modules/make-fetch-happen/",\
+        "packageLocation": "./.yarn/cache/make-fetch-happen-npm-13.0.1-4180f2aaa8-df5f4dbb6d.zip/node_modules/make-fetch-happen/",\
         "packageDependencies": [\
           ["make-fetch-happen", "npm:13.0.1"],\
           ["@npmcli/agent", "npm:2.2.2"],\
@@ -1830,7 +1846,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["merge2", [\
       ["npm:1.4.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/merge2-npm-1.4.1-a2507bd06c-10c0.zip/node_modules/merge2/",\
+        "packageLocation": "./.yarn/cache/merge2-npm-1.4.1-a2507bd06c-254a8a4605.zip/node_modules/merge2/",\
         "packageDependencies": [\
           ["merge2", "npm:1.4.1"]\
         ],\
@@ -1839,7 +1855,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["micromatch", [\
       ["npm:4.0.7", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/micromatch-npm-4.0.7-28fb7387ee-10c0.zip/node_modules/micromatch/",\
+        "packageLocation": "./.yarn/cache/micromatch-npm-4.0.7-28fb7387ee-58fa99bc52.zip/node_modules/micromatch/",\
         "packageDependencies": [\
           ["micromatch", "npm:4.0.7"],\
           ["braces", "npm:3.0.3"],\
@@ -1850,7 +1866,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["mime", [\
       ["npm:3.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/mime-npm-3.0.0-8d911e4c06-10c0.zip/node_modules/mime/",\
+        "packageLocation": "./.yarn/cache/mime-npm-3.0.0-8d911e4c06-402e792a8d.zip/node_modules/mime/",\
         "packageDependencies": [\
           ["mime", "npm:3.0.0"]\
         ],\
@@ -1859,14 +1875,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["mimic-response", [\
       ["npm:1.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/mimic-response-npm-1.0.1-f6f85dde84-10c0.zip/node_modules/mimic-response/",\
+        "packageLocation": "./.yarn/cache/mimic-response-npm-1.0.1-f6f85dde84-c5381a5eae.zip/node_modules/mimic-response/",\
         "packageDependencies": [\
           ["mimic-response", "npm:1.0.1"]\
         ],\
         "linkType": "HARD"\
       }],\
       ["npm:3.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/mimic-response-npm-3.1.0-a4a24b4e96-10c0.zip/node_modules/mimic-response/",\
+        "packageLocation": "./.yarn/cache/mimic-response-npm-3.1.0-a4a24b4e96-0d6f07ce6e.zip/node_modules/mimic-response/",\
         "packageDependencies": [\
           ["mimic-response", "npm:3.1.0"]\
         ],\
@@ -1875,7 +1891,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["miniflare", [\
       ["npm:3.20240605.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/miniflare-npm-3.20240605.0-685ccfe6d9-10c0.zip/node_modules/miniflare/",\
+        "packageLocation": "./.yarn/cache/miniflare-npm-3.20240605.0-685ccfe6d9-c49c541fd4.zip/node_modules/miniflare/",\
         "packageDependencies": [\
           ["miniflare", "npm:3.20240605.0"],\
           ["@cspotcode/source-map-support", "npm:0.8.1"],\
@@ -1896,7 +1912,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["minimatch", [\
       ["npm:9.0.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/minimatch-npm-9.0.4-7be5a33efc-10c0.zip/node_modules/minimatch/",\
+        "packageLocation": "./.yarn/cache/minimatch-npm-9.0.4-7be5a33efc-2c16f21f50.zip/node_modules/minimatch/",\
         "packageDependencies": [\
           ["minimatch", "npm:9.0.4"],\
           ["brace-expansion", "npm:2.0.1"]\
@@ -1906,7 +1922,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["minipass", [\
       ["npm:3.3.6", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/minipass-npm-3.3.6-b8d93a945b-10c0.zip/node_modules/minipass/",\
+        "packageLocation": "./.yarn/cache/minipass-npm-3.3.6-b8d93a945b-a114746943.zip/node_modules/minipass/",\
         "packageDependencies": [\
           ["minipass", "npm:3.3.6"],\
           ["yallist", "npm:4.0.0"]\
@@ -1914,14 +1930,14 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:5.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/minipass-npm-5.0.0-c64fb63c92-10c0.zip/node_modules/minipass/",\
+        "packageLocation": "./.yarn/cache/minipass-npm-5.0.0-c64fb63c92-a91d8043f6.zip/node_modules/minipass/",\
         "packageDependencies": [\
           ["minipass", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
       }],\
       ["npm:7.1.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/minipass-npm-7.1.2-3a5327d36d-10c0.zip/node_modules/minipass/",\
+        "packageLocation": "./.yarn/cache/minipass-npm-7.1.2-3a5327d36d-b0fd20bb9f.zip/node_modules/minipass/",\
         "packageDependencies": [\
           ["minipass", "npm:7.1.2"]\
         ],\
@@ -1930,7 +1946,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["minipass-collect", [\
       ["npm:2.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/minipass-collect-npm-2.0.1-73d3907e40-10c0.zip/node_modules/minipass-collect/",\
+        "packageLocation": "./.yarn/cache/minipass-collect-npm-2.0.1-73d3907e40-5167e73f62.zip/node_modules/minipass-collect/",\
         "packageDependencies": [\
           ["minipass-collect", "npm:2.0.1"],\
           ["minipass", "npm:7.1.2"]\
@@ -1940,7 +1956,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["minipass-fetch", [\
       ["npm:3.0.5", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/minipass-fetch-npm-3.0.5-ed78529694-10c0.zip/node_modules/minipass-fetch/",\
+        "packageLocation": "./.yarn/cache/minipass-fetch-npm-3.0.5-ed78529694-9d702d57f5.zip/node_modules/minipass-fetch/",\
         "packageDependencies": [\
           ["minipass-fetch", "npm:3.0.5"],\
           ["encoding", "npm:0.1.13"],\
@@ -1953,7 +1969,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["minipass-flush", [\
       ["npm:1.0.5", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/minipass-flush-npm-1.0.5-efe79d9826-10c0.zip/node_modules/minipass-flush/",\
+        "packageLocation": "./.yarn/cache/minipass-flush-npm-1.0.5-efe79d9826-2a51b63feb.zip/node_modules/minipass-flush/",\
         "packageDependencies": [\
           ["minipass-flush", "npm:1.0.5"],\
           ["minipass", "npm:3.3.6"]\
@@ -1963,7 +1979,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["minipass-pipeline", [\
       ["npm:1.2.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/minipass-pipeline-npm-1.2.4-5924cb077f-10c0.zip/node_modules/minipass-pipeline/",\
+        "packageLocation": "./.yarn/cache/minipass-pipeline-npm-1.2.4-5924cb077f-cbda57cea2.zip/node_modules/minipass-pipeline/",\
         "packageDependencies": [\
           ["minipass-pipeline", "npm:1.2.4"],\
           ["minipass", "npm:3.3.6"]\
@@ -1973,7 +1989,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["minipass-sized", [\
       ["npm:1.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/minipass-sized-npm-1.0.3-306d86f432-10c0.zip/node_modules/minipass-sized/",\
+        "packageLocation": "./.yarn/cache/minipass-sized-npm-1.0.3-306d86f432-298f124753.zip/node_modules/minipass-sized/",\
         "packageDependencies": [\
           ["minipass-sized", "npm:1.0.3"],\
           ["minipass", "npm:3.3.6"]\
@@ -1983,7 +1999,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["minizlib", [\
       ["npm:2.1.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/minizlib-npm-2.1.2-ea89cd0cfb-10c0.zip/node_modules/minizlib/",\
+        "packageLocation": "./.yarn/cache/minizlib-npm-2.1.2-ea89cd0cfb-64fae024e1.zip/node_modules/minizlib/",\
         "packageDependencies": [\
           ["minizlib", "npm:2.1.2"],\
           ["minipass", "npm:3.3.6"],\
@@ -1994,7 +2010,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["mkdirp", [\
       ["npm:1.0.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/mkdirp-npm-1.0.4-37f6ef56b9-10c0.zip/node_modules/mkdirp/",\
+        "packageLocation": "./.yarn/cache/mkdirp-npm-1.0.4-37f6ef56b9-46ea0f3ffa.zip/node_modules/mkdirp/",\
         "packageDependencies": [\
           ["mkdirp", "npm:1.0.4"]\
         ],\
@@ -2003,7 +2019,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["ms", [\
       ["npm:2.1.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/ms-npm-2.1.2-ec0c1512ff-10c0.zip/node_modules/ms/",\
+        "packageLocation": "./.yarn/cache/ms-npm-2.1.2-ec0c1512ff-a437714e2f.zip/node_modules/ms/",\
         "packageDependencies": [\
           ["ms", "npm:2.1.2"]\
         ],\
@@ -2012,7 +2028,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["mustache", [\
       ["npm:4.2.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/mustache-npm-4.2.0-1fe3d6d77a-10c0.zip/node_modules/mustache/",\
+        "packageLocation": "./.yarn/cache/mustache-npm-4.2.0-1fe3d6d77a-1f8197e8a1.zip/node_modules/mustache/",\
         "packageDependencies": [\
           ["mustache", "npm:4.2.0"]\
         ],\
@@ -2021,7 +2037,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["nanoid", [\
       ["npm:3.3.7", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/nanoid-npm-3.3.7-98824ba130-10c0.zip/node_modules/nanoid/",\
+        "packageLocation": "./.yarn/cache/nanoid-npm-3.3.7-98824ba130-e3fb661aa0.zip/node_modules/nanoid/",\
         "packageDependencies": [\
           ["nanoid", "npm:3.3.7"]\
         ],\
@@ -2030,7 +2046,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["negotiator", [\
       ["npm:0.6.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/negotiator-npm-0.6.3-9d50e36171-10c0.zip/node_modules/negotiator/",\
+        "packageLocation": "./.yarn/cache/negotiator-npm-0.6.3-9d50e36171-3ec9fd413e.zip/node_modules/negotiator/",\
         "packageDependencies": [\
           ["negotiator", "npm:0.6.3"]\
         ],\
@@ -2039,7 +2055,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["node-fetch-native", [\
       ["npm:1.6.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/node-fetch-native-npm-1.6.4-074aca088e-10c0.zip/node_modules/node-fetch-native/",\
+        "packageLocation": "./.yarn/cache/node-fetch-native-npm-1.6.4-074aca088e-78334dc6de.zip/node_modules/node-fetch-native/",\
         "packageDependencies": [\
           ["node-fetch-native", "npm:1.6.4"]\
         ],\
@@ -2048,7 +2064,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["node-forge", [\
       ["npm:1.3.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/node-forge-npm-1.3.1-f31fd566cc-10c0.zip/node_modules/node-forge/",\
+        "packageLocation": "./.yarn/cache/node-forge-npm-1.3.1-f31fd566cc-e882819b25.zip/node_modules/node-forge/",\
         "packageDependencies": [\
           ["node-forge", "npm:1.3.1"]\
         ],\
@@ -2076,7 +2092,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["nopt", [\
       ["npm:7.2.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/nopt-npm-7.2.1-635b7da949-10c0.zip/node_modules/nopt/",\
+        "packageLocation": "./.yarn/cache/nopt-npm-7.2.1-635b7da949-a069c7c736.zip/node_modules/nopt/",\
         "packageDependencies": [\
           ["nopt", "npm:7.2.1"],\
           ["abbrev", "npm:2.0.0"]\
@@ -2086,7 +2102,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["normalize-path", [\
       ["npm:3.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/normalize-path-npm-3.0.0-658ba7d77f-10c0.zip/node_modules/normalize-path/",\
+        "packageLocation": "./.yarn/cache/normalize-path-npm-3.0.0-658ba7d77f-e008c8142b.zip/node_modules/normalize-path/",\
         "packageDependencies": [\
           ["normalize-path", "npm:3.0.0"]\
         ],\
@@ -2095,7 +2111,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["normalize-url", [\
       ["npm:6.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/normalize-url-npm-6.1.0-b95bc12ece-10c0.zip/node_modules/normalize-url/",\
+        "packageLocation": "./.yarn/cache/normalize-url-npm-6.1.0-b95bc12ece-95d948f9bd.zip/node_modules/normalize-url/",\
         "packageDependencies": [\
           ["normalize-url", "npm:6.1.0"]\
         ],\
@@ -2104,7 +2120,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["once", [\
       ["npm:1.4.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/once-npm-1.4.0-ccf03ef07a-10c0.zip/node_modules/once/",\
+        "packageLocation": "./.yarn/cache/once-npm-1.4.0-ccf03ef07a-5d48aca287.zip/node_modules/once/",\
         "packageDependencies": [\
           ["once", "npm:1.4.0"],\
           ["wrappy", "npm:1.0.2"]\
@@ -2114,7 +2130,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["p-cancelable", [\
       ["npm:2.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/p-cancelable-npm-2.1.1-9388305f02-10c0.zip/node_modules/p-cancelable/",\
+        "packageLocation": "./.yarn/cache/p-cancelable-npm-2.1.1-9388305f02-8c6dc1f8dd.zip/node_modules/p-cancelable/",\
         "packageDependencies": [\
           ["p-cancelable", "npm:2.1.1"]\
         ],\
@@ -2123,7 +2139,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["p-limit", [\
       ["npm:2.3.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/p-limit-npm-2.3.0-94a0310039-10c0.zip/node_modules/p-limit/",\
+        "packageLocation": "./.yarn/cache/p-limit-npm-2.3.0-94a0310039-8da01ac53e.zip/node_modules/p-limit/",\
         "packageDependencies": [\
           ["p-limit", "npm:2.3.0"],\
           ["p-try", "npm:2.2.0"]\
@@ -2133,7 +2149,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["p-map", [\
       ["npm:4.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/p-map-npm-4.0.0-4677ae07c7-10c0.zip/node_modules/p-map/",\
+        "packageLocation": "./.yarn/cache/p-map-npm-4.0.0-4677ae07c7-592c05bd62.zip/node_modules/p-map/",\
         "packageDependencies": [\
           ["p-map", "npm:4.0.0"],\
           ["aggregate-error", "npm:3.1.0"]\
@@ -2143,7 +2159,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["p-try", [\
       ["npm:2.2.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/p-try-npm-2.2.0-e0390dbaf8-10c0.zip/node_modules/p-try/",\
+        "packageLocation": "./.yarn/cache/p-try-npm-2.2.0-e0390dbaf8-c36c199077.zip/node_modules/p-try/",\
         "packageDependencies": [\
           ["p-try", "npm:2.2.0"]\
         ],\
@@ -2152,7 +2168,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["path-key", [\
       ["npm:3.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/path-key-npm-3.1.1-0e66ea8321-10c0.zip/node_modules/path-key/",\
+        "packageLocation": "./.yarn/cache/path-key-npm-3.1.1-0e66ea8321-748c43efd5.zip/node_modules/path-key/",\
         "packageDependencies": [\
           ["path-key", "npm:3.1.1"]\
         ],\
@@ -2161,7 +2177,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["path-parse", [\
       ["npm:1.0.7", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/path-parse-npm-1.0.7-09564527b7-10c0.zip/node_modules/path-parse/",\
+        "packageLocation": "./.yarn/cache/path-parse-npm-1.0.7-09564527b7-11ce261f9d.zip/node_modules/path-parse/",\
         "packageDependencies": [\
           ["path-parse", "npm:1.0.7"]\
         ],\
@@ -2170,7 +2186,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["path-scurry", [\
       ["npm:1.11.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/path-scurry-npm-1.11.1-aaf8c339af-10c0.zip/node_modules/path-scurry/",\
+        "packageLocation": "./.yarn/cache/path-scurry-npm-1.11.1-aaf8c339af-32a13711a2.zip/node_modules/path-scurry/",\
         "packageDependencies": [\
           ["path-scurry", "npm:1.11.1"],\
           ["lru-cache", "npm:10.2.2"],\
@@ -2181,7 +2197,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["path-to-regexp", [\
       ["npm:6.2.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/path-to-regexp-npm-6.2.2-0bf7f6805c-10c0.zip/node_modules/path-to-regexp/",\
+        "packageLocation": "./.yarn/cache/path-to-regexp-npm-6.2.2-0bf7f6805c-4b60852d35.zip/node_modules/path-to-regexp/",\
         "packageDependencies": [\
           ["path-to-regexp", "npm:6.2.2"]\
         ],\
@@ -2190,7 +2206,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["pathe", [\
       ["npm:1.1.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/pathe-npm-1.1.2-b80d94db55-10c0.zip/node_modules/pathe/",\
+        "packageLocation": "./.yarn/cache/pathe-npm-1.1.2-b80d94db55-64ee0a4e58.zip/node_modules/pathe/",\
         "packageDependencies": [\
           ["pathe", "npm:1.1.2"]\
         ],\
@@ -2199,7 +2215,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["picomatch", [\
       ["npm:2.3.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/picomatch-npm-2.3.1-c782cfd986-10c0.zip/node_modules/picomatch/",\
+        "packageLocation": "./.yarn/cache/picomatch-npm-2.3.1-c782cfd986-26c02b8d06.zip/node_modules/picomatch/",\
         "packageDependencies": [\
           ["picomatch", "npm:2.3.1"]\
         ],\
@@ -2217,7 +2233,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["printable-characters", [\
       ["npm:1.0.42", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/printable-characters-npm-1.0.42-88f6789fd4-10c0.zip/node_modules/printable-characters/",\
+        "packageLocation": "./.yarn/cache/printable-characters-npm-1.0.42-88f6789fd4-7c94d94c60.zip/node_modules/printable-characters/",\
         "packageDependencies": [\
           ["printable-characters", "npm:1.0.42"]\
         ],\
@@ -2226,14 +2242,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["proc-log", [\
       ["npm:3.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/proc-log-npm-3.0.0-a8c21c2f0f-10c0.zip/node_modules/proc-log/",\
+        "packageLocation": "./.yarn/cache/proc-log-npm-3.0.0-a8c21c2f0f-f66430e4ff.zip/node_modules/proc-log/",\
         "packageDependencies": [\
           ["proc-log", "npm:3.0.0"]\
         ],\
         "linkType": "HARD"\
       }],\
       ["npm:4.2.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/proc-log-npm-4.2.0-4d65296a9d-10c0.zip/node_modules/proc-log/",\
+        "packageLocation": "./.yarn/cache/proc-log-npm-4.2.0-4d65296a9d-17db4757c2.zip/node_modules/proc-log/",\
         "packageDependencies": [\
           ["proc-log", "npm:4.2.0"]\
         ],\
@@ -2242,7 +2258,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["promise-retry", [\
       ["npm:2.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/promise-retry-npm-2.0.1-871f0b01b7-10c0.zip/node_modules/promise-retry/",\
+        "packageLocation": "./.yarn/cache/promise-retry-npm-2.0.1-871f0b01b7-9c7045a1a2.zip/node_modules/promise-retry/",\
         "packageDependencies": [\
           ["promise-retry", "npm:2.0.1"],\
           ["err-code", "npm:2.0.3"],\
@@ -2253,7 +2269,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["pump", [\
       ["npm:3.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/pump-npm-3.0.0-0080bf6a7a-10c0.zip/node_modules/pump/",\
+        "packageLocation": "./.yarn/cache/pump-npm-3.0.0-0080bf6a7a-bbdeda4f74.zip/node_modules/pump/",\
         "packageDependencies": [\
           ["pump", "npm:3.0.0"],\
           ["end-of-stream", "npm:1.4.4"],\
@@ -2264,7 +2280,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["queue-microtask", [\
       ["npm:1.2.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/queue-microtask-npm-1.2.3-fcc98e4e2d-10c0.zip/node_modules/queue-microtask/",\
+        "packageLocation": "./.yarn/cache/queue-microtask-npm-1.2.3-fcc98e4e2d-900a93d3cd.zip/node_modules/queue-microtask/",\
         "packageDependencies": [\
           ["queue-microtask", "npm:1.2.3"]\
         ],\
@@ -2273,7 +2289,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["quick-lru", [\
       ["npm:5.1.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/quick-lru-npm-5.1.1-e38e0edce3-10c0.zip/node_modules/quick-lru/",\
+        "packageLocation": "./.yarn/cache/quick-lru-npm-5.1.1-e38e0edce3-a24cba5da8.zip/node_modules/quick-lru/",\
         "packageDependencies": [\
           ["quick-lru", "npm:5.1.1"]\
         ],\
@@ -2282,7 +2298,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["readdirp", [\
       ["npm:3.6.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/readdirp-npm-3.6.0-f950cc74ab-10c0.zip/node_modules/readdirp/",\
+        "packageLocation": "./.yarn/cache/readdirp-npm-3.6.0-f950cc74ab-6fa848cf63.zip/node_modules/readdirp/",\
         "packageDependencies": [\
           ["readdirp", "npm:3.6.0"],\
           ["picomatch", "npm:2.3.1"]\
@@ -2292,7 +2308,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["repeat-string", [\
       ["npm:1.6.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/repeat-string-npm-1.6.1-bc8e388655-10c0.zip/node_modules/repeat-string/",\
+        "packageLocation": "./.yarn/cache/repeat-string-npm-1.6.1-bc8e388655-87fa21bfdb.zip/node_modules/repeat-string/",\
         "packageDependencies": [\
           ["repeat-string", "npm:1.6.1"]\
         ],\
@@ -2301,7 +2317,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["resolve", [\
       ["patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/resolve-patch-4254c24959-10c0.zip/node_modules/resolve/",\
+        "packageLocation": "./.yarn/cache/resolve-patch-4254c24959-0446f02443.zip/node_modules/resolve/",\
         "packageDependencies": [\
           ["resolve", "patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d"],\
           ["is-core-module", "npm:2.13.1"],\
@@ -2313,7 +2329,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["resolve-alpn", [\
       ["npm:1.2.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/resolve-alpn-npm-1.2.1-af77edd28b-10c0.zip/node_modules/resolve-alpn/",\
+        "packageLocation": "./.yarn/cache/resolve-alpn-npm-1.2.1-af77edd28b-b70b29c184.zip/node_modules/resolve-alpn/",\
         "packageDependencies": [\
           ["resolve-alpn", "npm:1.2.1"]\
         ],\
@@ -2322,7 +2338,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["resolve.exports", [\
       ["npm:2.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/resolve.exports-npm-2.0.2-f59b42bbe5-10c0.zip/node_modules/resolve.exports/",\
+        "packageLocation": "./.yarn/cache/resolve.exports-npm-2.0.2-f59b42bbe5-cc4cffdc25.zip/node_modules/resolve.exports/",\
         "packageDependencies": [\
           ["resolve.exports", "npm:2.0.2"]\
         ],\
@@ -2331,7 +2347,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["responselike", [\
       ["npm:2.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/responselike-npm-2.0.1-7f64b6e122-10c0.zip/node_modules/responselike/",\
+        "packageLocation": "./.yarn/cache/responselike-npm-2.0.1-7f64b6e122-360b6deb5f.zip/node_modules/responselike/",\
         "packageDependencies": [\
           ["responselike", "npm:2.0.1"],\
           ["lowercase-keys", "npm:2.0.0"]\
@@ -2341,7 +2357,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["retry", [\
       ["npm:0.12.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/retry-npm-0.12.0-72ac7fb4cc-10c0.zip/node_modules/retry/",\
+        "packageLocation": "./.yarn/cache/retry-npm-0.12.0-72ac7fb4cc-59933e8501.zip/node_modules/retry/",\
         "packageDependencies": [\
           ["retry", "npm:0.12.0"]\
         ],\
@@ -2350,7 +2366,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["reusify", [\
       ["npm:1.0.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/reusify-npm-1.0.4-95ac4aec11-10c0.zip/node_modules/reusify/",\
+        "packageLocation": "./.yarn/cache/reusify-npm-1.0.4-95ac4aec11-c19ef26e4e.zip/node_modules/reusify/",\
         "packageDependencies": [\
           ["reusify", "npm:1.0.4"]\
         ],\
@@ -2359,7 +2375,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["rollup-plugin-inject", [\
       ["npm:3.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/rollup-plugin-inject-npm-3.0.2-db1d368b18-10c0.zip/node_modules/rollup-plugin-inject/",\
+        "packageLocation": "./.yarn/cache/rollup-plugin-inject-npm-3.0.2-db1d368b18-35b9d95503.zip/node_modules/rollup-plugin-inject/",\
         "packageDependencies": [\
           ["rollup-plugin-inject", "npm:3.0.2"],\
           ["estree-walker", "npm:0.6.1"],\
@@ -2371,7 +2387,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["rollup-plugin-node-polyfills", [\
       ["npm:0.2.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/rollup-plugin-node-polyfills-npm-0.2.1-d0e4f85f30-10c0.zip/node_modules/rollup-plugin-node-polyfills/",\
+        "packageLocation": "./.yarn/cache/rollup-plugin-node-polyfills-npm-0.2.1-d0e4f85f30-30f9e09cbb.zip/node_modules/rollup-plugin-node-polyfills/",\
         "packageDependencies": [\
           ["rollup-plugin-node-polyfills", "npm:0.2.1"],\
           ["rollup-plugin-inject", "npm:3.0.2"]\
@@ -2381,7 +2397,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["rollup-pluginutils", [\
       ["npm:2.8.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/rollup-pluginutils-npm-2.8.2-f554dd6ac5-10c0.zip/node_modules/rollup-pluginutils/",\
+        "packageLocation": "./.yarn/cache/rollup-pluginutils-npm-2.8.2-f554dd6ac5-20947bec5a.zip/node_modules/rollup-pluginutils/",\
         "packageDependencies": [\
           ["rollup-pluginutils", "npm:2.8.2"],\
           ["estree-walker", "npm:0.6.1"]\
@@ -2391,7 +2407,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["run-parallel", [\
       ["npm:1.2.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/run-parallel-npm-1.2.0-3f47ff2034-10c0.zip/node_modules/run-parallel/",\
+        "packageLocation": "./.yarn/cache/run-parallel-npm-1.2.0-3f47ff2034-200b5ab25b.zip/node_modules/run-parallel/",\
         "packageDependencies": [\
           ["run-parallel", "npm:1.2.0"],\
           ["queue-microtask", "npm:1.2.3"]\
@@ -2401,7 +2417,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["safer-buffer", [\
       ["npm:2.1.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/safer-buffer-npm-2.1.2-8d5c0b705e-10c0.zip/node_modules/safer-buffer/",\
+        "packageLocation": "./.yarn/cache/safer-buffer-npm-2.1.2-8d5c0b705e-7e3c8b2e88.zip/node_modules/safer-buffer/",\
         "packageDependencies": [\
           ["safer-buffer", "npm:2.1.2"]\
         ],\
@@ -2410,7 +2426,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["selfsigned", [\
       ["npm:2.4.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/selfsigned-npm-2.4.1-1ca1b883c5-10c0.zip/node_modules/selfsigned/",\
+        "packageLocation": "./.yarn/cache/selfsigned-npm-2.4.1-1ca1b883c5-521829ec36.zip/node_modules/selfsigned/",\
         "packageDependencies": [\
           ["selfsigned", "npm:2.4.1"],\
           ["@types/node-forge", "npm:1.3.11"],\
@@ -2421,7 +2437,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["semver", [\
       ["npm:7.6.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/semver-npm-7.6.2-0fec6944bb-10c0.zip/node_modules/semver/",\
+        "packageLocation": "./.yarn/cache/semver-npm-7.6.2-0fec6944bb-97d3441e97.zip/node_modules/semver/",\
         "packageDependencies": [\
           ["semver", "npm:7.6.2"]\
         ],\
@@ -2430,7 +2446,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["shebang-command", [\
       ["npm:2.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/shebang-command-npm-2.0.0-eb2b01921d-10c0.zip/node_modules/shebang-command/",\
+        "packageLocation": "./.yarn/cache/shebang-command-npm-2.0.0-eb2b01921d-a41692e7d8.zip/node_modules/shebang-command/",\
         "packageDependencies": [\
           ["shebang-command", "npm:2.0.0"],\
           ["shebang-regex", "npm:3.0.0"]\
@@ -2440,7 +2456,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["shebang-regex", [\
       ["npm:3.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/shebang-regex-npm-3.0.0-899a0cd65e-10c0.zip/node_modules/shebang-regex/",\
+        "packageLocation": "./.yarn/cache/shebang-regex-npm-3.0.0-899a0cd65e-1dbed0726d.zip/node_modules/shebang-regex/",\
         "packageDependencies": [\
           ["shebang-regex", "npm:3.0.0"]\
         ],\
@@ -2449,7 +2465,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["signal-exit", [\
       ["npm:4.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/signal-exit-npm-4.1.0-61fb957687-10c0.zip/node_modules/signal-exit/",\
+        "packageLocation": "./.yarn/cache/signal-exit-npm-4.1.0-61fb957687-41602dce54.zip/node_modules/signal-exit/",\
         "packageDependencies": [\
           ["signal-exit", "npm:4.1.0"]\
         ],\
@@ -2458,7 +2474,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["smart-buffer", [\
       ["npm:4.2.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/smart-buffer-npm-4.2.0-5ac3f668bb-10c0.zip/node_modules/smart-buffer/",\
+        "packageLocation": "./.yarn/cache/smart-buffer-npm-4.2.0-5ac3f668bb-a16775323e.zip/node_modules/smart-buffer/",\
         "packageDependencies": [\
           ["smart-buffer", "npm:4.2.0"]\
         ],\
@@ -2467,7 +2483,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["socks", [\
       ["npm:2.8.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/socks-npm-2.8.3-3532b59899-10c0.zip/node_modules/socks/",\
+        "packageLocation": "./.yarn/cache/socks-npm-2.8.3-3532b59899-d54a52bf93.zip/node_modules/socks/",\
         "packageDependencies": [\
           ["socks", "npm:2.8.3"],\
           ["ip-address", "npm:9.0.5"],\
@@ -2478,7 +2494,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["socks-proxy-agent", [\
       ["npm:8.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/socks-proxy-agent-npm-8.0.3-30471cff1b-10c0.zip/node_modules/socks-proxy-agent/",\
+        "packageLocation": "./.yarn/cache/socks-proxy-agent-npm-8.0.3-30471cff1b-4950529aff.zip/node_modules/socks-proxy-agent/",\
         "packageDependencies": [\
           ["socks-proxy-agent", "npm:8.0.3"],\
           ["agent-base", "npm:7.1.1"],\
@@ -2490,7 +2506,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["source-map", [\
       ["npm:0.6.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/source-map-npm-0.6.1-1a3621db16-10c0.zip/node_modules/source-map/",\
+        "packageLocation": "./.yarn/cache/source-map-npm-0.6.1-1a3621db16-ab55398007.zip/node_modules/source-map/",\
         "packageDependencies": [\
           ["source-map", "npm:0.6.1"]\
         ],\
@@ -2499,7 +2515,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["sourcemap-codec", [\
       ["npm:1.4.8", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/sourcemap-codec-npm-1.4.8-3a1a9e60b1-10c0.zip/node_modules/sourcemap-codec/",\
+        "packageLocation": "./.yarn/cache/sourcemap-codec-npm-1.4.8-3a1a9e60b1-f099279fda.zip/node_modules/sourcemap-codec/",\
         "packageDependencies": [\
           ["sourcemap-codec", "npm:1.4.8"]\
         ],\
@@ -2508,14 +2524,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["sprintf-js", [\
       ["npm:1.0.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/sprintf-js-npm-1.0.3-73f0a322fa-10c0.zip/node_modules/sprintf-js/",\
+        "packageLocation": "./.yarn/cache/sprintf-js-npm-1.0.3-73f0a322fa-ecadcfe4c7.zip/node_modules/sprintf-js/",\
         "packageDependencies": [\
           ["sprintf-js", "npm:1.0.3"]\
         ],\
         "linkType": "HARD"\
       }],\
       ["npm:1.1.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/sprintf-js-npm-1.1.3-b99efd75b2-10c0.zip/node_modules/sprintf-js/",\
+        "packageLocation": "./.yarn/cache/sprintf-js-npm-1.1.3-b99efd75b2-09270dc4f3.zip/node_modules/sprintf-js/",\
         "packageDependencies": [\
           ["sprintf-js", "npm:1.1.3"]\
         ],\
@@ -2524,7 +2540,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["ssri", [\
       ["npm:10.0.6", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/ssri-npm-10.0.6-6b8eaec5ce-10c0.zip/node_modules/ssri/",\
+        "packageLocation": "./.yarn/cache/ssri-npm-10.0.6-6b8eaec5ce-e5a1e23a40.zip/node_modules/ssri/",\
         "packageDependencies": [\
           ["ssri", "npm:10.0.6"],\
           ["minipass", "npm:7.1.2"]\
@@ -2534,7 +2550,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["stacktracey", [\
       ["npm:2.1.8", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/stacktracey-npm-2.1.8-1824f88839-10c0.zip/node_modules/stacktracey/",\
+        "packageLocation": "./.yarn/cache/stacktracey-npm-2.1.8-1824f88839-e17357d0a5.zip/node_modules/stacktracey/",\
         "packageDependencies": [\
           ["stacktracey", "npm:2.1.8"],\
           ["as-table", "npm:1.0.55"],\
@@ -2545,7 +2561,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["stoppable", [\
       ["npm:1.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/stoppable-npm-1.1.0-23cdcad1a6-10c0.zip/node_modules/stoppable/",\
+        "packageLocation": "./.yarn/cache/stoppable-npm-1.1.0-23cdcad1a6-ba91b65e64.zip/node_modules/stoppable/",\
         "packageDependencies": [\
           ["stoppable", "npm:1.1.0"]\
         ],\
@@ -2554,7 +2570,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["string-width", [\
       ["npm:4.2.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/string-width-npm-4.2.3-2c27177bae-10c0.zip/node_modules/string-width/",\
+        "packageLocation": "./.yarn/cache/string-width-npm-4.2.3-2c27177bae-1e525e92e5.zip/node_modules/string-width/",\
         "packageDependencies": [\
           ["string-width", "npm:4.2.3"],\
           ["emoji-regex", "npm:8.0.0"],\
@@ -2564,7 +2580,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:5.1.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/string-width-npm-5.1.2-bf60531341-10c0.zip/node_modules/string-width/",\
+        "packageLocation": "./.yarn/cache/string-width-npm-5.1.2-bf60531341-ab9c426444.zip/node_modules/string-width/",\
         "packageDependencies": [\
           ["string-width", "npm:5.1.2"],\
           ["eastasianwidth", "npm:0.2.0"],\
@@ -2576,7 +2592,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["strip-ansi", [\
       ["npm:6.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/strip-ansi-npm-6.0.1-caddc7cb40-10c0.zip/node_modules/strip-ansi/",\
+        "packageLocation": "./.yarn/cache/strip-ansi-npm-6.0.1-caddc7cb40-1ae5f212a1.zip/node_modules/strip-ansi/",\
         "packageDependencies": [\
           ["strip-ansi", "npm:6.0.1"],\
           ["ansi-regex", "npm:5.0.1"]\
@@ -2584,7 +2600,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:7.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/strip-ansi-npm-7.1.0-7453b80b79-10c0.zip/node_modules/strip-ansi/",\
+        "packageLocation": "./.yarn/cache/strip-ansi-npm-7.1.0-7453b80b79-a198c3762e.zip/node_modules/strip-ansi/",\
         "packageDependencies": [\
           ["strip-ansi", "npm:7.1.0"],\
           ["ansi-regex", "npm:6.0.1"]\
@@ -2594,7 +2610,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["supports-color", [\
       ["npm:7.2.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/supports-color-npm-7.2.0-606bfcf7da-10c0.zip/node_modules/supports-color/",\
+        "packageLocation": "./.yarn/cache/supports-color-npm-7.2.0-606bfcf7da-afb4c88521.zip/node_modules/supports-color/",\
         "packageDependencies": [\
           ["supports-color", "npm:7.2.0"],\
           ["has-flag", "npm:4.0.0"]\
@@ -2604,7 +2620,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["supports-preserve-symlinks-flag", [\
       ["npm:1.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/supports-preserve-symlinks-flag-npm-1.0.0-f17c4d0028-10c0.zip/node_modules/supports-preserve-symlinks-flag/",\
+        "packageLocation": "./.yarn/cache/supports-preserve-symlinks-flag-npm-1.0.0-f17c4d0028-6c40323407.zip/node_modules/supports-preserve-symlinks-flag/",\
         "packageDependencies": [\
           ["supports-preserve-symlinks-flag", "npm:1.0.0"]\
         ],\
@@ -2613,7 +2629,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["tar", [\
       ["npm:6.2.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/tar-npm-6.2.1-237800bb20-10c0.zip/node_modules/tar/",\
+        "packageLocation": "./.yarn/cache/tar-npm-6.2.1-237800bb20-a5eca3eb50.zip/node_modules/tar/",\
         "packageDependencies": [\
           ["tar", "npm:6.2.1"],\
           ["chownr", "npm:2.0.0"],\
@@ -2628,7 +2644,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["tinylogic", [\
       ["npm:2.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/tinylogic-npm-2.0.0-700fcc2fe0-10c0.zip/node_modules/tinylogic/",\
+        "packageLocation": "./.yarn/cache/tinylogic-npm-2.0.0-700fcc2fe0-c9417c4b65.zip/node_modules/tinylogic/",\
         "packageDependencies": [\
           ["tinylogic", "npm:2.0.0"]\
         ],\
@@ -2637,7 +2653,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["to-regex-range", [\
       ["npm:5.0.1", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/to-regex-range-npm-5.0.1-f1e8263b00-10c0.zip/node_modules/to-regex-range/",\
+        "packageLocation": "./.yarn/cache/to-regex-range-npm-5.0.1-f1e8263b00-487988b0a1.zip/node_modules/to-regex-range/",\
         "packageDependencies": [\
           ["to-regex-range", "npm:5.0.1"],\
           ["is-number", "npm:7.0.0"]\
@@ -2647,7 +2663,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["treeify", [\
       ["npm:1.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/treeify-npm-1.1.0-abf9292333-10c0.zip/node_modules/treeify/",\
+        "packageLocation": "./.yarn/cache/treeify-npm-1.1.0-abf9292333-2f0dea9e89.zip/node_modules/treeify/",\
         "packageDependencies": [\
           ["treeify", "npm:1.1.0"]\
         ],\
@@ -2656,7 +2672,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["tslib", [\
       ["npm:2.6.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/tslib-npm-2.6.3-0fd136b3be-10c0.zip/node_modules/tslib/",\
+        "packageLocation": "./.yarn/cache/tslib-npm-2.6.3-0fd136b3be-2598aef53d.zip/node_modules/tslib/",\
         "packageDependencies": [\
           ["tslib", "npm:2.6.3"]\
         ],\
@@ -2665,7 +2681,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["tunnel", [\
       ["npm:0.0.6", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/tunnel-npm-0.0.6-b1c0830ea4-10c0.zip/node_modules/tunnel/",\
+        "packageLocation": "./.yarn/cache/tunnel-npm-0.0.6-b1c0830ea4-e27e7e896f.zip/node_modules/tunnel/",\
         "packageDependencies": [\
           ["tunnel", "npm:0.0.6"]\
         ],\
@@ -2674,7 +2690,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["typanion", [\
       ["npm:3.14.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/typanion-npm-3.14.0-8af344c436-10c0.zip/node_modules/typanion/",\
+        "packageLocation": "./.yarn/cache/typanion-npm-3.14.0-8af344c436-8b03b19844.zip/node_modules/typanion/",\
         "packageDependencies": [\
           ["typanion", "npm:3.14.0"]\
         ],\
@@ -2683,7 +2699,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["typescript", [\
       ["patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/typescript-patch-6e159bfddb-10c0.zip/node_modules/typescript/",\
+        "packageLocation": "./.yarn/cache/typescript-patch-6e159bfddb-db2ad2a16c.zip/node_modules/typescript/",\
         "packageDependencies": [\
           ["typescript", "patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"]\
         ],\
@@ -2692,7 +2708,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["ufo", [\
       ["npm:1.5.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/ufo-npm-1.5.3-8c9d710312-10c0.zip/node_modules/ufo/",\
+        "packageLocation": "./.yarn/cache/ufo-npm-1.5.3-8c9d710312-1df1070258.zip/node_modules/ufo/",\
         "packageDependencies": [\
           ["ufo", "npm:1.5.3"]\
         ],\
@@ -2701,7 +2717,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["undici", [\
       ["npm:5.28.4", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/undici-npm-5.28.4-63fa65e206-10c0.zip/node_modules/undici/",\
+        "packageLocation": "./.yarn/cache/undici-npm-5.28.4-63fa65e206-08d0f25965.zip/node_modules/undici/",\
         "packageDependencies": [\
           ["undici", "npm:5.28.4"],\
           ["@fastify/busboy", "npm:2.1.1"]\
@@ -2711,7 +2727,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["undici-types", [\
       ["npm:5.26.5", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/undici-types-npm-5.26.5-de4f7c7bb9-10c0.zip/node_modules/undici-types/",\
+        "packageLocation": "./.yarn/cache/undici-types-npm-5.26.5-de4f7c7bb9-bb673d7876.zip/node_modules/undici-types/",\
         "packageDependencies": [\
           ["undici-types", "npm:5.26.5"]\
         ],\
@@ -2720,7 +2736,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["unenv-nightly", [\
       ["npm:1.10.0-1717606461.a117952", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/unenv-nightly-npm-1.10.0-1717606461.a117952-4785fce157-10c0.zip/node_modules/unenv-nightly/",\
+        "packageLocation": "./.yarn/cache/unenv-nightly-npm-1.10.0-1717606461.a117952-4785fce157-69c72d43a2.zip/node_modules/unenv-nightly/",\
         "packageDependencies": [\
           ["unenv-nightly", "npm:1.10.0-1717606461.a117952"],\
           ["consola", "npm:3.2.3"],\
@@ -2735,7 +2751,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["unique-filename", [\
       ["npm:3.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/unique-filename-npm-3.0.0-77d68e0a45-10c0.zip/node_modules/unique-filename/",\
+        "packageLocation": "./.yarn/cache/unique-filename-npm-3.0.0-77d68e0a45-6363e40b2f.zip/node_modules/unique-filename/",\
         "packageDependencies": [\
           ["unique-filename", "npm:3.0.0"],\
           ["unique-slug", "npm:4.0.0"]\
@@ -2745,7 +2761,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["unique-slug", [\
       ["npm:4.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/unique-slug-npm-4.0.0-e6b08f28aa-10c0.zip/node_modules/unique-slug/",\
+        "packageLocation": "./.yarn/cache/unique-slug-npm-4.0.0-e6b08f28aa-cb811d9d54.zip/node_modules/unique-slug/",\
         "packageDependencies": [\
           ["unique-slug", "npm:4.0.0"],\
           ["imurmurhash", "npm:0.1.4"]\
@@ -2755,7 +2771,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["which", [\
       ["npm:2.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/which-npm-2.0.2-320ddf72f7-10c0.zip/node_modules/which/",\
+        "packageLocation": "./.yarn/cache/which-npm-2.0.2-320ddf72f7-66522872a7.zip/node_modules/which/",\
         "packageDependencies": [\
           ["which", "npm:2.0.2"],\
           ["isexe", "npm:2.0.0"]\
@@ -2763,7 +2779,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:4.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/which-npm-4.0.0-dd31cd4928-10c0.zip/node_modules/which/",\
+        "packageLocation": "./.yarn/cache/which-npm-4.0.0-dd31cd4928-449fa5c44e.zip/node_modules/which/",\
         "packageDependencies": [\
           ["which", "npm:4.0.0"],\
           ["isexe", "npm:3.1.1"]\
@@ -2787,20 +2803,20 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["wrangler", [\
       ["npm:3.60.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/wrangler-npm-3.60.0-281f18d611-10c0.zip/node_modules/wrangler/",\
+        "packageLocation": "./.yarn/cache/wrangler-npm-3.60.0-281f18d611-6d4f1bb7c2.zip/node_modules/wrangler/",\
         "packageDependencies": [\
           ["wrangler", "npm:3.60.0"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:299756fc75124a660a419d12bd8440fba512603928be9e4793921969e00bfb29cbccf72fa84042dd3353c5330c3047a67c63dcdff3107a5e0cee4c6df3d612d5#npm:3.60.0", {\
-        "packageLocation": "./.yarn/__virtual__/wrangler-virtual-207371dd5f/6/home/gildedguy/.yarn/berry/cache/wrangler-npm-3.60.0-281f18d611-10c0.zip/node_modules/wrangler/",\
+      ["virtual:b491428cd5ca9d856b97da360acee30e86f1b510f374f701123168a645155a13f4ca2f9efef288e542f409fe22410ee9da0832a1878b10bbeaf1ddd7adaa1de3#npm:3.60.0", {\
+        "packageLocation": "./.yarn/__virtual__/wrangler-virtual-c7ad9da3d0/0/cache/wrangler-npm-3.60.0-281f18d611-6d4f1bb7c2.zip/node_modules/wrangler/",\
         "packageDependencies": [\
-          ["wrangler", "virtual:299756fc75124a660a419d12bd8440fba512603928be9e4793921969e00bfb29cbccf72fa84042dd3353c5330c3047a67c63dcdff3107a5e0cee4c6df3d612d5#npm:3.60.0"],\
+          ["wrangler", "virtual:b491428cd5ca9d856b97da360acee30e86f1b510f374f701123168a645155a13f4ca2f9efef288e542f409fe22410ee9da0832a1878b10bbeaf1ddd7adaa1de3#npm:3.60.0"],\
           ["@cloudflare/kv-asset-handler", "npm:0.3.2"],\
-          ["@cloudflare/workers-types", null],\
-          ["@esbuild-plugins/node-globals-polyfill", "virtual:207371dd5fff0e490ca35701dae612bb54d7ade994e224f703a51d672f73bde799679c20c587ab1261e7297857418b523f6426b7b2ae3ed3564f56b9f392b95b#npm:0.2.3"],\
-          ["@esbuild-plugins/node-modules-polyfill", "virtual:207371dd5fff0e490ca35701dae612bb54d7ade994e224f703a51d672f73bde799679c20c587ab1261e7297857418b523f6426b7b2ae3ed3564f56b9f392b95b#npm:0.2.2"],\
+          ["@cloudflare/workers-types", "npm:4.20240605.0"],\
+          ["@esbuild-plugins/node-globals-polyfill", "virtual:c7ad9da3d025dacc7ada2c2907dded919993762275371a49b36511637ca8dcb894d02c26f712e9b1b60e205019fa85efa2898ec5b04cb3b4073e24853189dda7#npm:0.2.3"],\
+          ["@esbuild-plugins/node-modules-polyfill", "virtual:c7ad9da3d025dacc7ada2c2907dded919993762275371a49b36511637ca8dcb894d02c26f712e9b1b60e205019fa85efa2898ec5b04cb3b4073e24853189dda7#npm:0.2.2"],\
           ["@types/cloudflare__workers-types", null],\
           ["blake3-wasm", "npm:2.1.5"],\
           ["chokidar", "npm:3.6.0"],\
@@ -2825,14 +2841,14 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:3c3b3cfb900a5a3518d6afa2e7f2d68cadaae8d262757b35f049197c58fd194f348865cd68b981cafd0e7e7ede797dc3a06c1756f42252562e3dfad0cf3e49e2#npm:3.60.0", {\
-        "packageLocation": "./.yarn/__virtual__/wrangler-virtual-1dfd462796/6/home/gildedguy/.yarn/berry/cache/wrangler-npm-3.60.0-281f18d611-10c0.zip/node_modules/wrangler/",\
+      ["virtual:bb8afa2238942fa8c5adc8a9aa1d5c49054640a22decb3ba9c97a41d36e5cf8b9f31e97fb54614bc6c4df0e4bf949e0c1591d8b243db67cc39e47e48fe13bf65#npm:3.60.0", {\
+        "packageLocation": "./.yarn/__virtual__/wrangler-virtual-97f4f61484/0/cache/wrangler-npm-3.60.0-281f18d611-6d4f1bb7c2.zip/node_modules/wrangler/",\
         "packageDependencies": [\
-          ["wrangler", "virtual:3c3b3cfb900a5a3518d6afa2e7f2d68cadaae8d262757b35f049197c58fd194f348865cd68b981cafd0e7e7ede797dc3a06c1756f42252562e3dfad0cf3e49e2#npm:3.60.0"],\
+          ["wrangler", "virtual:bb8afa2238942fa8c5adc8a9aa1d5c49054640a22decb3ba9c97a41d36e5cf8b9f31e97fb54614bc6c4df0e4bf949e0c1591d8b243db67cc39e47e48fe13bf65#npm:3.60.0"],\
           ["@cloudflare/kv-asset-handler", "npm:0.3.2"],\
-          ["@cloudflare/workers-types", "npm:4.20240605.0"],\
-          ["@esbuild-plugins/node-globals-polyfill", "virtual:207371dd5fff0e490ca35701dae612bb54d7ade994e224f703a51d672f73bde799679c20c587ab1261e7297857418b523f6426b7b2ae3ed3564f56b9f392b95b#npm:0.2.3"],\
-          ["@esbuild-plugins/node-modules-polyfill", "virtual:207371dd5fff0e490ca35701dae612bb54d7ade994e224f703a51d672f73bde799679c20c587ab1261e7297857418b523f6426b7b2ae3ed3564f56b9f392b95b#npm:0.2.2"],\
+          ["@cloudflare/workers-types", null],\
+          ["@esbuild-plugins/node-globals-polyfill", "virtual:c7ad9da3d025dacc7ada2c2907dded919993762275371a49b36511637ca8dcb894d02c26f712e9b1b60e205019fa85efa2898ec5b04cb3b4073e24853189dda7#npm:0.2.3"],\
+          ["@esbuild-plugins/node-modules-polyfill", "virtual:c7ad9da3d025dacc7ada2c2907dded919993762275371a49b36511637ca8dcb894d02c26f712e9b1b60e205019fa85efa2898ec5b04cb3b4073e24853189dda7#npm:0.2.2"],\
           ["@types/cloudflare__workers-types", null],\
           ["blake3-wasm", "npm:2.1.5"],\
           ["chokidar", "npm:3.6.0"],\
@@ -2860,7 +2876,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["wrap-ansi", [\
       ["npm:7.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/wrap-ansi-npm-7.0.0-ad6e1a0554-10c0.zip/node_modules/wrap-ansi/",\
+        "packageLocation": "./.yarn/cache/wrap-ansi-npm-7.0.0-ad6e1a0554-d15fc12c11.zip/node_modules/wrap-ansi/",\
         "packageDependencies": [\
           ["wrap-ansi", "npm:7.0.0"],\
           ["ansi-styles", "npm:4.3.0"],\
@@ -2870,7 +2886,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:8.1.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/wrap-ansi-npm-8.1.0-26a4e6ae28-10c0.zip/node_modules/wrap-ansi/",\
+        "packageLocation": "./.yarn/cache/wrap-ansi-npm-8.1.0-26a4e6ae28-138ff58a41.zip/node_modules/wrap-ansi/",\
         "packageDependencies": [\
           ["wrap-ansi", "npm:8.1.0"],\
           ["ansi-styles", "npm:6.2.1"],\
@@ -2882,7 +2898,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["wrappy", [\
       ["npm:1.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/wrappy-npm-1.0.2-916de4d4b3-10c0.zip/node_modules/wrappy/",\
+        "packageLocation": "./.yarn/cache/wrappy-npm-1.0.2-916de4d4b3-56fece1a40.zip/node_modules/wrappy/",\
         "packageDependencies": [\
           ["wrappy", "npm:1.0.2"]\
         ],\
@@ -2891,14 +2907,14 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["ws", [\
       ["npm:8.17.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/ws-npm-8.17.0-05fb441faf-10c0.zip/node_modules/ws/",\
+        "packageLocation": "./.yarn/cache/ws-npm-8.17.0-05fb441faf-55241ec93a.zip/node_modules/ws/",\
         "packageDependencies": [\
           ["ws", "npm:8.17.0"]\
         ],\
         "linkType": "SOFT"\
       }],\
       ["virtual:685ccfe6d945e7caa674d6d57d2c6a09ebc580d330146fd2ea1a6bbef1ba7d7ebcc5716d276b1f7c49f69f74d7bf2221f3eb2fb166101d0666dcaa2bfd3b759b#npm:8.17.0", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-be49898757/6/home/gildedguy/.yarn/berry/cache/ws-npm-8.17.0-05fb441faf-10c0.zip/node_modules/ws/",\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-be49898757/0/cache/ws-npm-8.17.0-05fb441faf-55241ec93a.zip/node_modules/ws/",\
         "packageDependencies": [\
           ["ws", "virtual:685ccfe6d945e7caa674d6d57d2c6a09ebc580d330146fd2ea1a6bbef1ba7d7ebcc5716d276b1f7c49f69f74d7bf2221f3eb2fb166101d0666dcaa2bfd3b759b#npm:8.17.0"],\
           ["@types/bufferutil", null],\
@@ -2917,7 +2933,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["xxhash-wasm", [\
       ["npm:1.0.2", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/xxhash-wasm-npm-1.0.2-aec40048dd-10c0.zip/node_modules/xxhash-wasm/",\
+        "packageLocation": "./.yarn/cache/xxhash-wasm-npm-1.0.2-aec40048dd-5ba899d921.zip/node_modules/xxhash-wasm/",\
         "packageDependencies": [\
           ["xxhash-wasm", "npm:1.0.2"]\
         ],\
@@ -2926,7 +2942,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["yallist", [\
       ["npm:4.0.0", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/yallist-npm-4.0.0-b493d9e907-10c0.zip/node_modules/yallist/",\
+        "packageLocation": "./.yarn/cache/yallist-npm-4.0.0-b493d9e907-2286b5e8db.zip/node_modules/yallist/",\
         "packageDependencies": [\
           ["yallist", "npm:4.0.0"]\
         ],\
@@ -2935,7 +2951,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["youch", [\
       ["npm:3.3.3", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/youch-npm-3.3.3-af5574e8a0-10c0.zip/node_modules/youch/",\
+        "packageLocation": "./.yarn/cache/youch-npm-3.3.3-af5574e8a0-6e5dd4be39.zip/node_modules/youch/",\
         "packageDependencies": [\
           ["youch", "npm:3.3.3"],\
           ["cookie", "npm:0.5.0"],\
@@ -2947,7 +2963,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["zod", [\
       ["npm:3.23.8", {\
-        "packageLocation": "../../../../../home/gildedguy/.yarn/berry/cache/zod-npm-3.23.8-11c49c85b5-10c0.zip/node_modules/zod/",\
+        "packageLocation": "./.yarn/cache/zod-npm-3.23.8-11c49c85b5-8f14c87d6b.zip/node_modules/zod/",\
         "packageDependencies": [\
           ["zod", "npm:3.23.8"]\
         ],\

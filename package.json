@@ -4,10 +4,11 @@
   "description": "Monorepo of different Cloudflare Workers and Deno Deploy codebases",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "workers:deploy": ""
   },
   "workspaces": [
-    "packages/",
+    "packages/*",
     "apps/*"
   ],
   "repository": {
@@ -25,6 +26,7 @@
     "@cloudflare/workers-types": "^4.20240605.0",
     "@yarnpkg/sdks": "^3.1.2",
     "prettier": "^3.3.1",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "wrangler": "^3.60.0"
   }
 }

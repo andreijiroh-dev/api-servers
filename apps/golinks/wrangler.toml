@@ -1,0 +1,32 @@
+name = "golinks"
+main = "src/ain.ts"
+compatibility_date = "2024-06-08"
+workers_dev = true
+limits = { }
+
+[[routes]]
+# Inspired by @flanican's website on that
+pattern = "andreijiroh.xyz/go/*"
+zone_name = "andreijiroh.xyz"
+
+[[routes]]
+# Just apply the same into my personal wiki site too
+pattern = "wiki.andreijiroh.xyz/go/*"
+zone_name = "andreijiroh.xyz"
+
+[[routes]]
+# Switch them to your own domain if you want to have your own
+pattern = "go.andreijiroh.xyz"
+zone_name = "andreijiroh.xyz"
+custom_domain = true
+
+[vars]
+ADMIN_USERNAME = "ajhalili2006" # currently unused here
+
+[[kv_namespaces]]
+id = "a9766d49c7c54fd0996394f7d371a3f0"
+binding = "links"
+
+[[kv_namespaces]]
+id = "ce81bb106dc247358c048441bb33feff"
+binding = "wikilinks"

@@ -123,8 +123,12 @@ dist
 .vscode-test
 
 # yarn v2
-.yarn/cache
+!.yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
 .yarn/install-state.gz
 !.pnp.*
+
+# wrangler releated
+.dev.vars
+.wrangler/

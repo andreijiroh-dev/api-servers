@@ -1,0 +1,6 @@
+{
+  "name": "@ajhalili2006/api-servers-lib",
+  "packageManager": "yarn@4.2.2",
+  "description": "Standard libraries for @ajhalili2006's API server codebases",
+  "version": "0.1.0"
+}
