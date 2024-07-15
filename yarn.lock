@@ -139,6 +139,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cloudflare/workers-types@npm:4.20240614.0":
+  version: 4.20240614.0
+  resolution: "@cloudflare/workers-types@npm:4.20240614.0"
+  checksum: 10c0/e088ba3df4a54822d53f602b7f362c1e82d7c9b2f5d74e9b1b98006221802093e4830a6c140a8e04a3730916ccf6929598c0d9575761b62a9161a3d242ceb8bf
+  languageName: node
+  linkType: hard
+
 "@cloudflare/workers-types@npm:^4.20240605.0":
   version: 4.20240605.0
   resolution: "@cloudflare/workers-types@npm:4.20240605.0"
@@ -435,6 +442,83 @@ __metadata:
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
   checksum: 10c0/5bd7576bb1b38a47a7fc7b51ac9f38748e772beebc56200450c4a817d712232b8f1d3ef70532c80840243c657d491cf6a6be1e3a214cff907645819fdc34aadd
+  languageName: node
+  linkType: hard
+
+"@prisma/adapter-d1@npm:^5.16.2":
+  version: 5.16.2
+  resolution: "@prisma/adapter-d1@npm:5.16.2"
+  dependencies:
+    "@cloudflare/workers-types": "npm:4.20240614.0"
+    "@prisma/driver-adapter-utils": "npm:5.16.2"
+  checksum: 10c0/5afed818201a990ea5eec66d31586d73d02162ce9d1090db90421c2b92344f6e3caae2386e67c6b4f86cd1777fcd8d02f5b5711e56a66d161caba42ca5dc6fab
+  languageName: node
+  linkType: hard
+
+"@prisma/client@npm:^5.16.2":
+  version: 5.16.2
+  resolution: "@prisma/client@npm:5.16.2"
+  peerDependencies:
+    prisma: "*"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+  checksum: 10c0/4aefff22a3ad5ac3a7b6298c41949e4962b328a13d9f9e9095b530ce3ad931a1052716450d464850f240e6fa109b6db5719a9cf0f868e75ad44c39ad2409f2df
+  languageName: node
+  linkType: hard
+
+"@prisma/debug@npm:5.16.2":
+  version: 5.16.2
+  resolution: "@prisma/debug@npm:5.16.2"
+  checksum: 10c0/63dac1010cb8304f512b84c903209f4f5b3d8a359284b576101d11e457af9af4eb57e78a1445e101e9e4a6801cdd04e299f12dd0a50eb26fd785387f6c0986b7
+  languageName: node
+  linkType: hard
+
+"@prisma/driver-adapter-utils@npm:5.16.2":
+  version: 5.16.2
+  resolution: "@prisma/driver-adapter-utils@npm:5.16.2"
+  dependencies:
+    "@prisma/debug": "npm:5.16.2"
+  checksum: 10c0/66e6d99d72a0acb42411dd8991f83e3e844b24376404041f78451dc85ff19b16bc61e08b16d44a776a7d8fa6bdbb417543c3f2c75d15751451fb137df497bd4d
+  languageName: node
+  linkType: hard
+
+"@prisma/engines-version@npm:5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303":
+  version: 5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303
+  resolution: "@prisma/engines-version@npm:5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303"
+  checksum: 10c0/de02aed86429fbae0c98dbcb35baa9e1583a37aa222692a832a24153ed173a5559257c31296ecbd8ae5a8a99887f3aaf0797d819ca45e562905ce0bea411fe75
+  languageName: node
+  linkType: hard
+
+"@prisma/engines@npm:5.16.2":
+  version: 5.16.2
+  resolution: "@prisma/engines@npm:5.16.2"
+  dependencies:
+    "@prisma/debug": "npm:5.16.2"
+    "@prisma/engines-version": "npm:5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303"
+    "@prisma/fetch-engine": "npm:5.16.2"
+    "@prisma/get-platform": "npm:5.16.2"
+  checksum: 10c0/4e059639779402c9446b2d4795f7cc6b17ef1e9eb85f000a8b591d45fc755fbe66d49b6acec7ed2fd2847b4ffd48fefdc961a9e2439a24de53e59447e03179b5
+  languageName: node
+  linkType: hard
+
+"@prisma/fetch-engine@npm:5.16.2":
+  version: 5.16.2
+  resolution: "@prisma/fetch-engine@npm:5.16.2"
+  dependencies:
+    "@prisma/debug": "npm:5.16.2"
+    "@prisma/engines-version": "npm:5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303"
+    "@prisma/get-platform": "npm:5.16.2"
+  checksum: 10c0/00b63683df0278bdcfa4b88756189359dbe03ac5a08f33db29cba839fd9f5c97818608ac9ddc4bc99e407957e7227a5bb6dbb08d64c709835af097a607da78aa
+  languageName: node
+  linkType: hard
+
+"@prisma/get-platform@npm:5.16.2":
+  version: 5.16.2
+  resolution: "@prisma/get-platform@npm:5.16.2"
+  dependencies:
+    "@prisma/debug": "npm:5.16.2"
+  checksum: 10c0/4a9cb31411944e59f8fd678c38e40de8f52dcb931a63f95bd33b951157c5d61229d5d0c5928fd9450a49edcb0723cabf239e65c6f277488af7cb36d45bb125c4
   languageName: node
   linkType: hard
 
@@ -938,10 +1022,13 @@ __metadata:
   resolution: "cloudflare-workers-openapi@workspace:apps/golinks-v2"
   dependencies:
     "@cloudflare/workers-types": "npm:^4.20240712.0"
+    "@prisma/adapter-d1": "npm:^5.16.2"
+    "@prisma/client": "npm:^5.16.2"
     "@types/node": "npm:20.8.3"
     "@types/service-worker-mock": "npm:^2.0.1"
     chanfana: "npm:^2.0.2"
     hono: "npm:^4.4.7"
+    prisma: "npm:^5.16.2"
     typescript: "npm:^5.5.3"
     wrangler: "npm:^3.64.0"
     zod: "npm:^3.23.8"
@@ -2080,6 +2167,17 @@ __metadata:
   version: 1.0.42
   resolution: "printable-characters@npm:1.0.42"
   checksum: 10c0/7c94d94c6041a37c385af770c7402ad5a2e8a3429ca4d2505a9f19fde39bac9a8fd1edfbfa02f1eae5b4b0f3536b6b8ee6c84621f7c0fcb41476b2df6ee20e4b
+  languageName: node
+  linkType: hard
+
+"prisma@npm:^5.16.2":
+  version: 5.16.2
+  resolution: "prisma@npm:5.16.2"
+  dependencies:
+    "@prisma/engines": "npm:5.16.2"
+  bin:
+    prisma: build/index.js
+  checksum: 10c0/0820150bfe2f9372b34b97be694554fe8ceb51542e467df0afed94575c425556b534bf8080d8526544c5d3ec339c43072360abfe6b14319b65a0480b116aa983
   languageName: node
   linkType: hard
 

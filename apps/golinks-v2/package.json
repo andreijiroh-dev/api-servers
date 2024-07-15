@@ -6,9 +6,16 @@
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
-		"cf-typegen": "wrangler types"
+		"types:gen": "wrangler types",
+		"migrations:apply": "wrangler d1 migrations apply golinks-db --local",
+		"migrations:apply-dev": "wrangler d1 migrations apply golinks-db --local",
+		"migrations:apply-prod": "wrangler d1 migrations apply golinks-db --remote",
+		"exec:dev": "wrangler d1 execute golinks-db --local",
+		"exec:prod": "wrangler d1 execute golinks-db --remote"
 	},
 	"dependencies": {
+		"@prisma/adapter-d1": "^5.16.2",
+		"@prisma/client": "^5.16.2",
 		"chanfana": "^2.0.2",
 		"hono": "^4.4.7",
 		"zod": "^3.23.8"
@@ -17,6 +24,7 @@
 		"@cloudflare/workers-types": "^4.20240712.0",
 		"@types/node": "20.8.3",
 		"@types/service-worker-mock": "^2.0.1",
+		"prisma": "^5.16.2",
 		"typescript": "^5.5.3",
 		"wrangler": "^3.64.0"
 	}

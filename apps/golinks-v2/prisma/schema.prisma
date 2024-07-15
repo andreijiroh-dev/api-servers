@@ -1,0 +1,21 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+	previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model GoLink {
+	id         Int       @id @default(autoincrement())
+	slug       String    @unique
+	targetUrl  String    @default("https://wiki.andreijiroh.xyz/golinks")
+	is_active  Boolean   @default(true)
+	created_on String
+	updated_on String
+}

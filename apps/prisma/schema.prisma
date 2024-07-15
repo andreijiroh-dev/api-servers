@@ -1,0 +1,8 @@
+model GoLink {
+	id         Int @id @default(autoincrement())
+	slug       String @unique
+	targetUrl  String @default("https://example.com")
+	created_on DateTime
+	updated_on DateTime
+	is_active  Boolean @default(true)
+}
