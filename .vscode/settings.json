@@ -3,7 +3,11 @@
 		"**/.yarn": true,
 		"**/.pnp.*": true
 	},
-	"prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
-	"typescript.tsdk": ".yarn/sdks/typescript/lib",
-	"typescript.enablePromptUseWorkspaceTsdk": true
+	"git.alwaysSignOff": true,
+	"gitlens.remotes": [
+		{
+			"domain": "mau.dev",
+			"type": "GitLab"
+		}
+	]
 }
