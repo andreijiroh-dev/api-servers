@@ -4,6 +4,8 @@
 		"esbenp.prettier-vscode",
 		"prisma.prisma",
 		"redhat.vscode-yaml",
-		"codiium.wrangler"
+		"codiium.wrangler",
+		"ms-vscode-remote.remote-containers",
+		"ms-azuretools.vscode-docker"
 	]
 }

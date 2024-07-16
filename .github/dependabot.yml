@@ -2,6 +2,7 @@ version: 2
 enable-beta-ecosystems: true
 updates:
   - directories:
+    - /
     - apps/**
     - packages/**
     open-pull-requests-limit: 5
@@ -20,4 +21,3 @@ updates:
       interval: weekly
     assignees:
       - ajhalili2006
-    
