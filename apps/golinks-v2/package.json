@@ -7,13 +7,12 @@
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
 		"types:gen": "wrangler types && prisma generate",
-		"migrations:new": "wrangler d1 migrations create golinks-db",
-		"migrations:diff": "prisma migrate diff --from-schema-datamodel ./prisma/schema.prisma --to-local-d1",
-		"migrations:apply": "wrangler d1 migrations apply golinks-db --local",
-		"migrations:apply-dev": "wrangler d1 migrations apply golinks-db --local",
-		"migrations:apply-prod": "wrangler d1 migrations apply golinks-db --remote",
+		"migrations:new": "wrangler d1 migrations create golinks",
+		"migrations:diff": "prisma migrate diff --from-local-d1 --to-schema-datamodel ./prisma/schema.prisma",
+		"migrations:apply": "wrangler d1 migrations apply golinks-db",
 		"d1-exec:dev": "wrangler d1 execute golinks-db --local",
-		"d1-exec:prod": "wrangler d1 execute golinks-db --remote"
+		"d1-exec:prod": "wrangler d1 execute golinks-db --remote",
+		"args": "echo $*"
 	},
 	"dependencies": {
 		"@prisma/adapter-d1": "^5.16.2",
@@ -28,6 +27,6 @@
 		"@types/service-worker-mock": "^2.0.1",
 		"prisma": "^5.16.2",
 		"typescript": "^5.5.3",
-		"wrangler": "^3.64.0"
+		"wrangler": "3.65.0"
 	}
 }
