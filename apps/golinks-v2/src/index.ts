@@ -1,33 +1,63 @@
 import { GoLinkCreate, GoLinkList } from "api/golinks";
 import { fromHono } from "chanfana";
 import { Hono } from "hono";
+import { cors } from 'hono/cors';
 import { Env } from "./types"
 import { getLink } from "lib/db";
+import { adminApiKey, contact, homepage } from "lib/constants";
 
 // Start a Hono app
 const app = new Hono<{ Bindings: Env }>();
+app.use("/openapi.json", cors())
+app.use('/api/*', cors({
+	origin(origin, c) {
+		if ((origin.endsWith("andreijiroh.xyz")) || (origin.endsWith("ajhalili2006.workers.dev"))) {
+			return origin
+		}
+	},
+	allowHeaders: ["X-Golinks-Admin-Key", "E-Tag"],
+	allowMethods: ["GET", "POST", "PATCH", "DELETE", "HEAD"],
+	credentials: true
+}));
 
 // Setup OpenAPI registry
 const openapi = fromHono(app, {
-	docs_url: "/api/docs",
+	docs_url: '/api/docs',
+	schema: {
+		info: {
+			title: "Andrei Jiroh's golinks service",
+			version: '0.1.0',
+			contact,
+			license: {
+				name: 'MPL-2.0',
+				url: 'https://github.com/andreijiroh-dev/api-servers/raw/main/LICENSE',
+			},
+		},
+		servers: [
+			{
+				url: 'https://go.andreijiroh.xyz',
+				description: 'Production Deployment',
+			},
+			{
+				url: 'https://golinks-next.ajhalili2006.workers.dev',
+				description: 'Production Deployment (workers.dev)',
+			},
+			{
+				url: 'http://localhost:8787',
+				description: 'Local dev instance via miniflare',
+			},
+		],
+	},
 });
+
+openapi.registry.registerComponent('securitySchema', 'adminApiKey', adminApiKey);
 
 // Register OpenAPI endpoints
 openapi.get("/api/links", GoLinkList)
 openapi.post("/api/links", GoLinkCreate)
 
-openapi.registry.registerComponent(
-	"securitySchema",
-	"adminApiKey",
-	{
-		type: "apiKey",
-		name: "X-Golinks-Admin-Key",
-		in: "header"
-	}
-)
-
 app.get("/", (c) => {
-	return c.redirect("https://wiki.andreijiroh.xyz/golinks")
+	return c.redirect(homepage)
 })
 
 app.get("/favicon.ico", (c) => {
@@ -35,10 +65,11 @@ app.get("/favicon.ico", (c) => {
 })
 
 app.get('/:link', async (c) => {
-	console.log(c.req);
-	const {link} = c.req.param();
+	const { link } = c.req.param();
+	console.log(`[redirector]: incoming request with path - ${link}`);
 	const result = await getLink(c.env.golinks, link);
-	if (result == null) {
+	console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
+	if (!result.targetUrl) {
 		return c.newResponse(
 			JSON.stringify({
 				sucesss: false,
@@ -48,7 +79,7 @@ app.get('/:link', async (c) => {
 				"Content-Type": "application/json"
 			})
 	}
-	c.redirect(result.targetUrl);
+	return c.redirect(result.targetUrl);
 });
 
 // Export the Hono app
