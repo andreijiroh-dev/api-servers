@@ -6,12 +6,14 @@
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
-		"types:gen": "wrangler types",
+		"types:gen": "wrangler types && prisma generate",
+		"migrations:new": "wrangler d1 migrations create golinks-db",
+		"migrations:diff": "prisma migrate diff --from-schema-datamodel ./prisma/schema.prisma --to-local-d1",
 		"migrations:apply": "wrangler d1 migrations apply golinks-db --local",
 		"migrations:apply-dev": "wrangler d1 migrations apply golinks-db --local",
 		"migrations:apply-prod": "wrangler d1 migrations apply golinks-db --remote",
-		"exec:dev": "wrangler d1 execute golinks-db --local",
-		"exec:prod": "wrangler d1 execute golinks-db --remote"
+		"d1-exec:dev": "wrangler d1 execute golinks-db --local",
+		"d1-exec:prod": "wrangler d1 execute golinks-db --remote"
 	},
 	"dependencies": {
 		"@prisma/adapter-d1": "^5.16.2",
