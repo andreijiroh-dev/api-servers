@@ -1,13 +1,25 @@
-import { OpenAPIRoute, Num, Bool, Str } from "chanfana"
+import { OpenAPIRoute, Num, Bool, Str, contentJson } from "chanfana"
 import { z } from "zod"
 import { GoLinks } from "types"
 import { addGoLink, generateSlug, getGoLinks } from "lib/db";
+import { adminApiKey } from "lib/constants";
+import { Context } from "hono";
 
 export class GoLinkCreate extends OpenAPIRoute {
 	schema = {
-
 		tags: ['golinks'],
 		summary: 'Create a golink',
+		parameters: [
+			{
+				in: 'header',
+				name: 'X-Golinks-Admin-Key',
+				schema: {
+					type: 'string',
+				},
+				required: true,
+				description: 'Admin API key',
+			},
+		],
 		request: {
 			body: {
 				content: {
@@ -28,22 +40,65 @@ export class GoLinkCreate extends OpenAPIRoute {
 		],
 		responses: {
 			'200': {
-				description: 'Returns the generated golink',
+				description: 'Returns the generated golink information',
+				contentJson: {
+					schema: z.object({
+						success: Bool(),
+						result: GoLinks
+					})
+				}
+			},
+			'400': {
+				description: 'Existing entry found',
+				content: {
+					'application/json': {
+						schema: z.object({
+							success: Bool({ default: false }).default(false),
+							error: Str({ default: 'Existing entry found (error code: PrismaClientKnownRequestError:P2002)' }),
+						}),
+					},
+				},
 			},
 		},
 	};
 
-	async handle(c) {
+	async handle(c: Context) {
 		const data = await this.getValidatedData<typeof this.schema>();
 		const linkToCreate = data.body;
-		const slug = data.body.slug !== null ? data.body.slug : generateSlug(12);
+		console.log(`[golinks-api] received body for link creation ${JSON.stringify(linkToCreate)}`);
+		const slug = linkToCreate.slug !== undefined ? linkToCreate.slug : generateSlug(12);
 
-		const result = await addGoLink(c.env.golinks, slug, linkToCreate.targetUrl, linkToCreate.is_active);
+		const result = addGoLink(c.env.golinks, slug, linkToCreate.targetUrl, linkToCreate.is_active)
+			.then((value) => {
+				return {
+					success: true,
+					result: value,
+				};
+			})
+			.catch((err) => {
+				if (err.code == 'P2002') {
+					return c.newResponse(
+						JSON.stringify({
+							success: false,
+							error: `Existing entry found (error code: ${err.name}:${err.code})`,
+						}),
+						400,
+						{ 'Content-Type': 'application/json' },
+					);
+				} else {
+					return c.newResponse(
+						JSON.stringify({
+							success: false,
+							error: 'Something went wrong on the backend. The devDebug object should provide hints for devs on where to fix.',
+							devDebug: err,
+						}),
+						500,
+						{ 'Content-Type': 'application/json' },
+					);
+				}
+			});
 
-		return {
-			success: true,
-			data: linkToCreate,
-		};
+		return result;
 	}
 }
 
@@ -91,7 +146,7 @@ export class GoLinkList extends OpenAPIRoute {
 
 		return {
 			success: true,
-			links
-		}
+			result: links,
+		};
 	}
 }
