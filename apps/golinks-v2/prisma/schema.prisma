@@ -16,6 +16,6 @@ model GoLink {
 	slug       String    @unique
 	targetUrl  String    @default("https://wiki.andreijiroh.xyz/golinks")
 	is_active  Boolean   @default(true)
-	created_on String
-	updated_on String
+	created_on DateTime  @default(now())
+	updated_on DateTime  @updatedAt()
 }

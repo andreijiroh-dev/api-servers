@@ -47,25 +47,23 @@ export async function getLink(db: Env["golinks"], slug: string) {
   const adapter = new PrismaD1(db)
   const prisma = new PrismaClient({ adapter });
 
-  const result = prisma.goLink.findFirst({
+  const result = prisma.goLink.findUnique({
 		where: {
-			slug
-		}
+			slug: slug
+		},
   })
   return result
 }
 
-export async function addGoLink(db: Env["golinks"], slug: string, targetUrl: string, isActive?: boolean) {
+export async function addGoLink(
+	db: Env["golinks"], slug: string, targetUrl: string, isActive?: boolean) {
   const adapter = new PrismaD1(db)
   const prisma = new PrismaClient({ adapter })
-
   const result = prisma.goLink.create({
 		data: {
 			slug,
 			targetUrl,
-			is_active: isActive !== undefined ? isActive : true,
-			created_on: Date.now().toString(),
-			updated_on: Date.now().toString(),
+			is_active: isActive !== undefined ? isActive : true
 		},
 	});
 	return result
