@@ -1,5 +1,6 @@
 import { DateTime, Int, Str } from "chanfana";
 import { z } from "zod";
+import { Env } from "../worker-configuration";
 
 export const Task = z.object({
 	name: Str({ example: "lorem" }),
@@ -18,6 +19,7 @@ export const GoLinks = z.object({
 	updated_on: DateTime({ default: Date.now() })
 })
 
-export type Env = {
+export type EnvBindings<Env> = {
 	golinks: D1Database;
+	DEPLOY_ENV: "production" | "staging" | "development"
 }

@@ -1,13 +1,14 @@
 import { GoLinkCreate, GoLinkList } from "api/golinks";
 import { fromHono } from "chanfana";
-import { Hono } from "hono";
+import { Context, Hono } from "hono";
 import { cors } from 'hono/cors';
-import { Env } from "./types"
+import { EnvBindings } from './types';
+import { Env } from "../worker-configuration"
 import { getLink } from "lib/db";
-import { adminApiKey, contact, homepage } from "lib/constants";
+import { adminApiKey, contact, getWorkersDashboardUrl, homepage, servers } from "lib/constants";
 
 // Start a Hono app
-const app = new Hono<{ Bindings: Env }>();
+const app = new Hono<{ Bindings: EnvBindings<Env> }>();
 app.use("/openapi.json", cors())
 app.use('/api/*', cors({
 	origin(origin, c) {
@@ -33,20 +34,7 @@ const openapi = fromHono(app, {
 				url: 'https://github.com/andreijiroh-dev/api-servers/raw/main/LICENSE',
 			},
 		},
-		servers: [
-			{
-				url: 'https://go.andreijiroh.xyz',
-				description: 'Production Deployment',
-			},
-			{
-				url: 'https://golinks-next.ajhalili2006.workers.dev',
-				description: 'Production Deployment (workers.dev)',
-			},
-			{
-				url: 'http://localhost:8787',
-				description: 'Local dev instance via miniflare',
-			},
-		],
+		servers,
 	},
 });
 
@@ -62,6 +50,14 @@ app.get("/", (c) => {
 
 app.get("/favicon.ico", (c) => {
 	return c.newResponse("404 Not Found", 404)
+})
+
+app.get("/workers/edit", (c) => {
+	return c.redirect("https://github.dev/andreijiroh-dev/api-servers/blob/main/apps/golinks-v2/src/index.ts")
+})
+
+app.get("/workers/dashboard", (c) => {
+    return c.redirect(getWorkersDashboardUrl(c.env.DEPLOY_ENV))
 })
 
 app.get('/:link', async (c) => {
