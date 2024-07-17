@@ -14,21 +14,23 @@ account_id = "cf0bd808c6a294fd8c4d8f6d2cdeca05"
 
 placement = { mode = "smart" }
 
-vars = {DEPLOY_ENV = "development"}
+vars = {DEPLOY_ENV = "development", ADMIN_KEY = "gostg_localdev"}
 
 d1_databases = [
 	{ binding = "golinks", database_name = "golinks-db-preview", database_id = "0b415a64-cc61-4c2b-a7c8-2d223f18e996", migrations_dir = "migrations" }
 ]
 
 [env.staging]
-vars = {DEPLOY_ENV = "staging"}
+vars = {DEPLOY_ENV = "staging", ADMIN_KEY = "GOLINKS_ADMIN_API_KEY"}
 
 d1_databases = [
 	{ binding = "golinks", database_name = "golinks-db-preview", database_id = "0b415a64-cc61-4c2b-a7c8-2d223f18e996", migrations_dir = "migrations" }
 ]
 
+
+
 [env.production]
-vars = {DEPLOY_ENV = "production"}
+vars = {DEPLOY_ENV = "production", ADMIN_KEY = "GOLINKS_ADMIN_API_KEY"}
 
 # Bind a D1 database. D1 is Cloudflare’s native serverless SQL database.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#d1-databases

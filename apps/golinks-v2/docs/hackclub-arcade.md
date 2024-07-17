@@ -15,7 +15,7 @@ so it is preferred to
 ![](https://files.slack.com/files-pri/T0266FRGM-F07CEURPSGP/image.png?pub_secret=2faa123191)
 
 3. Now you can test the API. For routes that require authenication, use the following
-API key for the `X-Golinks-Admin-Key` header.
+   API key for the `X-Golinks-Admin-Key` header.
 
 ```
 gostg_hackclub-7yIz7ZgIy7eS9LI2KId1WxdgBisVXTKGBvuLBroIXVBqS9U9

@@ -1,40 +1,41 @@
 {
-	"name": "cloudflare-workers-openapi",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"deps:upgrade": "yarn yarn-upgrade-all",
-		"deploy": "wrangler deploy --env staging",
-		"deploy:stg": "wrangler deploy --env staging",
-		"deploy:prod": "wrangler deploy --env production",
-		"dev": "wrangler dev --port 35120",
-		"start": "wrangler dev --port 35120",
-		"types:gen": "wrangler types && prisma generate",
-		"types:prisma-client": "prisma generate",
-		"migrations:new": "wrangler d1 migrations create golinks",
-		"migrations:diff": "prisma migrate diff --to-schema-datamodel ./prisma/schema.prisma",
-		"migrate:local": "wrangler d1 migrations apply golinks",
-		"migrate:stg": "wrangler d1 migrations apply golinks --remote --env staging",
-		"migrate:prod": "wrangler d1 migrations apply golinks --remote --env production",
-		"d1-exec:dev": "wrangler d1 execute golinks --local",
-		"d1-exec:stg": "wrangler d1 execute golinks --remote --env staging",
-		"d1-exec:prod": "wrangler d1 execute golinks --remote --env production",
-		"args": "echo $*"
-	},
-	"dependencies": {
-		"@prisma/adapter-d1": "^5.17.0",
-		"@prisma/client": "^5.17.0",
-		"chanfana": "^2.0.2",
-		"hono": "^4.5.0",
-		"zod": "^3.23.8"
-	},
-	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20240712.0",
-		"@types/node": "^20.14.11",
-		"@types/service-worker-mock": "^2.0.4",
-		"prisma": "^5.17.0",
-		"typescript": "^5.5.3",
-		"wrangler": "^3.65.0",
-		"yarn-upgrade-all": "^0.7.2"
-	}
+  "name": "cloudflare-workers-openapi",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "deps:upgrade": "yarn yarn-upgrade-all",
+    "deploy": "wrangler deploy --env staging",
+    "deploy:stg": "wrangler deploy --env staging",
+    "deploy:prod": "wrangler deploy --env production",
+    "dev": "wrangler dev --port 35120",
+    "start": "wrangler dev --port 35120",
+    "types:gen": "wrangler types && prisma generate",
+    "types:prisma-client": "prisma generate",
+    "migrations:new": "wrangler d1 migrations create golinks",
+    "migrations:diff": "prisma migrate diff --to-schema-datamodel ./prisma/schema.prisma",
+    "migrate:local": "wrangler d1 migrations apply golinks",
+    "migrate:stg": "wrangler d1 migrations apply golinks --remote --env staging",
+    "migrate:prod": "wrangler d1 migrations apply golinks --remote --env production",
+    "d1-exec:dev": "wrangler d1 execute golinks --local",
+    "d1-exec:stg": "wrangler d1 execute golinks --remote --env staging",
+    "d1-exec:prod": "wrangler d1 execute golinks --remote --env production",
+    "args": "echo $*"
+  },
+  "dependencies": {
+    "@prisma/adapter-d1": "^5.17.0",
+    "@prisma/client": "^5.17.0",
+    "chanfana": "^2.0.2",
+    "hono": "^4.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240712.0",
+    "@types/node": "^20.14.11",
+    "@types/service-worker-mock": "^2.0.4",
+    "prisma": "^5.17.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3",
+    "wrangler": "^3.65.0",
+    "yarn-upgrade-all": "^0.7.2"
+  }
 }

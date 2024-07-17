@@ -1,6 +1,6 @@
 # `@andreijiroh-dev/golinks-rewrite`
 
-Made as part of [Hack Club Arcade / Summer of Making 2024](https://hackclub.com/arcade) ([see the scrapbook][scrapbook] or [the progress log])
+Made as part of [Hack Club Arcade / Summer of Making 2024](https://hackclub.com/arcade) ([see the scrapbook][scrapbook] for all the deets).
 
 A rewrite of [`golinks` Cloudflare Workers code](../golinks/), now with OpenAPI 3.1
 powered by [chanfana](https://github.com/cloudflare/chanfana) and
@@ -8,10 +8,12 @@ powered by [chanfana](https://github.com/cloudflare/chanfana) and
 
 ## Environments
 
-* Staging: https://golinks-next-staging.ajhalili2006.workers.dev (use `gostg_4487705fd01888c0efeb78cf` as API key, might reset data)
-* Production: https://golinks-next.ajhalili2006.workers.dev
+- Staging: https://golinks-next-staging.ajhalili2006.workers.dev (use `gostg_4487705fd01888c0efeb78cf` as API key, might reset data)
+- Production: https://golinks-next.ajhalili2006.workers.dev
 
 ## Development
+
+> Hack Hour/Arcade reviewer? [See the docs for testing the staging environment](./docs/hackclub-arcade.md) if you don't want to mess around prod.
 
 1. Run `yarn` to install dependencies and generate Prisma client code with `yarn types:prisma-client`.
 2. Sign in with Cloudflare for Wrangler CLI: `yarn wrangler login`
