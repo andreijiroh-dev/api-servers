@@ -1,25 +1,21 @@
-# Cloudflare Workers OpenAPI 3.1
+# `@andreijiroh-dev/golinks-rewrite`
 
-This is a Cloudflare Worker with OpenAPI 3.1 using [chanfana](https://github.com/cloudflare/chanfana) and [Hono](https://github.com/honojs/hono).
+Made as part of [Hack Club Arcade / Summer of Making 2024](https://hackclub.com/arcade) ([see the scrapbook][scrapbook] or [the progress log])
 
-This is an example project made to be used as a quick start into building OpenAPI compliant Workers that generates the
-`openapi.json` schema automatically from code and validates the incoming request to the defined parameters or request body.
+A rewrite of [`golinks` Cloudflare Workers code](../golinks/), now with OpenAPI 3.1
+powered by [chanfana](https://github.com/cloudflare/chanfana) and
+[Hono](https://github.com/honojs/hono).
 
-## Get started
+## Environments
 
-1. Sign up for [Cloudflare Workers](https://workers.dev). The free tier is more than enough for most use cases.
-2. Clone this project and install dependencies with `npm install`
-3. Run `wrangler login` to login to your Cloudflare account in wrangler
-4. Run `wrangler deploy` to publish the API to Cloudflare Workers
-
-## Project structure
-
-1. Your main router is defined in `src/index.ts`.
-2. Each endpoint has its own file in `src/endpoints/`.
-3. For more information read the [chanfana documentation](https://chanfana.pages.dev/) and [Hono documentation](https://hono.dev/docs).
+* Staging: https://golinks-next-staging.ajhalili2006.workers.dev (use `gostg_4487705fd01888c0efeb78cf` as API key, might reset data)
+* Production: https://golinks-next.ajhalili2006.workers.dev
 
 ## Development
 
-1. Run `wrangler dev` to start a local instance of the API.
-2. Open `http://localhost:8787/` in your browser to see the Swagger interface where you can try the endpoints.
-3. Changes made in the `src/` folder will automatically trigger the server to reload, you only need to refresh the Swagger interface.
+1. After running `yarn`, run `yarn types:gen` to generate Prisma client types. Don't forget to sign into Wrangler CLI via `yarn wrangler login`.
+2. Run migrations to init things: `yarn migrations:apply --local`
+3. Run local dev server: `yarn dev`
+4. Once everything up, open the Swagger-generated API docs at <http://localhost:35120/api/docs>[^1] and happy hacking.
+
+[^1]: Look for port `35120` on Ports if you're on a remote dev environment, especially for GitHub Codespaces and Gitpod users.

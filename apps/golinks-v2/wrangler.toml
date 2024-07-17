@@ -1,10 +1,18 @@
 #:schema ../../node_modules/wrangler/config-schema.json
+
+# This is the Wrangler configuration for golinks-next, and is being used
+# in GitHub Actions and/or GitLab CI for automatic deployments to
+# staging and production. If you are testing this in a devenv or want
+# to run a copy of this on your own Cloudflare account, you need to update
+# the account ID and database IDs in the D1 database bindings for staging
+# and production environments.
+
 name = "golinks-next"
 main = "src/index.ts"
-compatibility_date = "2024-07-12"
+compatibility_date = "2024-07-12" # TODO: Update this once a month.
+account_id = "cf0bd808c6a294fd8c4d8f6d2cdeca05"
 
-[placement]
-mode = "smart"
+placement = { mode = "smart" }
 
 vars = {DEPLOY_ENV = "development"}
 
