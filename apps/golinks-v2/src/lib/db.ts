@@ -1,6 +1,6 @@
-import { DiscordInviteLink, GoLink, PrismaClient } from "@prisma/client"
+import { DiscordInviteLink, GoLink, Prisma, PrismaClient } from "@prisma/client"
 import { PrismaD1 } from "@prisma/adapter-d1"
-import { Env, EnvBindings } from "../types"
+import { Env, EnvBindings } from "../types";
 import { Str } from "chanfana"
 const PAGE_SIZE = 10
 
@@ -65,7 +65,7 @@ export async function getDiscordInvites(db: EnvBindings<Env>['golinks'], page: n
 	const skip = getOffset(page);
 	const take = PAGE_SIZE;
 
-	const result = await prisma.discordInviteLink.findMany({
+	const result = prisma.discordInviteLink.findMany({
 		where: {
 			is_active: isActive !== undefined ? isActive : undefined, // Filter by isActive if provided
 			nsfw: isNsfw !== undefined ? isNsfw : false // Hide NSFW servers for safety by default.
@@ -97,7 +97,10 @@ export async function getLink(db: EnvBindings<Env>['golinks'], slug: string): Pr
 	return result;
 }
 
-export async function getDiscordInvite(db: EnvBindings<Env>["golinks"], slug: string): Promise<DiscordInviteLink> | null {
+export async function getDiscordInvite(
+	db: EnvBindings<Env>["golinks"],
+	slug: string
+): Promise<DiscordInviteLink> | null {
 	const adapter = new PrismaD1(db)
 	const prisma = new PrismaClient({adapter})
 

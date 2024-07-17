@@ -2,8 +2,7 @@ import { GoLinkCreate, GoLinkList } from "api/golinks";
 import { fromHono } from "chanfana";
 import { Context, Hono } from "hono";
 import { cors } from 'hono/cors';
-import { EnvBindings } from './types';
-import { Env } from "../worker-configuration"
+import { EnvBindings, Env } from "./types";
 import { getDiscordInvite, getLink } from "lib/db";
 import { adminApiKey, contact, getWorkersDashboardUrl, homepage, servers } from "lib/constants";
 import { DiscordInviteLinkCreate, DiscordInviteLinkList } from "api/discord";
@@ -64,21 +63,25 @@ app.get("/workers/dashboard", (c) => {
 })
 
 app.get('/:link', async (c) => {
-	const { link } = c.req.param();
-	console.log(`[redirector]: incoming request with path - ${link}`);
-	const result = await getLink(c.env.golinks, link);
-	console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
-	if (!result.targetUrl) {
-		return c.newResponse(
-			JSON.stringify({
-				sucesss: false,
-				error: "Not Found"
-			}),
-			404, {
-				"Content-Type": "application/json"
-			})
+	try {
+		const { link } = c.req.param();
+		console.log(`[redirector]: incoming request with path - ${link}`);
+		const result = await getLink(c.env.golinks, link);
+		console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
+		if (!result.targetUrl) {
+			return c.newResponse(
+				JSON.stringify({
+					sucesss: false,
+					error: "Not Found"
+				}),
+				404, {
+					"Content-Type": "application/json"
+				})
+		}
+		return c.redirect(result.targetUrl);
+	} catch {
+		return c.newResponse(`404 Not Found`, 404)
 	}
-	return c.redirect(result.targetUrl);
 });
 app.get("/discord/:inviteCode", async (c) => {
 	try {

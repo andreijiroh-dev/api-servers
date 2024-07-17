@@ -88,50 +88,48 @@ export class GoLinkCreate extends OpenAPIRoute {
 }
 
 export class GoLinkList extends OpenAPIRoute {
-	schema = {
-		tags: ["golinks"],
-		summary: "List all golinks",
-		request: {
-			query: z.object({
-				page: Num({
-					description: "Page number",
-					default: 0,
-					required: false
-				}),
-				isActive: Bool({
-					description: "Filter by is_active status",
-					required: false
-				})
-			})
-		},
-		responses: {
-			"200": {
-				description: "Returns a list of golinks",
-				content: {
-					"application/json": {
-						schema: z.object({
-							series: z.object({
-								success: Bool(),
-								result: z.object({
-									links: GoLinks.array()
-								})
-							})
-						})
-					}
-				}
-			}
-		}
-	};
+  schema = {
+    tags: ["golinks"],
+    summary: "List all golinks",
+    request: {
+      query: z.object({
+        page: Num({
+          description: "Page number",
+          default: 0,
+          required: false,
+        }),
+        isActive: Bool({
+          description: "Filter by is_active status",
+          required: false,
+        }),
+      }),
+    },
+    responses: {
+      "200": {
+        description: "Returns a list of golinks",
+        content: {
+          "application/json": {
+            schema: z.object({
+              series: z.object({
+                success: Bool(),
+                result: GoLinks.array(),
+              }),
+            }),
+          },
+        },
+      },
+    },
+  };
 
-	async handle(c) {
-		const data = await this.getValidatedData<typeof this.schema>()
-		const { page, isActive } = data.query
+  async handle(c) {
+    const data = await this.getValidatedData<typeof this.schema>();
+    const { page, isActive } = data.query;
 
-		const links = await getGoLinks(c.env.golinks, page !== undefined ? page : 0, isActive)
+    const links = await getGoLinks(c.env.golinks, page !== undefined ? page : 0, isActive);
 
-		return {
-			success: true,
-			result: links,
-		};
-	}
+    return {
+      success: true,
+      result: links,
+    };
+  }
 }

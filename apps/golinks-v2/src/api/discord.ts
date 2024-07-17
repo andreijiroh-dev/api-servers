@@ -1,8 +1,8 @@
 import { OpenAPIRoute, Num, Bool, Str, contentJson } from 'chanfana';
 import { z } from 'zod';
 import { Context } from 'hono';
-import { DiscordInvites } from 'types';
-import { addDiscordInvite } from 'lib/db';
+import { DiscordInvites, EnvBindings } from 'types';
+import { addDiscordInvite, getDiscordInvites } from 'lib/db';
 
 export class DiscordInviteLinkCreate extends OpenAPIRoute {
 	schema = {
@@ -80,7 +80,62 @@ export class DiscordInviteLinkCreate extends OpenAPIRoute {
 }
 
 export class DiscordInviteLinkList extends OpenAPIRoute {
-	schema = {
-		tags: ["discord-invites"]
+  schema = {
+    tags: ["discord-invites"],
+    summary: "Get a information about a custom invite link",
+    description: "Resolves a custom invite link slug into a object of information about a Discord invite code.",
+    request: {
+      query: z.object({
+        page: Num({
+          description: "Page number",
+          default: 0,
+          required: false,
+        }),
+        isActive: Bool({
+          description: "Filter by is_active status",
+          required: false,
+        }),
+		nsfw: Bool({
+			description: "Filter server list by NSFW status (NSFW servers are hidden by default).",
+			required: false
+		})
+      }),
+    },
+	responses: {
+		"200": {
+			description: "Returns a list of Discord servers in the database.",
+			content: {
+				"application/json": {
+					schema: z.object({
+						success: Bool(),
+						result: DiscordInvites.array()
+					})
+				}
+			}
+		}
 	}
+  };
+
+  async handle(c: Context) {
+	try {
+		const data = await this.getValidatedData<typeof this.schema>()
+		console.log(`[api] query params: JSON.stringify(${data.query})`)
+		const { page, isActive, nsfw } = data.query;
+		const links = await getDiscordInvites(c.env.golinks, page, isActive, nsfw)
+
+		return {
+			success: true,
+			result: links
+		}
+	} catch (err) {
+		return c.newResponse(
+			JSON.stringify({
+				success: false,
+				error: `${err.name}:${err.code} (${err.message})`
+			}),
+			500,
+			{ "Content-Type": "application/json" }
+		)
+	}
+  }
 }
