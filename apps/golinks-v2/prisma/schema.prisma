@@ -19,3 +19,15 @@ model GoLink {
 	created_on DateTime  @default(now())
 	updated_on DateTime  @updatedAt()
 }
+
+model DiscordInviteLink {
+	id          Int       @id @default(autoincrement())
+	slug        String    @unique
+	inviteCode  String
+	name        String
+	description String
+	nsfw        Boolean   @default(false)
+	is_active   Boolean   @default(true)
+	created_on  DateTime  @default(now())
+	updated_on  DateTime  @updatedAt()
+}
