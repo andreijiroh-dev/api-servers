@@ -13,9 +13,10 @@ powered by [chanfana](https://github.com/cloudflare/chanfana) and
 
 ## Development
 
-1. After running `yarn`, run `yarn types:gen` to generate Prisma client types. Don't forget to sign into Wrangler CLI via `yarn wrangler login`.
-2. Run migrations to init things: `yarn migrations:apply --local`
-3. Run local dev server: `yarn dev`
-4. Once everything up, open the Swagger-generated API docs at <http://localhost:35120/api/docs>[^1] and happy hacking.
+1. Run `yarn` to install dependencies and generate Prisma client code with `yarn types:prisma-client`.
+2. Sign in with Cloudflare for Wrangler CLI: `yarn wrangler login`
+3. Run migrations to init things: `yarn migrations:apply --local`
+4. Run local dev server: `yarn dev`
+5. Once everything up, open the Swagger-generated API docs at <http://localhost:35120/api/docs>[^1] and happy hacking.
 
 [^1]: Look for port `35120` on Ports if you're on a remote dev environment, especially for GitHub Codespaces and Gitpod users.
