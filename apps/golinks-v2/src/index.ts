@@ -4,7 +4,7 @@ import { Context, Hono } from "hono";
 import { cors } from 'hono/cors';
 import { EnvBindings } from './types';
 import { Env } from "../worker-configuration"
-import { getLink } from "lib/db";
+import { getDiscordInvite, getLink } from "lib/db";
 import { adminApiKey, contact, getWorkersDashboardUrl, homepage, servers } from "lib/constants";
 import { DiscordInviteLinkCreate, DiscordInviteLinkList } from "api/discord";
 
@@ -80,6 +80,17 @@ app.get('/:link', async (c) => {
 	}
 	return c.redirect(result.targetUrl);
 });
+app.get("/discord/:inviteCode", async (c) => {
+	try {
+		const { inviteCode } = c.req.param();
+		console.log(`[redirector]: incoming request with path - /discord/${inviteCode}`);
+		const result = await getDiscordInvite(c.env.golinks, inviteCode)
+
+		return c.redirect(`https://discord.gg/${result.inviteCode}`)
+	} catch (error) {
+		return c.newResponse("404 Not Found", 404)
+	}
+})
 
 // Export the Hono app
 export default app;
