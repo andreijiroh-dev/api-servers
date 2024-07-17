@@ -6,6 +6,7 @@ import { EnvBindings } from './types';
 import { Env } from "../worker-configuration"
 import { getLink } from "lib/db";
 import { adminApiKey, contact, getWorkersDashboardUrl, homepage, servers } from "lib/constants";
+import { DiscordInviteLinkCreate, DiscordInviteLinkList } from "api/discord";
 
 // Start a Hono app
 const app = new Hono<{ Bindings: EnvBindings<Env> }>();
@@ -43,6 +44,8 @@ openapi.registry.registerComponent('securitySchema', 'adminApiKey', adminApiKey)
 // Register OpenAPI endpoints
 openapi.get("/api/links", GoLinkList)
 openapi.post("/api/links", GoLinkCreate)
+openapi.get("/api/discord-invites", DiscordInviteLinkList)
+openapi.post("/api/discord-invites", DiscordInviteLinkCreate)
 
 app.get("/", (c) => {
 	return c.redirect(homepage)
