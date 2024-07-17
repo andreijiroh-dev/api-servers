@@ -5,13 +5,13 @@ export async function adminApiKeyAuth(c: Context, next: Next) {
 		return await next()
 	}
 
-	const adminApiKey = c.env.ADMIN_TOKEN;
+	const adminApiKey = c.env.ADMIN_KEY;
 	const apiKeyHeader = c.req.header("X-Golinks-Admin-Key")
 	console.debug(`[auth] ${adminApiKey}:${apiKeyHeader}`)
 
 	if (!apiKeyHeader || apiKeyHeader !== adminApiKey) {
 		return c.json({
-			success: true,
+			success: false,
 			error: "Unauthorized"
 		}, 401)
 	}
