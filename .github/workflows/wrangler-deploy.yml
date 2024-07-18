@@ -1,0 +1,72 @@
+name: Cloudflare Workers Deployments
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  paths-filter:
+    runs-on: ubuntu-latest
+    outputs:
+      golinks-next: ${{ steps.filter.outputs.golinks-next }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          golinks-next:
+            - 'apps/golinks-v2/**'
+  golinks-next:
+    name: Deploy golinks-next to staging
+    environment:
+      name: golinks-next/staging
+      url: ${{ steps.deploy.outputs.deployment-url }}
+    runs-on: ubuntu-latest
+    needs: [paths-filter]
+    if: needs.paths-filter.outputs.golinks-next == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: andreijiroh-dev/dotenvx-action@main
+        id: dotenvx
+        with:
+          key: ${{ secrets.DOTENV_PRIVATE_KEY_CI }}
+          path: .env.ci
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: yarn install
+      - name: Deploy to Workers in staging
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ steps.dotenvx.outputs.WRANGLER_DEPLOY_TOKEN }}
+          comand: deploy --env staging
+          workingDirectory: apps/golinks-v2
+  golinks-next-prod:
+    environment:
+      name: golinks-next/production
+      url: ${{ steps.deploy.outputs.deployment-url }}
+    runs-on: ubuntu-latest
+    needs: [paths-filter]
+    if: needs.paths-filter.outputs.golinks-next == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: andreijiroh-dev/dotenvx-action@main
+        id: dotenvx
+        with:
+          key: ${{ secrets.DOTENV_PRIVATE_KEY_CI }}
+          path: .env.ci
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: yarn install
+      - name: Deploy to Workers in staging
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ steps.dotenvx.outputs.WRANGLER_DEPLOY_TOKEN }}
+          comand: deploy --env production
+          workingDirectory: apps/golinks-v2
