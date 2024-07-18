@@ -7,11 +7,15 @@ import { getDiscordInvite, getLink } from "lib/db";
 import { adminApiKey, contact, getWorkersDashboardUrl, homepage, servers, errorMessages, tags } from "lib/constants";
 import { DiscordInviteLinkCreate, DiscordInviteLinkList } from "api/discord";
 import { adminApiKeyAuth } from "lib/auth";
-import { DeprecatedGoLinkPage } from "pages/deprecated-link"
+import { DeprecatedGoLinkPage } from "pages/deprecated-link";
+import { CommitHash, PingPong } from "api/meta";
+import { prettyJSON } from "hono/pretty-json";
+import { handleOldUrls } from "lib/utils";
 
 // Start a Hono app
 const app = new Hono<{ Bindings: EnvBindings<Env> }>();
-app.use("/openapi.json", cors());
+app.use(prettyJSON());
+app.use("/openapi.*", cors());
 app.use(
   "/api/*",
   cors({
@@ -26,6 +30,7 @@ app.use(
   }),
 );
 app.use("/api/*", adminApiKeyAuth);
+app.use("/*", async (c, next) => await handleOldUrls(c, next));
 
 // Setup OpenAPI registry
 const openapi = fromHono(app, {
@@ -41,11 +46,11 @@ const openapi = fromHono(app, {
       },
     },
     servers,
-		tags,
-		externalDocs: {
-			description: "Learn more about golinks and this service",
-			url: homepage
-		}
+    tags,
+    externalDocs: {
+      description: "Learn more about golinks and this service",
+      url: homepage,
+    },
   },
 });
 
@@ -56,6 +61,9 @@ openapi.get("/api/links", GoLinkList);
 openapi.post("/api/links", GoLinkCreate);
 openapi.get("/api/discord-invites", DiscordInviteLinkList);
 openapi.post("/api/discord-invites", DiscordInviteLinkCreate);
+openapi.get("/api/ping", PingPong);
+
+openapi.get("/api/commit", CommitHash);
 
 app.get("/", (c) => {
   return c.redirect(homepage);
@@ -72,9 +80,9 @@ app.get("/workers/dashboard", (c) => {
   return c.redirect(getWorkersDashboardUrl(c.env.DEPLOY_ENV));
 });
 app.get("/workers", (c) => {
-	const {origin} = new URL(c.req.url)
-	return c.redirect(`${origin}/workers/dashboard`)
-})
+  const { origin } = new URL(c.req.url);
+  return c.redirect(`${origin}/workers/dashboard`);
+});
 
 app.get("/:link", async (c) => {
   try {
@@ -114,23 +122,18 @@ app.get("/discord/:inviteCode", async (c) => {
 
 /* Old /edit/* stuff */
 app.get("/edit", (c) => {
-	return c.redirect("/workers/edit")
-})
-app.get("/edit/links", (c) => {
-	if (!c.req.query("force_redirect")) {
-		return c.redirect("/landing/deprecated?golink=edit/links&reason=golinks+KV+backend+no+longer+in+use,+now+points+to+feedback+link", 301)
-	}
-	return c.redirect("/feedback/suggest-new-golink")
-})
+  return c.redirect("/workers/edit");
+});
+
 app.get("/landing/deprecated", (c) => {
-	const params = c.req.query()
+  const params = c.req.query();
 
-	if (!c.req.param()) {
-		return c.newResponse("This is unexpected request for this route", 400)
-	}
+  if (!c.req.param()) {
+    return c.newResponse("This is unexpected request for this route", 400);
+  }
 
-	return c.html(<DeprecatedGoLinkPage url={params.url} golink={params.golink} reason={params.reason} />)
-})
+  return c.html(<DeprecatedGoLinkPage url={params.url} golink={params.golink} reason={params.reason} />);
+});
 
 // Export the Hono app
 export default app;

@@ -43,23 +43,23 @@ export const servers = [
 ];
 
 export const tags = [
-	{
-		name: "golinks",
-		description: "Personal golinks and link shortener",
-		externalDocs: {
-			description: "Learn more about golinks",
-			url: homepage
-		}
-	},
-	{
-		name: "discord-invites",
-		description: "Custom Discord invite links at `go/discord/<code>`",
-		externalDocs: {
-			description: "Add your Discord invite code",
-			url: "https://go.andreijiroh.xyz/feedback/add-discord-invite"
-		}
-	}
-]
+  {
+    name: "golinks",
+    description: "Personal golinks and link shortener",
+    externalDocs: {
+      description: "Learn more about golinks",
+      url: homepage,
+    },
+  },
+  {
+    name: "discord-invites",
+    description: "Custom Discord invite links at `go/discord/<code>`",
+    externalDocs: {
+      description: "Add your Discord invite code",
+      url: "https://go.andreijiroh.xyz/feedback/add-discord-invite",
+    },
+  },
+];
 
 export const errorMessages = {
   discordServerNotFound: `\

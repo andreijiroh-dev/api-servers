@@ -1,0 +1,22 @@
+{
+  "/sourcehut/plaintext": {
+    "reason": "Updating golink to go/plaintext-emails",
+    "url": "https://useplaintext.email"
+  },
+  "/substack/s/fromthebshq": {
+    "reason": "Deprecated substack redirect",
+    "url": "https://fromthebshq.substack.com"
+  },
+  "/yugipedia/discord": {
+    "reason": "Updating golink to go/discord/yugipedia",
+    "url": "/discord/yugipedia"
+  },
+  "/edit/links": {
+    "reason": "golinks KV backend no longer in use, now points to feedback link",
+    "url": "/feedback/suggest-new-golink"
+  },
+  "/mikedmoy": {
+    "reason": "You might meant go/gildedguy? (see website reboot blog post from 2016-02-14 for context)",
+    "url": "https://gildedguy.com/website-reborn"
+  }
+}
