@@ -3,7 +3,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-	previewFeatures = ["driverAdapters"]
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -12,22 +12,46 @@ datasource db {
 }
 
 model GoLink {
-	id         Int       @id @default(autoincrement())
-	slug       String    @unique
-	targetUrl  String    @default("https://wiki.andreijiroh.xyz/golinks")
-	is_active  Boolean   @default(true)
-	created_on DateTime  @default(now())
-	updated_on DateTime  @updatedAt()
+  id         Int      @id @default(autoincrement())
+  slug       String   @unique
+  targetUrl  String   @default("https://wiki.andreijiroh.xyz/golinks")
+  is_active  Boolean  @default(true)
+  created_on DateTime @default(now())
+  updated_on DateTime @updatedAt()
 }
 
 model DiscordInviteLink {
-	id          Int       @id @default(autoincrement())
-	slug        String    @unique
-	inviteCode  String
-	name        String
-	description String
-	nsfw        Boolean   @default(false)
-	is_active   Boolean   @default(true)
-	created_on  DateTime  @default(now())
-	updated_on  DateTime  @updatedAt()
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  inviteCode  String
+  name        String
+  description String
+  nsfw        Boolean  @default(false)
+  is_active   Boolean  @default(true)
+  created_on  DateTime @default(now())
+  updated_on  DateTime @updatedAt()
 }
+
+model WikiLinks {
+  id         Int      @id @default(autoincrement())
+  slug       String   @unique
+  targetUrl  String
+  is_active  Boolean  @default(true)
+  created_on DateTime @default(now())
+  updated_on DateTime @updatedAt()
+}
+
+//model ApiToken {
+//  id     String @id @default(uuid())
+//  token  String @unique
+//  user   User   @relation(fields: [userId], references: [id])
+//  userId Int
+//}
+
+//model User {
+//  id         Int       @id @default(autoincrement())
+//  username   String    @unique
+//  githubUid  String    @unique // extract from github api
+//  site_admin Boolean   @default(false)
+//  ApiToken   ApiToken[]
+//}
