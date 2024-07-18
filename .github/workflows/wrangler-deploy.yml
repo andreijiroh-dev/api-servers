@@ -45,7 +45,7 @@ jobs:
         run: |
           cd apps/golinks-v2
           yarn deploy:stg
-          git rev-parse | yarn wrangler secret set GIT_DEPLOY_COMMIT
+          git rev-parse | yarn wrangler secret put GIT_DEPLOY_COMMIT
         env:
           CLOUDFLARE_API_TOKEN: ${{ steps.dotenvx.outputs.WRANGLER_DEPLOY_TOKEN }}
   golinks-next-prod:
@@ -75,6 +75,6 @@ jobs:
         run: |
           cd apps/golinks-v2
           yarn deploy:prod
-          git rev-parse | yarn wrangler secret set GIT_DEPLOY_COMMIT
+          git rev-parse | yarn wrangler secret put GIT_DEPLOY_COMMIT
         env:
           CLOUDFLARE_API_TOKEN: ${{ steps.dotenvx.outputs.WRANGLER_DEPLOY_TOKEN }}

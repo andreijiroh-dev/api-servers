@@ -22,6 +22,7 @@
     "args": "echo $*"
   },
   "dependencies": {
+    "@octokit/rest": "^21.0.1",
     "@prisma/adapter-d1": "^5.17.0",
     "@prisma/client": "^5.17.0",
     "chanfana": "^2.0.2",

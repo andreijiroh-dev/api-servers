@@ -21,7 +21,9 @@
     "outDir": "",
     "target": "esnext",
     "module": "esnext",
-    "types": ["@types/node", "@types/service-worker-mock", "@cloudflare/workers-types"]
+    "types": ["@types/node", "@types/service-worker-mock", "@cloudflare/workers-types"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx"
   },
   "exclude": ["node_modules", "dist", "tests"],
   "include": ["src", "scripts"]
