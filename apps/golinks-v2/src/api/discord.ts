@@ -49,17 +49,17 @@ export class DiscordInviteLinkCreate extends OpenAPIRoute {
           },
         },
       },
-			"401": {
-				description: "Missing or invalid admin token",
-				content: {
-					"application/json": {
-						schema: z.object({
-							success: z.boolean().default(false),
-							error: z.string().default("Unauthorized")
-						})
-					}
-				}
-			},
+      "401": {
+        description: "Missing or invalid admin token",
+        content: {
+          "application/json": {
+            schema: z.object({
+              success: z.boolean().default(false),
+              error: z.string().default("Unauthorized"),
+            }),
+          },
+        },
+      },
       "409": {
         description: "Returns a error when the slug is already in use.",
         content: {

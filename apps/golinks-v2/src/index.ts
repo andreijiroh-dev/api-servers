@@ -4,7 +4,7 @@ import { Context, Hono } from "hono";
 import { cors } from "hono/cors";
 import { EnvBindings, Env } from "./types";
 import { getDiscordInvite, getLink } from "lib/db";
-import { adminApiKey, contact, getWorkersDashboardUrl, homepage, servers } from "lib/constants";
+import { adminApiKey, contact, getWorkersDashboardUrl, homepage, servers, errorMessages } from "lib/constants";
 import { DiscordInviteLinkCreate, DiscordInviteLinkList } from "api/discord";
 import { adminApiKeyAuth } from "lib/auth";
 
@@ -19,12 +19,12 @@ app.use(
         return origin;
       }
     },
-    allowHeaders: ["X-Golinks-Admin-Key", "E-Tag"],
+    allowHeaders: ["X-Golinks-Admin-Key", "E-Tag", "Content-Type", "Authorization"],
     allowMethods: ["GET", "POST", "PATCH", "DELETE", "HEAD"],
     credentials: true,
   }),
 );
-app.use("/api/*", adminApiKeyAuth)
+app.use("/api/*", adminApiKeyAuth);
 
 // Setup OpenAPI registry
 const openapi = fromHono(app, {
@@ -98,7 +98,7 @@ app.get("/discord/:inviteCode", async (c) => {
 
     return c.redirect(`https://discord.gg/${result.inviteCode}`);
   } catch (error) {
-		console.error(`[prisma-client]`, error)
+    console.error(`[prisma-client]`, error);
     return c.newResponse(errorMessages.discordServerNotFound, 404);
   }
 });

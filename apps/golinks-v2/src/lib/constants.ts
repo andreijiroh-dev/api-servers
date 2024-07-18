@@ -42,7 +42,6 @@ export const servers = [
   },
 ];
 
-
 export const errorMessages = {
   discordServerNotFound: `\
 Either that server is not on our records or something went wrong on our side.

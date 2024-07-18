@@ -66,7 +66,6 @@ export class GoLinkCreate extends OpenAPIRoute {
   };
 
   async handle(c: Context) {
-
     const data = await this.getValidatedData<typeof this.schema>();
     const linkToCreate = data.body;
     console.log(`[golinks-api] received body for link creation ${JSON.stringify(linkToCreate)}`);
