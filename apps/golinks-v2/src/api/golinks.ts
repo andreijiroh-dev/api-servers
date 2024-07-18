@@ -10,17 +10,6 @@ export class GoLinkCreate extends OpenAPIRoute {
   schema = {
     tags: ["golinks"],
     summary: "Create a golink",
-    parameters: [
-      {
-        in: "header",
-        name: "X-Golinks-Admin-Key",
-        schema: {
-          type: "string",
-        },
-        required: true,
-        description: "Admin API key for golinks API",
-      },
-    ],
     request: {
       body: {
         content: {

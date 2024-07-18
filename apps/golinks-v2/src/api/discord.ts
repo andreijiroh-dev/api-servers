@@ -9,17 +9,6 @@ export class DiscordInviteLinkCreate extends OpenAPIRoute {
     tags: ["discord-invites"],
     summary: "Add Discord invite code",
     description: "Add a Discord invite code into the DB for use in go/discord/<slug> route.",
-    parameters: [
-      {
-        in: "header",
-        name: "X-Golinks-Admin-Key",
-        schema: {
-          type: "string",
-        },
-        required: true,
-        description: "Admin API key for golinks API",
-      },
-    ],
     request: {
       body: {
         content: {
@@ -116,8 +105,8 @@ export class DiscordInviteLinkCreate extends OpenAPIRoute {
 export class DiscordInviteLinkList extends OpenAPIRoute {
   schema = {
     tags: ["discord-invites"],
-    summary: "Get a information about a custom invite link",
-    description: "Resolves a custom invite link slug into a object of information about a Discord invite code.",
+    summary: "List Discord invite codes",
+    description: "List all of Discord server invite slugs with corresponding invite codes.",
     request: {
       query: z.object({
         page: Num({
