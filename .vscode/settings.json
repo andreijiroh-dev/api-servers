@@ -12,5 +12,11 @@
 	],
 	"yaml.schemas": {
 		"https://raw.githubusercontent.com/devfile/api/v2.2.0/schemas/latest/devfile.json": "file:///workspaces/ajhalili2006/api-servers/.devfile.yml"
-	}
+	},
+	"conventionalCommits.scopes": [
+		"golinks",
+		"global",
+		"github-actions"
+	],
+	"dotenv.enableAutocloaking": false
 }
