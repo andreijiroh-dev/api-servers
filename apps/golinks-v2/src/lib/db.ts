@@ -37,17 +37,30 @@ export async function getGoLinks(db: EnvBindings<Env>["golinks"], page: number, 
   const skip = getOffset(page);
   const take = PAGE_SIZE;
 
-  const result = await prisma.goLink.findMany({
-    where: {
-      is_active: isActive !== undefined ? isActive : undefined, // Filter by isActive if provided
-    },
-    orderBy: {
-      id: "desc", // Sort by newer IDs
-    },
-    skip,
-    take,
-  });
-  return result;
+  try {
+		const result = await prisma.goLink.findMany({
+		    where: {
+		      is_active: isActive !== undefined ? isActive : undefined, // Filter by isActive if provided
+		    },
+		    orderBy: {
+		      id: "desc", // Sort by newer IDs
+		    },
+		    skip,
+		    take,
+		  });
+		  return result;
+	} catch (error) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
+			console.error(`[prisma-client] known client error: ${error.code} - ${error.message}`)
+
+			return Promise.reject(
+				new Error("A error occurred while querying the database.")
+			)
+		} else {
+			console.error(`[prisma-client]- Unexpected error`, error)
+			return Promise.reject(new Error("An unexpected error occurred."))
+		}
+	}
 }
 
 /**
@@ -138,15 +151,32 @@ export async function addDiscordInvite(
 ) {
   const adapter = new PrismaD1(db);
   const prisma = new PrismaClient({ adapter });
-  const result = prisma.discordInviteLink.create({
-    data: {
-      slug,
-      inviteCode,
-      name,
-      description,
-      is_active: is_active !== undefined ? is_active : true,
-      nsfw: nsfw !== undefined ? nsfw : false,
-    },
-  });
-  return result;
+  try {
+		const result = prisma.discordInviteLink.create({
+		    data: {
+		      slug,
+		      inviteCode,
+		      name,
+		      description,
+		      is_active: is_active !== undefined ? is_active : true,
+		      nsfw: nsfw !== undefined ? nsfw : false,
+		    },
+		  });
+			return result;
+	} catch (error) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.error(`[prisma-client] known client error: ${error.code} - ${error.message}`);
+
+			if (error.code === "P2002") {
+				return Promise.reject(
+					new Error("A Discord invite code with that slug already exists.")
+				)
+			}
+
+      return Promise.reject(new Error("A error occurred while querying the database."));
+    } else {
+      console.error(`[prisma-client]- Unexpected error`, error);
+      return Promise.reject(new Error("An unexpected error occurred."));
+    }
+	}
 }

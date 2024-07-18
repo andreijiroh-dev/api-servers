@@ -98,7 +98,8 @@ app.get("/discord/:inviteCode", async (c) => {
 
     return c.redirect(`https://discord.gg/${result.inviteCode}`);
   } catch (error) {
-    return c.newResponse("Either that server is not on our records or something went wrong on our side.", 404);
+		console.error(`[prisma-client]`, error)
+    return c.newResponse(errorMessages.discordServerNotFound, 404);
   }
 });
 

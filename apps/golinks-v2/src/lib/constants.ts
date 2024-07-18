@@ -41,3 +41,15 @@ export const servers = [
     description: "Local dev instance via miniflare",
   },
 ];
+
+
+export const errorMessages = {
+  discordServerNotFound: `\
+Either that server is not on our records or something went wrong on our side.
+
+If you are still seeing this, please file a issue at https://go.andreijiroh.xyz/feedback/broken-links`,
+  golinkNotFound: `\
+Either that golink is not on our records or has been changed.
+
+Still seeing this? File a issue at https://go.andreijiroh.xyz/feedback/broken-links`,
+};
