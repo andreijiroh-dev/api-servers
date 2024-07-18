@@ -8,32 +8,43 @@
 # and production environments.
 
 name = "golinks-next"
-main = "src/index.ts"
+main = "src/index.tsx"
 compatibility_date = "2024-07-12" # TODO: Update this once a month.
 account_id = "cf0bd808c6a294fd8c4d8f6d2cdeca05"
 
 placement = { mode = "smart" }
 
-vars = {DEPLOY_ENV = "development", ADMIN_KEY = "gostg_localdev"}
+vars = {DEPLOY_ENV = "development", ADMIN_KEY = "gostg_localdev-null"}
 
 d1_databases = [
 	{ binding = "golinks", database_name = "golinks-db-preview", database_id = "0b415a64-cc61-4c2b-a7c8-2d223f18e996", migrations_dir = "migrations" }
 ]
 
 [env.staging]
-vars = {DEPLOY_ENV = "staging", ADMIN_KEY = "GOLINKS_ADMIN_API_KEY"}
+vars = {DEPLOY_ENV = "staging"}
 
 d1_databases = [
 	{ binding = "golinks", database_name = "golinks-db-preview", database_id = "0b415a64-cc61-4c2b-a7c8-2d223f18e996", migrations_dir = "migrations" }
 ]
 
-
+routes = [
+	{custom_domain = true, pattern = "staging.go-next.andreijiroh.xyz", zone_name = "andreijiroh.xyz"},
+	{custom_domain = true, pattern = "go-next.andreijiroh.xyz", zone_name = "andreijiroh.xyz"}
+]
 
 [env.production]
-vars = {DEPLOY_ENV = "production", ADMIN_KEY = "GOLINKS_ADMIN_API_KEY"}
+vars = {DEPLOY_ENV = "production"}
 
 # Bind a D1 database. D1 is Cloudflare’s native serverless SQL database.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#d1-databases
 d1_databases = [
 	{ binding = "golinks", database_name = "golinks-db", database_id = "63e746f4-40de-4f8c-a3e5-7969cde040b3", migrations_dir = "migrations"}
+]
+
+routes = [
+	{ pattern = "go.andreijiroh.xyz", zone_name = "andreijiroh.xyz", custom_domain = true },
+	# Inspired by @flanican's website on adding /go/ links to
+	# both my website and in the wiki.
+	{ pattern = "wiki.andreijiroh.xyz/go/*", zone_name = "andreijiroh.xyz" },
+	{ pattern = "andreijiroh.xyz/go/*", zone_name = "andreijiroh.xyz" }
 ]

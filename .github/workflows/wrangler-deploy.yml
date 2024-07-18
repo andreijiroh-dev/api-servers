@@ -35,8 +35,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Install dependencies
-        run: yarn install
+      - name: Install dependencies and generate Prisma client code
+        run: |
+          cd apps/golinks-v2
+          yarn install
+          yarn prisma generate
       - name: Deploy to Workers in staging
         id: deploy
         run: |
