@@ -2,26 +2,7 @@ import { DiscordInviteLink, GoLink, Prisma, PrismaClient } from "@prisma/client"
 import { PrismaD1 } from "@prisma/adapter-d1";
 import { Env, EnvBindings } from "../types";
 import { Str } from "chanfana";
-const PAGE_SIZE = 10;
-
-function getOffset(page: number): number {
-  return Math.max(0, page) * PAGE_SIZE;
-}
-
-/**
- * Generate a slug for use in URLs
- * @param {number} length
- * @returns {string}
- */
-export function generateSlug(length: number) {
-  var result = "";
-  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
+import { getOffset, PAGE_SIZE } from "./utils";
 
 /**
  * Get a list of golinks in batches of 10 from database.

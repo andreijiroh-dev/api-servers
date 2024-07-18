@@ -1,10 +1,10 @@
 import { OpenAPIRoute, Num, Bool, Str, contentJson } from "chanfana";
 import { z } from "zod";
 import { GoLinks } from "types";
-import { addGoLink, generateSlug, getGoLinks } from "lib/db";
+import { addGoLink, getGoLinks } from "lib/db";
 import { adminApiKey } from "lib/constants";
 import { Context } from "hono";
-import { checkToken } from "./auth";
+import { generateSlug } from "lib/utils";
 
 export class GoLinkCreate extends OpenAPIRoute {
   schema = {
