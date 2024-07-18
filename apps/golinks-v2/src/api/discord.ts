@@ -40,11 +40,35 @@ export class DiscordInviteLinkCreate extends OpenAPIRoute {
     responses: {
       "200": {
         description: "Returns Discord invite code information",
-        contentJson: {
-          schema: z.object({
-            success: z.boolean().default(true),
-            result: DiscordInvites,
-          }),
+        content: {
+          "application/json": {
+            schema: z.object({
+              success: z.boolean().default(true),
+              result: DiscordInvites,
+            }),
+          },
+        },
+      },
+			"401": {
+				description: "Missing or invalid admin token",
+				content: {
+					"application/json": {
+						schema: z.object({
+							success: z.boolean().default(false),
+							error: z.string().default("Unauthorized")
+						})
+					}
+				}
+			},
+      "409": {
+        description: "Returns a error when the slug is already in use.",
+        content: {
+          "application/json": {
+            schema: z.object({
+              success: z.boolean().default(false),
+              error: z.string().default("The provided slug already exists."),
+            }),
+          },
         },
       },
     },
@@ -67,6 +91,16 @@ export class DiscordInviteLinkCreate extends OpenAPIRoute {
       );
     } catch (error) {
       console.error(error);
+      if (error.code === "P2002") {
+        return c.newResponse(
+          JSON.stringify({
+            success: false,
+            error: "The provided slug already exists.",
+          }),
+          409,
+          { "Content-Type": "application/json" },
+        );
+      }
       return c.newResponse(
         JSON.stringify({
           success: false,
