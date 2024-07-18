@@ -4,9 +4,10 @@ import { Context, Hono } from "hono";
 import { cors } from "hono/cors";
 import { EnvBindings, Env } from "./types";
 import { getDiscordInvite, getLink } from "lib/db";
-import { adminApiKey, contact, getWorkersDashboardUrl, homepage, servers, errorMessages } from "lib/constants";
+import { adminApiKey, contact, getWorkersDashboardUrl, homepage, servers, errorMessages, tags } from "lib/constants";
 import { DiscordInviteLinkCreate, DiscordInviteLinkList } from "api/discord";
 import { adminApiKeyAuth } from "lib/auth";
+import { DeprecatedGoLinkPage } from "pages/deprecated-link"
 
 // Start a Hono app
 const app = new Hono<{ Bindings: EnvBindings<Env> }>();
@@ -40,10 +41,15 @@ const openapi = fromHono(app, {
       },
     },
     servers,
+		tags,
+		externalDocs: {
+			description: "Learn more about golinks and this service",
+			url: homepage
+		}
   },
 });
 
-openapi.registry.registerComponent("securitySchema", "adminApiKey", adminApiKey);
+openapi.registry.registerComponent("securitySchemes", "adminApiKey", adminApiKey);
 
 // Register OpenAPI endpoints
 openapi.get("/api/links", GoLinkList);
@@ -62,10 +68,13 @@ app.get("/favicon.ico", (c) => {
 app.get("/workers/edit", (c) => {
   return c.redirect("https://github.dev/andreijiroh-dev/api-servers/blob/main/apps/golinks-v2/src/index.ts");
 });
-
 app.get("/workers/dashboard", (c) => {
   return c.redirect(getWorkersDashboardUrl(c.env.DEPLOY_ENV));
 });
+app.get("/workers", (c) => {
+	const {origin} = new URL(c.req.url)
+	return c.redirect(`${origin}/workers/dashboard`)
+})
 
 app.get("/:link", async (c) => {
   try {
@@ -102,6 +111,26 @@ app.get("/discord/:inviteCode", async (c) => {
     return c.newResponse(errorMessages.discordServerNotFound, 404);
   }
 });
+
+/* Old /edit/* stuff */
+app.get("/edit", (c) => {
+	return c.redirect("/workers/edit")
+})
+app.get("/edit/links", (c) => {
+	if (!c.req.query("force_redirect")) {
+		return c.redirect("/landing/deprecated?golink=edit/links&reason=golinks+KV+backend+no+longer+in+use,+now+points+to+feedback+link", 301)
+	}
+	return c.redirect("/feedback/suggest-new-golink")
+})
+app.get("/landing/deprecated", (c) => {
+	const params = c.req.query()
+
+	if (!c.req.param()) {
+		return c.newResponse("This is unexpected request for this route", 400)
+	}
+
+	return c.html(<DeprecatedGoLinkPage url={params.url} golink={params.golink} reason={params.reason} />)
+})
 
 // Export the Hono app
 export default app;

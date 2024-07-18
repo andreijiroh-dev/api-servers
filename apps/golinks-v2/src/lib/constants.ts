@@ -1,5 +1,4 @@
-import { EnvBindings } from "types";
-import { Env } from "../../worker-configuration";
+import { EnvBindings, Env } from "types";
 
 export const adminApiKey = {
   type: "apiKey",
@@ -8,10 +7,11 @@ export const adminApiKey = {
 };
 
 export const homepage = "https://wiki.andreijiroh.xyz/golinks";
+export const sources = "https://github.com/andreijiroh-dev/api-servers/tree/main/apps/golinks-v2";
 
 export const contact = {
   name: "Andrei Jiroh Halili",
-  url: homepage,
+  url: sources,
   email: "ajhalili2006@andreijiroh.xyz",
 };
 
@@ -41,6 +41,25 @@ export const servers = [
     description: "Local dev instance via miniflare",
   },
 ];
+
+export const tags = [
+	{
+		name: "golinks",
+		description: "Personal golinks and link shortener",
+		externalDocs: {
+			description: "Learn more about golinks",
+			url: homepage
+		}
+	},
+	{
+		name: "discord-invites",
+		description: "Custom Discord invite links at `go/discord/<code>`",
+		externalDocs: {
+			description: "Add your Discord invite code",
+			url: "https://go.andreijiroh.xyz/feedback/add-discord-invite"
+		}
+	}
+]
 
 export const errorMessages = {
   discordServerNotFound: `\
