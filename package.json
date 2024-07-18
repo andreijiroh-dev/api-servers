@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "workers:deploy": ""
+    "deps:upgrade": "yarn-upgrade-all",
+    "prettier:check": "prettier --check $INIT_CWD",
+    "prettier:fix": "prettier --write $INIT_CWD"
   },
   "workspaces": [
     "packages/*",
@@ -23,11 +25,13 @@
   "homepage": "https://github.com/andreijiroh-dev/api-servers#readme",
   "packageManager": "yarn@4.2.2",
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240605.0",
-    "@yarnpkg/sdks": "^3.1.2",
+    "@cloudflare/workers-types": "^4.20240712.0",
+    "@types/node": "^20.14.11",
+    "@yarnpkg/sdks": "^3.1.3",
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
-    "wrangler": "^3.64.0"
+    "wrangler": "^3.65.0",
+    "yarn-upgrade-all": "^0.7.2"
   }
 }
