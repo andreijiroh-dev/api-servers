@@ -21,26 +21,22 @@ d1_databases = [
 ]
 
 [env.staging]
+workers_dev = true
 vars = {DEPLOY_ENV = "staging"}
-
 d1_databases = [
 	{ binding = "golinks", database_name = "golinks-db-preview", database_id = "0b415a64-cc61-4c2b-a7c8-2d223f18e996", migrations_dir = "migrations" }
 ]
-
 routes = [
 	{custom_domain = true, pattern = "staging.go-next.andreijiroh.xyz", zone_name = "andreijiroh.xyz"},
 	{custom_domain = true, pattern = "go-next.andreijiroh.xyz", zone_name = "andreijiroh.xyz"}
 ]
 
 [env.production]
+workers_dev = true
 vars = {DEPLOY_ENV = "production"}
-
-# Bind a D1 database. D1 is Cloudflare’s native serverless SQL database.
-# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#d1-databases
 d1_databases = [
 	{ binding = "golinks", database_name = "golinks-db", database_id = "63e746f4-40de-4f8c-a3e5-7969cde040b3", migrations_dir = "migrations"}
 ]
-
 routes = [
 	{ pattern = "go.andreijiroh.xyz", zone_name = "andreijiroh.xyz", custom_domain = true },
 	# Inspired by @flanican's website on adding /go/ links to

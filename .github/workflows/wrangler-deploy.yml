@@ -45,6 +45,7 @@ jobs:
         run: |
           cd apps/golinks-v2
           yarn deploy:stg
+          git rev-parse | yarn wrangler secret set GIT_DEPLOY_COMMIT
         env:
           CLOUDFLARE_API_TOKEN: ${{ steps.dotenvx.outputs.WRANGLER_DEPLOY_TOKEN }}
   golinks-next-prod:
@@ -66,11 +67,14 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: yarn install
+        run: |
+          yarn install
+          yarn prisma generate
       - name: Deploy to Workers in production
         id: deploy
         run: |
           cd apps/golinks-v2
           yarn deploy:prod
+          git rev-parse | yarn wrangler secret set GIT_DEPLOY_COMMIT
         env:
           CLOUDFLARE_API_TOKEN: ${{ steps.dotenvx.outputs.WRANGLER_DEPLOY_TOKEN }}
