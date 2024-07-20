@@ -25,7 +25,7 @@ export class CommitHash extends OpenAPIRoute {
     return c.json(
       {
         success: true,
-        return: c.env.GIT_DEPLOY_COMMIT,
+        result: c.env.GIT_DEPLOY_COMMIT,
       },
       200,
     );

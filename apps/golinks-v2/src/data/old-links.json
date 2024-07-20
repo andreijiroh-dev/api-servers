@@ -4,8 +4,8 @@
     "url": "https://useplaintext.email"
   },
   "/substack/s/fromthebshq": {
-    "reason": "Deprecated substack redirect",
-    "url": "https://fromthebshq.substack.com"
+    "reason": "Deprecated substack redirect, also updating to go/substack/fromthebshq",
+    "url": "/substack/fromthebshq"
   },
   "/yugipedia/discord": {
     "reason": "Updating golink to go/discord/yugipedia",
