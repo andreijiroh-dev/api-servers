@@ -132,7 +132,7 @@ app.get("/landing/deprecated", (c) => {
     return c.newResponse("This is unexpected request for this route", 400);
   }
 
-  return c.html(<DeprecatedGoLinkPage url={params.url} golink={params.golink} reason={params.reason} />);
+  return c.html(<DeprecatedGoLinkPage golink={params.golink} reason={params.reason} />);
 });
 
 // Export the Hono app
