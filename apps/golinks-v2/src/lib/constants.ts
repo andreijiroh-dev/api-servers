@@ -4,6 +4,7 @@ export const adminApiKey = {
   type: "apiKey",
   name: "X-Golinks-Admin-Key",
   in: "header",
+	description: "Superadmin API key. This is temporary while we're working on support for managing API tokens in the database."
 };
 
 export const homepage = "https://wiki.andreijiroh.xyz/golinks";
