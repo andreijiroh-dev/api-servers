@@ -1,0 +1,51 @@
+name: Bump all packages
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: 30 12 * * 6
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Setup Git
+        id: init-env
+        run: |
+          timestamp=$(date +%s)
+          git config --global user.name "ajhalili2006-bot"
+          git config --global user.email "bot@andreijiroh.xyz"
+          git switch -c bump-everything/yarn-$(date +%s)
+          echo timestamp=$timestamp >> "$GITHUB_OUTPUT"
+      - name: Get secrets with dotenvx
+        uses: andreijiroh-dev/dotenvx-action@main
+        id: dotenvx
+        with:
+          key: ${{ secrets.DOTENV_PRIVATE_KEY_CI }}
+          path: .env.ci
+      - name: Update lockfile
+        run: |
+          yarn install --mode=update-lockfile --refresh-lockfile
+          yarn install
+      - name: Bump to latest version
+        run: |
+          yarn yarn-upgrade-all
+          yarn workspace @andreijiroh-dev/golinks-rewrite yarn-upgrade-all
+      - name: Commit and push
+        run: |
+          git commit --signoff "chore(global): update yarn packages [skip ci]"
+          git push
+          gh pr create \
+            --title "chore(automation): bump all yarn packages as of ${{ steps.init-env.outputs.timestamp }}" \
+            --body-file .github/workflows/automated-bumps.md \
+            --assignee ajhalili2006 \
+            --base main
+        env:
+          GITHUB_TOKEN: ${{ steps.dotenvx.outputs.GH_BOT_TOKEN }}
