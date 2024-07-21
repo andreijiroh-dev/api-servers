@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -e
+
+# A hack on staging all repostory changes to specific API backend (or everythin if blank),
+# pushing things to remote and getting the diff URL.
+
+GIT_ROOTDIR=$(git rev-parse --show-toplevel)
+GIT_COMMAND_PREFIX="git -C $GIT_ROOTDIR"
+COMMIT_HASH_BEFORE_PUSH=$(git rev-parse origin/main)
+timestamp=$(date +%s)
+
+get-commit-snapshot() {
+
+  if [[ $1 == "golinks-v2" ]]; then
+    export SCOPE="golinks"
+  else
+    export SCOPE=$1
+  fi
+
+  $GIT_COMMAND_PREFIX add apps/${1:-""} .github/
+  $GIT_COMMAND_PREFIX commit -m "chore(${SCOPE}): commit snapshot for @hackclub Arcade 2024 [timestamp:$timestamp]"
+  $GIT_COMMAND_PREFIX push origin main
+
+  COMMIT_HASH_SNAPSHOT=$(git rev-parse HEAD)
+
+  echo "Commit: $(git config remote.origin.url)/commit/$COMMIT_HASH_SNAPSHOT"
+  echo "Snapshot diff: $(git config remote.origin.url)/compare/$COMMIT_HASH_BEFORE_PUSH...$COMMIT_HASH_SNAPSHOT"
+}
+
+get-commit-snapshot "$1"

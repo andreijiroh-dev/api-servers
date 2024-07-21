@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+GIT_ROOTDIR=$(git rev-parse --show-toplevel)
+REMOTE_NAME=${1:-"origin"}
+GIT_REPO_URL=$(git config remote.${REMOTE_NAME}.url)
+
+echo "Commit head: $GIT_REPO_URL/commit/$(git rev-parse HEAD)"
