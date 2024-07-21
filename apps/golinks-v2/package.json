@@ -40,5 +40,5 @@
     "wrangler": "^3.65.0",
     "yarn-upgrade-all": "^0.7.2"
   },
-	"type": "module"
+  "type": "module"
 }
