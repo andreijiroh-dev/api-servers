@@ -16,6 +16,7 @@ model GoLink {
   slug       String   @unique
   targetUrl  String   @default("https://wiki.andreijiroh.xyz/golinks")
   is_active  Boolean  @default(true)
+	deactivation_reason String?
   created_on DateTime @default(now())
   updated_on DateTime @updatedAt()
 }
@@ -28,6 +29,7 @@ model DiscordInviteLink {
   description String
   nsfw        Boolean  @default(false)
   is_active   Boolean  @default(true)
+	deactivation_reason String?
   created_on  DateTime @default(now())
   updated_on  DateTime @updatedAt()
 }
@@ -37,6 +39,7 @@ model WikiLinks {
   slug       String   @unique
   targetUrl  String
   is_active  Boolean  @default(true)
+	deactivation_reason String?
   created_on DateTime @default(now())
   updated_on DateTime @updatedAt()
 }
@@ -49,9 +52,8 @@ model WikiLinks {
 //}
 
 //model User {
-//  id         Int       @id @default(autoincrement())
+//  id         String    @id
 //  username   String    @unique
-//  githubUid  String    @unique // extract from github api
 //  site_admin Boolean   @default(false)
 //  ApiToken   ApiToken[]
 //}
