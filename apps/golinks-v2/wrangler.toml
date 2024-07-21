@@ -13,6 +13,7 @@ compatibility_date = "2024-07-12"               # TODO: Update this once a month
 account_id = "cf0bd808c6a294fd8c4d8f6d2cdeca05"
 
 placement = { mode = "smart" }
+compatibility_flags = [ "nodejs_compat" ]
 
 # Please do not leak your secrets here.
 vars = { DEPLOY_ENV = "development", ADMIN_KEY = "gostg_localdev-null" }
