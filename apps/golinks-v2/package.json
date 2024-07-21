@@ -13,7 +13,7 @@
     "types:prisma-client": "prisma generate",
     "migrations:new": "wrangler d1 migrations create golinks",
     "migrations:diff": "prisma migrate diff --to-schema-datamodel ./prisma/schema.prisma",
-    "migrate:local": "wrangler d1 migrations apply golinks",
+    "migrate:local": "wrangler d1 migrations apply golinks --local",
     "migrate:stg": "wrangler d1 migrations apply golinks --remote --env staging",
     "migrate:prod": "wrangler d1 migrations apply golinks --remote --env production",
     "d1-exec:dev": "wrangler d1 execute golinks --local",
@@ -26,6 +26,7 @@
     "@prisma/adapter-d1": "^5.17.0",
     "@prisma/client": "^5.17.0",
     "chanfana": "^2.0.2",
+    "cross-fetch": "^4.0.0",
     "hono": "^4.5.0",
     "zod": "^3.23.8"
   },
@@ -38,5 +39,6 @@
     "typescript": "^5.5.3",
     "wrangler": "^3.65.0",
     "yarn-upgrade-all": "^0.7.2"
-  }
+  },
+	"type": "module"
 }

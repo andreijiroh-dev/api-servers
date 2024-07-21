@@ -43,7 +43,7 @@ export async function getGoLinks(db: EnvBindings<Env>["golinks"], page: number, 
 }
 
 /**
- * Get a list of Discord invite codes in the database.
+ * Get a list of Discord invite codes in batches of 10 from database.
  * @param db Always point to `c.env.golinks`
  * @param page
  * @param isActive

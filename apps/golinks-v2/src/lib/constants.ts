@@ -4,7 +4,7 @@ export const adminApiKey = {
   type: "apiKey",
   name: "X-Golinks-Admin-Key",
   in: "header",
-	description: "Superadmin API key. This is temporary while we're working on support for managing API tokens in the database."
+  description: "Superadmin API key. This is temporary while we're working on support for managing API tokens in the database.",
 };
 
 export const homepage = "https://wiki.andreijiroh.xyz/golinks";
@@ -62,13 +62,11 @@ export const tags = [
   },
 ];
 
-export const errorMessages = {
-  discordServerNotFound: `\
+export const discordServerNotFound = (url?: string) => `
 Either that server is not on our records or something went wrong on our side.
 
-If you are still seeing this, please file a issue at https://go.andreijiroh.xyz/feedback/broken-links`,
-  golinkNotFound: `\
+If you are still seeing this, please file a issue at https://go.andreijiroh.xyz/feedback/broken-link${url !== undefined ? `?url=${url}` : ""}`;
+export const golinkNotFound = (url?: string) => `\
 Either that golink is not on our records or has been changed.
 
-Still seeing this? File a issue at https://go.andreijiroh.xyz/feedback/broken-links`,
-};
+Still seeing this? File a issue at https://go.andreijiroh.xyz/feedback/broken-link${url !== undefined ? `?url=${url}` : ""}`;

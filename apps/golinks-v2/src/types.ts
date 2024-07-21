@@ -32,7 +32,7 @@ export const DiscordInvites = z.object({
 
 export interface Env {
   DEPLOY_ENV: "production" | "staging" | "development";
-	GIT_DEPLOY_COMMIT: string;
+  GIT_DEPLOY_COMMIT: string;
   golinks: D1Database;
   ADMIN_KEY: string;
 }
@@ -41,5 +41,5 @@ export type EnvBindings<Env> = {
   golinks: D1Database;
   DEPLOY_ENV: "production" | "staging" | "development";
   ADMIN_KEY: string;
-	GIT_DEPLOY_COMMIT: string
+  GIT_DEPLOY_COMMIT: string;
 };
