@@ -1,6 +1,6 @@
 {
-  "name": "cloudflare-workers-openapi",
-  "version": "0.0.1",
+  "name": "@andreijiroh-dev/golinks-rewrite",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "deps:upgrade": "yarn yarn-upgrade-all",
@@ -30,13 +30,13 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240712.0",
+    "@cloudflare/workers-types": "^4.20240718.0",
     "@types/node": "^20.14.11",
     "@types/service-worker-mock": "^2.0.4",
     "prisma": "^5.17.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
-    "wrangler": "^3.65.0",
+    "wrangler": "^3.65.1",
     "yarn-upgrade-all": "^0.7.2"
   },
   "type": "module"

@@ -1,5 +1,8 @@
 # `@andreijiroh-dev/golinks-rewrite`
 
+[![Made with Prisma](http://made-with.prisma.io/dark.svg)](https://prisma.io)
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/andreijiroh-dev/api-servers/tree/main/apps/golinks-v2)
+
 Made as part of [Hack Club Arcade / Summer of Making 2024](https://hackclub.com/arcade) ([see the scrapbook][scrapbook] for all the deets).
 
 A rewrite of [`golinks` Cloudflare Workers code](../golinks/), now with OpenAPI 3.1
@@ -8,7 +11,7 @@ powered by [chanfana](https://github.com/cloudflare/chanfana) and
 
 ## Environments
 
-- Staging: https://golinks-next-staging.ajhalili2006.workers.dev (use `gostg_4487705fd01888c0efeb78cf` as API key, might reset data)
+- Staging: https://golinks-next-staging.ajhalili2006.workers.dev (see the docs below for testing in staging)
 - Production: https://golinks-next.ajhalili2006.workers.dev
 
 ## Development
