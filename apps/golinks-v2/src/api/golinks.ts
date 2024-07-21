@@ -16,8 +16,7 @@ export class GoLinkCreate extends OpenAPIRoute {
           "application/json": {
             schema: z.object({
               slug: Str({ required: false }),
-              targetUrl: Str({ example: "https://example.com" }),
-              is_active: z.boolean().default(true),
+              targetUrl: Str({ example: "https://example.com" })
             }),
           },
         },
@@ -60,7 +59,7 @@ export class GoLinkCreate extends OpenAPIRoute {
     console.log(`[golinks-api] received body for link creation ${JSON.stringify(linkToCreate)}`);
     const slug = linkToCreate.slug !== undefined ? linkToCreate.slug : generateSlug(12);
 
-    const result = await addGoLink(c.env.golinks, slug, linkToCreate.targetUrl, linkToCreate.is_active);
+    const result = await addGoLink(c.env.golinks, slug, linkToCreate.targetUrl);
 
     if (result) {
       return c.newResponse(
@@ -121,5 +120,11 @@ export class GoLinkList extends OpenAPIRoute {
       success: true,
       result: links,
     };
+  }
+}
+
+export class UpdateGoLink extends OpenAPIRoute {
+  schema = {
+    summary: "Update a golink"
   }
 }

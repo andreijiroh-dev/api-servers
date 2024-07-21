@@ -30,7 +30,7 @@ app.use(
   "/api/*",
   cors({
     origin(origin, c) {
-      if (origin.endsWith("andreijiroh.xyz") || origin.endsWith("ajhalili2006.workers.dev")) {
+      if (origin.endsWith("andreijiroh.xyz") || origin.endsWith("ajhalili2006.workers.dev") || origin.endsWith("fawn-cod.ts.net")) {
         return origin;
       }
     },
@@ -76,7 +76,7 @@ openapi.get("/api/commit", CommitHash);
 app.post("/api/slack/slash-commands/:command", async (c) => handleSlackCommand(c))
 
 // Slack bot and slash commands
-app.get("/slack", async(c) => slackOAuth(c));
+app.get("/slack", async (c) => slackOAuth(c));
 app.get("/slack/callback", async (c) => slackOAuth(c));
 
 app.get("/", (c) => {

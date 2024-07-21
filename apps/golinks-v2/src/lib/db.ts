@@ -105,15 +105,13 @@ export async function addGoLink(
   db: EnvBindings<Env>["golinks"],
   slug: string,
   targetUrl: string,
-  isActive?: boolean,
 ): Promise<GoLink> | null {
   const adapter = new PrismaD1(db);
   const prisma = new PrismaClient({ adapter });
   const result = prisma.goLink.create({
     data: {
       slug,
-      targetUrl,
-      is_active: isActive !== undefined ? isActive : true,
+      targetUrl
     },
   });
   return result;
