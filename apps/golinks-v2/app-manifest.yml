@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/slackapi/manifest-schema/main/manifest.schema.json
+display_information:
+  name: golinks service by ajhalili2006
+  description: "Access Andrei Jiroh's golinks service API via Slack"
+  background_color: "#22CCE3"
+features:
+  app_home:
+    home_tab_enabled: true
+    messages_tab_enabled: false
+    messages_tab_read_only_enabled: false
+  bot_user:
+    display_name: slack.go.andreijiroh.xyz
+    always_online: true
+  slash_commands:
+    - command: /go
+      url: https://go.andreijiroh.xyz/api/slack/slash-commands/go
+      description: Access the golinks service API via Slack
+      usage_hint: "[command] [args]"
+      should_escape: true
+    - command: /ping
+      url: https://go.andreijiroh.xyz/api/slack/slash-commands/ping
+      description: Check if the backend is reachable
+      should_escape: true
+oauth_config:
+  redirect_urls:
+    - https://go.andreijiroh.xyz/auth/slack/callback
+    - https://golinks-next-production.ajhalili2006.workers.dev/auth/slack/callback
+  scopes:
+    bot:
+      - commands
+settings:
+  org_deploy_enabled: true
+  socket_mode_enabled: false
+  token_rotation_enabled: false

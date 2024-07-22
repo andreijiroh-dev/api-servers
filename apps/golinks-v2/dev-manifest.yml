@@ -1,0 +1,52 @@
+display_information:
+  name: localdev.go.andreijiroh.xyz
+  description: Access Andrei Jiroh's golinks service API via Slack
+  background_color: "#1710e3"
+  long_description: "Access @ajhalili2006's golinks API service via /go Slack
+    slash command (add -dev or -stg to access staging or local dev instances).\r
+
+    \r
+
+    Learn more about this service at
+    https://wiki.andreijiroh.xyz/garden/tools/golinks-slackbot."
+features:
+  app_home:
+    home_tab_enabled: true
+    messages_tab_enabled: true
+    messages_tab_read_only_enabled: false
+  bot_user:
+    display_name: slack.go-next.andreijiroh.xyz
+    always_online: true
+  slash_commands:
+    - command: /go-dev
+      url: https://stellapent-cier.fawn-cod.ts.net/api/slack/slash-commands/go
+      description: Access the golinks service API via Slack
+      usage_hint: "[command] [args]"
+      should_escape: true
+    - command: /ping-dev
+      url: https://stellapent-cier.fawn-cod.ts.net/api/slack/slash-commands/ping
+      description: Check if everything's up
+      should_escape: false
+    - command: /go-stg
+      url: https://staging.go-next.andreijiroh.xyz/api/slack/slash-commands/go
+      description: Access the golinks service API via Slack from staging environment.
+      usage_hint: "[command] [args]"
+      should_escape: true
+    - command: /ping-stg
+      url: https://staging.go-next.andreijiroh.xyz/api/slack/slash-commands/ping
+      description: Check if everything's up on staging environment
+      should_escape: true
+oauth_config:
+  redirect_urls:
+    - https://stellapent-cier.fawn-cod.ts.net/slack/callback
+  scopes:
+    bot:
+      - commands
+      - im:write
+settings:
+  interactivity:
+    is_enabled: true
+    request_url: https://stellpanet-cier.fawn-cod.ts.net/api/slack/interactive-feed
+  org_deploy_enabled: true
+  socket_mode_enabled: false
+  token_rotation_enabled: false
