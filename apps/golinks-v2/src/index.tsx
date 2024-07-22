@@ -73,11 +73,11 @@ openapi.get("/api/discord-invites", DiscordInviteLinkList);
 openapi.post("/api/discord-invites", DiscordInviteLinkCreate);
 openapi.get("/api/ping", PingPong);
 openapi.get("/api/commit", CommitHash);
-app.post("/api/slack/slash-commands/:command", async (c) => handleSlackCommand(c))
+app.post("/api/slack/slash-commands/:command", async (c) => handleSlackCommand(c));
 
 // Slack bot and slash commands
 app.get("/slack", async (c) => slackOAuth(c));
-app.get("/slack/callback", async (c) => slackOAuth(c));
+app.get("/auth/slack/callback", async (c) => slackOAuth(c));
 
 app.get("/", (c) => {
   return c.redirect(homepage);

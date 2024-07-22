@@ -26,18 +26,18 @@ export const DiscordInvites = z.object({
 
 /**
  * Just export WikiLinks as same schema as golinks
-*/
-export const WikiLinks = GoLinks
+ */
+export const WikiLinks = GoLinks;
 
 export interface Env {
   DEPLOY_ENV: "production" | "staging" | "development";
   GIT_DEPLOY_COMMIT: string;
-  SLACK_OAUTH_ID: string
-  SLACK_OAUTH_SECRET: string,
-  SLACK_OAUTH_CALLBACK_URL: string,
-  SLACK_SIGNING_SECRET: string,
-  GITHUB_OAUTH_ID: string,
-  GITHUB_OAUTH_SECRET: string,
+  SLACK_OAUTH_ID: string;
+  SLACK_OAUTH_SECRET: string;
+  SLACK_OAUTH_CALLBACK_URL: string;
+  SLACK_SIGNING_SECRET: string;
+  GITHUB_OAUTH_ID: string;
+  GITHUB_OAUTH_SECRET: string;
   golinks: D1Database;
   ADMIN_KEY: string;
 }

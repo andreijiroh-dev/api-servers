@@ -5,9 +5,9 @@ export async function adminApiKeyAuth(c: Context, next: Next) {
     return await next();
   }
 
-	if (c.req.path.startsWith("/api/slack")) {
-		return await next()
-	}
+  if (c.req.path.startsWith("/api/slack")) {
+    return await next();
+  }
 
   const adminApiKey = c.env.ADMIN_KEY;
   const apiKeyHeader = c.req.header("X-Golinks-Admin-Key");
