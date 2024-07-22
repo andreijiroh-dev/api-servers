@@ -8,6 +8,16 @@ CREATE TABLE "SlackBotToken" (
 );
 
 -- CreateTable
+CREATE TABLE "GitHubOAuthChallenge" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "challenge" TEXT NOT NULL,
+    "code" TEXT,
+    "metadata" TEXT NOT NULL,
+    "username" TEXT,
+    "userId" TEXT
+);
+
+-- CreateTable
 CREATE TABLE "ApiToken" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "token" TEXT NOT NULL,

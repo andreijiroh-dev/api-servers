@@ -21,7 +21,7 @@ jobs:
     name: Deploy golinks-next to staging
     environment:
       name: golinks-next/staging
-      url: ${{ steps.deploy.outputs.deployment-url }}
+      url: https://staging.go-next.andreijiroh.xyz/api/docs
     runs-on: ubuntu-latest
     needs: [paths-filter]
     if: needs.paths-filter.outputs.golinks-next == 'true'
@@ -37,22 +37,20 @@ jobs:
           node-version: 20
       - name: Install dependencies and generate Prisma client code
         run: |
-          cd apps/golinks-v2
           yarn install
-          yarn prisma generate
+          yarn workspace @andreijiroh-dev/golinks-rewrite prisma generate
       - name: Deploy to Workers in staging
         id: deploy
         run: |
-          cd apps/golinks-v2
-          yarn deploy:stg
-          git rev-parse | yarn wrangler secret put GIT_DEPLOY_COMMIT
+          yarn workspace @andreijiroh-dev/golinks-rewrite deploy:stg
+          git rev-parse HEAD | yarn workspace @andreijiroh-dev/golinks-rewrite wrangler secret put GIT_DEPLOY_COMMIT --env staging
         env:
           CLOUDFLARE_API_TOKEN: ${{ steps.dotenvx.outputs.WRANGLER_DEPLOY_TOKEN }}
   golinks-next-prod:
     name: Deploy golinks-next to production
     environment:
       name: golinks-next/production
-      url: https://staging.go-next.andreijiroh.xyz
+      url: https://go.andreijiroh.xyz/api/docs
     runs-on: ubuntu-latest
     needs: [paths-filter, golinks-next]
     if: needs.paths-filter.outputs.golinks-next == 'true'
@@ -66,15 +64,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Install dependencies
+      - name: Install dependencies and generate Prisma client code
         run: |
           yarn install
-          yarn prisma generate
-      - name: Deploy to Workers in production
+          yarn workspace @andreijiroh-dev/golinks-rewrite prisma generate
+      - name: Deploy to Workers in staging
         id: deploy
         run: |
-          cd apps/golinks-v2
-          yarn deploy:prod
-          git rev-parse | yarn wrangler secret put GIT_DEPLOY_COMMIT
+          yarn workspace @andreijiroh-dev/golinks-rewrite deploy:prod
+          git rev-parse HEAD | yarn workspace @andreijiroh-dev/golinks-rewrite wrangler secret put GIT_DEPLOY_COMMIT --env production
         env:
           CLOUDFLARE_API_TOKEN: ${{ steps.dotenvx.outputs.WRANGLER_DEPLOY_TOKEN }}

@@ -3,110 +3,110 @@ import { Context } from "hono";
 import crypto from "node:crypto";
 import { Buffer } from "node:buffer";
 import { generateSlug } from "lib/utils";
+import { PrismaD1 } from "@prisma/adapter-d1";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 type SlackSlashCommand = {
-	token?: string,
-	team_id: string,
-	team_domain: string,
-	channel_id: string,
-	channel_name: string,
-	user_id: string,
-	user_name: string,
-	command: string,
-	text?: string,
-	is_enterprise_install: "true" | "false",
-	response_url: string,
-	trigger_id: string
-}
+  token?: string;
+  team_id: string;
+  team_domain: string;
+  channel_id: string;
+  channel_name: string;
+  user_id: string;
+  user_name: string;
+  command: string;
+  text?: string;
+  is_enterprise_install: "true" | "false";
+  response_url: string;
+  trigger_id: string;
+};
 
-function helpMessage(
-  context: Context,
-  params: SlackSlashCommand) {
-		const challenge = `challenge_${generateSlug(24)}`
-		const githubAuthUrl = `${context.env.BASE_URL}/auth/github?client_id=slack&slack_team=${params.team_id}&slack_id=${params.user_id}&state=${challenge}`
-		const templateJson = {
-      blocks: [
-        {
-          type: "header",
+function helpMessage(context: Context, params: SlackSlashCommand) {
+  const challenge = `challenge_${generateSlug(24)}`;
+  const githubAuthUrl = `${context.env.BASE_URL}/auth/github?client_id=slack&slack_team=${params.team_id}&slack_id=${params.user_id}&state=${challenge}`;
+  const templateJson = {
+    blocks: [
+      {
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: "slack.go.andreijiroh.xyz - @ajhalili2006's golinks service in Slack",
+          emoji: true,
+        },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "I am the bot that <https://andreijiroh.xyz|@ajhalili2006> uses to manage his golinks in Slack, although you can use me as a link shortener and to request custom golinks for approval.",
+        },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "Need to shorten a link, add a Discord or wikilink? Submit a request and you'll be notified via DMs if it's added.",
+        },
+        accessory: {
+          type: "button",
           text: {
             type: "plain_text",
-            text: "slack.go.andreijiroh.xyz - @ajhalili2006's golinks service in Slack",
+            text: "Request a link",
             emoji: true,
           },
+          value: "request-link",
+          action_id: "golinks-bot-action",
         },
-        {
-          type: "section",
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "Want to use me programmatically? You can request a API token using your GitHub account through the OAuth prompt.",
+        },
+        accessory: {
+          type: "button",
           text: {
-            type: "mrkdwn",
-            text: "I am the bot that <https://andreijiroh.xyz|@ajhalili2006> uses to manage his golinks in Slack, although you can use me as a link shortener and to request custom golinks for approval.",
+            type: "plain_text",
+            text: "Sign in to get token",
+            emoji: true,
           },
+          value: challenge,
+          action_id: "github-auth-challenge",
+          url: githubAuthUrl,
         },
-        {
-          type: "section",
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "Want to see the API docs and experiment with it? You can take a sneak peek.",
+        },
+        accessory: {
+          type: "button",
           text: {
+            type: "plain_text",
+            text: "Open API docs",
+            emoji: true,
+          },
+          value: "api-docs",
+          action_id: "golinks-bot-help",
+          url: `${context.env.BASE_URL}/api/docs`,
+        },
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            text: "If something go wrong, <https://go.andreijiroh.xyz/feedback/slackbot|please file a new issue> or ping @ajhalili2006 on the fediverse.",
             type: "mrkdwn",
-            text: "Need to shorten a link, add a Discord or wikilink? Submit a request and you'll be notified via DMs if it's added.",
           },
-          accessory: {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: "Request a link",
-              emoji: true,
-            },
-            value: "request-link",
-            action_id: "golinks-bot-action",
-          },
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "Want to use me programmatically? You can request a API token using your GitHub account through the OAuth prompt.",
-          },
-          accessory: {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: "Sign in to get token",
-              emoji: true,
-            },
-            value: challenge,
-            action_id: "github-auth-challenge",
-            url: githubAuthUrl,
-          },
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "Want to see the API docs and experiment with it? You can take a sneak peek.",
-          },
-          accessory: {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: "Open API docs",
-              emoji: true,
-            },
-            value: "api-docs",
-            action_id: "golinks-bot-help",
-            url: `${context.env.BASE_URL}/api/docs`,
-          },
-        },
-        {
-          type: "context",
-          elements: [
-            {
-              text: "If something go wrong, <https://go.andreijiroh.xyz/feedback/slackbot|please file a new issue> or ping @ajhalili2006 on the fediverse.",
-              type: "mrkdwn",
-            },
-          ],
-        },
-      ],
-    };
-		return context.json(templateJson);
-	}
+        ],
+      },
+    ],
+  };
+  return context.json(templateJson);
+}
 
 /**
  * Handle requests for OAuth-based app installation
@@ -195,8 +195,8 @@ export async function handleSlackCommand(context: Context) {
 
   if (command === "go") {
     if (data.text == "" || data.text == "help") {
-			return helpMessage(context, data)
-		}
+      return helpMessage(context, data);
+    }
   } else if (command == "ping") {
     const end = Date.now() - start;
     await console.log(`Pong with ${end}ms`);
@@ -220,6 +220,11 @@ function validateTimestamp(timestamp: string): boolean {
   const delta = Math.abs(currentTimestamp - requestTimestamp) / (1000 * 60);
   console.log(`[slack-slash-commands] current: ${currentTimestamp}, request: ${requestTimestamp}, delta: ${delta}`);
   return delta >= 3 && delta <= 5;
+}
+
+export async function handleInteractions(context: Context) {
+  const adapter = new PrismaD1(context.env.golinks);
+  const prisma = new PrismaClient({ adapter });
 }
 
 async function createHashedBody(body: ArrayBuffer): Promise<String> {
