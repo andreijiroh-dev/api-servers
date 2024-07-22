@@ -45,7 +45,7 @@ export interface Env {
 
 export type EnvBindings<Env> = {
   golinks: D1Database;
-	BASE_URL: string
+  BASE_URL: string;
   DEPLOY_ENV: "production" | "staging" | "development";
   ADMIN_KEY: string;
   GIT_DEPLOY_COMMIT: string;

@@ -16,7 +16,7 @@ export class GoLinkCreate extends OpenAPIRoute {
           "application/json": {
             schema: z.object({
               slug: Str({ required: false }),
-              targetUrl: Str({ example: "https://example.com" })
+              targetUrl: Str({ example: "https://example.com" }),
             }),
           },
         },
@@ -125,6 +125,6 @@ export class GoLinkList extends OpenAPIRoute {
 
 export class UpdateGoLink extends OpenAPIRoute {
   schema = {
-    summary: "Update a golink"
-  }
+    summary: "Update a golink",
+  };
 }

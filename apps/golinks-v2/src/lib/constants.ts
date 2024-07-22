@@ -27,19 +27,19 @@ export function getWorkersDashboardUrl(env: EnvBindings<Env>["DEPLOY_ENV"]) {
 export const servers = [
   {
     url: "https://go.andreijiroh.xyz",
-    description: "Production Deployment",
+    description: "Production envrionment",
   },
   {
-    url: "https://golinks-next.ajhalili2006.workers.dev",
-    description: "Production Deployment (workers.dev)",
+    url: "https://staging.go-next.andreijiroh.xyz",
+    description: "Staging environment",
   },
   {
-    url: "https://golinks-next-staging.ajhalili2006.workers.dev",
-    description: "Staging Deployment",
+    url: "https://stellapent-cier.fawn-cod.ts.net",
+    description: "Development environment (proxied by Tailscale funnel, limited availability)",
   },
   {
     url: "http://localhost:35120",
-    description: "Local dev instance via miniflare",
+    description: "Local development environment via miniflare",
   },
 ];
 

@@ -19,15 +19,16 @@ export function generateSlug(length: number) {
 import data from "../data/old-links.json";
 export async function handleOldUrls(c: Context, next: Next) {
   const force_redirect = c.req.query("force_redirect");
-  console.log(`[old-link-redirects] data for ${c.req.path}: ${JSON.stringify(data[c.req.path])}`);
   if (data[c.req.path] && !force_redirect) {
+		console.log(`[old-link-redirects] data for ${c.req.path}: ${JSON.stringify(data[c.req.path])}`);
     return c.redirect(
       `/landing/deprecated?golink=${c.req.path.replace(/^\/|\/$/g, "")}&reason=${encodeURIComponent(data[c.req.path].reason)}`,
     );
   } else if (data[c.req.path] && force_redirect) {
+		console.log(`[old-link-redirects] data for ${c.req.path}: ${JSON.stringify(data[c.req.path])}`);
     return c.redirect(data[c.req.path].url);
   }
-  await next();
+  return await next();
 }
 
 export function generateNewIssueUrl(type: string, prefix: "golinks" | "wikilinks", url?: string) {

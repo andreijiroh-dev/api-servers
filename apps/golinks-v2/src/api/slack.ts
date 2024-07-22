@@ -116,38 +116,82 @@ function helpMessage(context: Context, params: SlackSlashCommand) {
 export async function slackOAuth(context: Context) {
   const appId = context.env.SLACK_OAUTH_ID || "5577525090644.7449518011266";
   const callback = `${context.env.BASE_URL}/auth/slack/callback`;
-  const scopes = "commands";
+  const scopes = "commands,im:write";
 
-  if (context.req.path == "/slack") {
-    return context.redirect(`https://slack.com/oauth/v2/authorize?client_id=${appId}&scope=${scopes}&redirect_uri=${callback}`);
-  } else if (context.req.path == "/slack/callback") {
-    const params = context.req.query();
-    let payload = {
-      code: params.code,
-      client_id: context.env.SLACK_OAUTH_ID,
-      client_secret: context.env.SLACK_OAUTH_SECRET,
-      redirect_uri: callback,
-      grant_type: "authorization_code",
-    };
-    let formBody = Object.entries(payload)
-      .map(([key, value]) => encodeURIComponent(key) + "=" + encodeURIComponent(value))
-      .join("&");
-    try {
-      const api = await fetch("https://slack.com/api/oauth.v2.access", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formBody,
-      });
-      const result = await api.json();
-      console.log(`[slack-oauth] result: ${JSON.stringify(result)} (${api.status})`);
-      if (result.ok == false) {
-        return context.json({ ok: false, error: result.error }, api.status);
-      }
-      return context.json({ ok: true, result: "Successfully installed, run `/go help` in a channel or DM." });
-    } catch (err) {
-      console.error(err);
-      return context.json({ ok: false, error: "Something gone wrong" });
+  return context.redirect(`https://slack.com/oauth/v2/authorize?client_id=${appId}&scope=${scopes}&redirect_uri=${callback}`);
+}
+export async function slackOAuthCallback(context: Context) {
+  const adapter = new PrismaD1(context.env.golinks);
+  const prisma = new PrismaClient({ adapter });
+  const callback = `${context.env.BASE_URL}/auth/slack/callback`;
+  const params = context.req.query();
+
+  let payload = {
+    code: params.code,
+    client_id: context.env.SLACK_OAUTH_ID,
+    client_secret: context.env.SLACK_OAUTH_SECRET,
+    redirect_uri: callback,
+    grant_type: "authorization_code",
+  };
+
+  let formBody = Object.entries(payload)
+    .map(([key, value]) => encodeURIComponent(key) + "=" + encodeURIComponent(value))
+    .join("&");
+
+  try {
+    const api = await fetch("https://slack.com/api/oauth.v2.access", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formBody,
+    });
+
+    const result = await api.json();
+
+    console.log(`[slack-oauth] result: ${JSON.stringify(result)} (${api.status})`);
+    if (result.ok == false) {
+      return context.json({ ok: false, error: result.error }, api.status);
     }
+
+    const team = await prisma.slackBotToken.findFirst({
+      where: {
+        teamId: result.is_enterprise_install == true ? result.enterprise.id : result.team.id,
+        enterprise_install: result.is_enterprise_install,
+      },
+    });
+
+    if (!team) {
+      prisma.slackBotToken
+        .create({
+          data: {
+            teamId: result.is_enterprise_install == true ? result.enterprise.id : result.team.id,
+            enterprise_install: result.is_enterprise_install,
+            token: result.token,
+          },
+        })
+        .then((result) => {
+          console.log(`[prisma-client] ${result}`);
+          return context.json({ ok: true, result: "Successfully installed, run `/go help` in a channel or DM." });
+        });
+    } else {
+      prisma.slackBotToken
+        .update({
+          where: {
+            teamId: result.is_enterprise_install == true ? result.enterprise.id : result.team.id,
+            enterprise_install: result.is_enterprise_install,
+          },
+          data: {
+            token: result.token,
+            enterprise_install: result.is_enterprise_install,
+          },
+        })
+        .then((result) => {
+          console.log(`[prisma-client] ${result}`);
+          return context.json({ ok: true, result: "Successfully installed, run `/go help` in a channel or DM." });
+        });
+    }
+  } catch (err) {
+    console.error(err);
+    return context.json({ ok: false, error: "Something gone wrong, but we're looking onto it" }, 500);
   }
 }
 
