@@ -40,7 +40,8 @@ jobs:
           yarn workspace @andreijiroh-dev/golinks-rewrite yarn-upgrade-all
       - name: Commit and push
         run: |
-          git commit --signoff "chore(global): update yarn packages [skip ci]"
+          git add .
+          git commit --signoff -m "chore(global): update yarn packages [skip ci]"
           git push
           gh pr create \
             --title "chore(automation): bump all yarn packages as of ${{ steps.init-env.outputs.timestamp }}" \
