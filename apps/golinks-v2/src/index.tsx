@@ -21,6 +21,7 @@ import { CommitHash, PingPong } from "api/meta";
 import { prettyJSON } from "hono/pretty-json";
 import { generateNewIssueUrl, handleOldUrls } from "lib/utils";
 import { handleSlackCommand, slackOAuth } from "api/slack";
+import { githubAuth } from "api/github";
 
 // Start a Hono app
 const app = new Hono<{ Bindings: EnvBindings<Env> }>();
@@ -78,6 +79,8 @@ app.post("/api/slack/slash-commands/:command", async (c) => handleSlackCommand(c
 // Slack bot and slash commands
 app.get("/slack", async (c) => slackOAuth(c));
 app.get("/auth/slack/callback", async (c) => slackOAuth(c));
+app.get("/auth/github", async (c) => githubAuth(c))
+app.get("/auth/github/auth", async (c) => githubAuth(c))
 
 app.get("/", (c) => {
   return c.redirect(homepage);

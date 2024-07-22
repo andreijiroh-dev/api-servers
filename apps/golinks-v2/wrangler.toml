@@ -16,7 +16,7 @@ placement = { mode = "smart" }
 compatibility_flags = [ "nodejs_compat" ]
 
 # Please do not leak your secrets here.
-vars = { DEPLOY_ENV = "development", ADMIN_KEY = "gostg_localdev-null" }
+vars = { DEPLOY_ENV = "development", ADMIN_KEY = "gostg_localdev-null", BASE_URL = "https://stellapent-cier.fawn-cod.ts.net" }
 
 d1_databases = [
     { binding = "golinks", database_name = "golinks-db-preview", database_id = "0b415a64-cc61-4c2b-a7c8-2d223f18e996", migrations_dir = "migrations" },
@@ -24,7 +24,7 @@ d1_databases = [
 
 [env.staging]
 workers_dev = true
-vars = { DEPLOY_ENV = "staging" }
+vars = { DEPLOY_ENV = "staging", BASE_URL = "https://staging.go-next.andreijiroh.xyz" }
 d1_databases = [
     { binding = "golinks", database_name = "golinks-db-preview", database_id = "0b415a64-cc61-4c2b-a7c8-2d223f18e996", migrations_dir = "migrations" },
 ]
@@ -35,7 +35,7 @@ routes = [
 
 [env.production]
 workers_dev = true
-vars = { DEPLOY_ENV = "production" }
+vars = { DEPLOY_ENV = "production", BASE_URL = "https://go.andreijiroh.xyz" }
 d1_databases = [
     { binding = "golinks", database_name = "golinks-db", database_id = "63e746f4-40de-4f8c-a3e5-7969cde040b3", migrations_dir = "migrations" },
 ]

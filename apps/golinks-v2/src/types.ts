@@ -40,10 +40,12 @@ export interface Env {
   GITHUB_OAUTH_SECRET: string;
   golinks: D1Database;
   ADMIN_KEY: string;
+  BASE_URL: string;
 }
 
 export type EnvBindings<Env> = {
   golinks: D1Database;
+	BASE_URL: string
   DEPLOY_ENV: "production" | "staging" | "development";
   ADMIN_KEY: string;
   GIT_DEPLOY_COMMIT: string;
