@@ -1,8 +1,8 @@
 name: Bump all packages
 on:
-    workflow_dispatch:
-    schedule:
-        - cron: 30 12 * * 6
+  workflow_dispatch:
+  schedule:
+    - cron: 30 12 * * 6
 permissions:
   contents: write
   pull-requests: write

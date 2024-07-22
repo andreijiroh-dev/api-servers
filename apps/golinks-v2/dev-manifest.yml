@@ -1,5 +1,5 @@
 display_information:
-  name: localdev.go.andreijiroh.xyz
+  name: slack-staging.go-next.ajhalili2006
   description: Access Andrei Jiroh's golinks service API via Slack
   background_color: "#1710e3"
   long_description: "Access @ajhalili2006's golinks API service via /go Slack
@@ -20,13 +20,13 @@ features:
   slash_commands:
     - command: /go-dev
       url: https://stellapent-cier.fawn-cod.ts.net/api/slack/slash-commands/go
-      description: Access the golinks service API via Slack
+      description: Access the golinks service API via Slack on dev environment
       usage_hint: "[command] [args]"
       should_escape: true
     - command: /ping-dev
       url: https://stellapent-cier.fawn-cod.ts.net/api/slack/slash-commands/ping
-      description: Check if everything's up
-      should_escape: false
+      description: Check if everything's up from dev environment
+      should_escape: true
     - command: /go-stg
       url: https://staging.go-next.andreijiroh.xyz/api/slack/slash-commands/go
       description: Access the golinks service API via Slack from staging environment.
@@ -38,7 +38,9 @@ features:
       should_escape: true
 oauth_config:
   redirect_urls:
-    - https://stellapent-cier.fawn-cod.ts.net/slack/callback
+    - https://stellapent-cier.fawn-cod.ts.net/auth/slack/callback
+    - https://staging.go-next.andreijiroh.xyz/auth/slack/callback
+    - https://golinks-next-staging.ajhalili2006.workers.dev/auth/slack/callback
   scopes:
     bot:
       - commands

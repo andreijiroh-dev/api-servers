@@ -1,26 +1,31 @@
 {
-	"search.exclude": {
-		"**/.yarn": true,
-		"**/.pnp.*": true
-	},
-	"git.alwaysSignOff": true,
-	"gitlens.remotes": [
-		{
-			"domain": "mau.dev",
-			"type": "GitLab"
-		}
-	],
-	"yaml.schemas": {
-		"https://raw.githubusercontent.com/devfile/api/v2.2.0/schemas/latest/devfile.json": ".devfile.yml",
-		"https://raw.githubusercontent.com/slackapi/manifest-schema/main/manifest.schema.json": [
-			"apps/golinks-v2/app-manifest.yml",
-			"apps/golinks-v2/dev-manifest.yml"
-		]
-	},
-	"conventionalCommits.scopes": [
-		"golinks",
-		"global",
-		"github-actions"
-	],
-	"dotenv.enableAutocloaking": false
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "git.alwaysSignOff": true,
+  "gitlens.remotes": [
+    {
+      "domain": "mau.dev",
+      "type": "GitLab"
+    }
+  ],
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/devfile/api/v2.2.0/schemas/latest/devfile.json": ".devfile.yml",
+    "https://raw.githubusercontent.com/slackapi/manifest-schema/main/manifest.schema.json": [
+      "apps/golinks-v2/app-manifest.yml",
+      "apps/golinks-v2/dev-manifest.yml"
+    ]
+  },
+  "conventionalCommits.scopes": ["golinks", "global", "github-actions"],
+  "dotenv.enableAutocloaking": false,
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "${workspaceFolder:api-servers}/apps/golinks-v2/.wrangler/state/v3/d1/miniflare-D1DatabaseObject/0c387ee1750819f278da29686bfd9e894e71486eed5952c4c869b0b96c99e1d0.sqlite",
+      "name": "d1-localdev-go"
+    }
+  ],
+  "sqltools.useNodeRuntime": true
 }

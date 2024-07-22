@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
-set -e
+set -ex
 
 GIT_ROOTDIR=$(git rev-parse --show-toplevel)
 REMOTE_NAME=${1:-"origin"}
-GIT_REPO_URL=$(git config remote.${REMOTE_NAME}.url)
+GIT_REPO_URL=$(git -C ${GIT_ROOTDIR} config --get remote.${REMOTE_NAME}.url)
+CURRENT_COMMIT=$(git rev-parse HEAD)
+COMPARE_HEAD=${2:-"${REMOTE_NAME}/main"}
+if [[ $COMPARE_HEAD == "${REMOTE_NAME}/main" ]]; then
+  export COMPARE_HASH=$(git rev-parse ${COMPARE_HEAD})
+else
+  export COMPARE_HASH=$(git rev-parse HEAD~${COMPARE_HEAD})
+fi
 
-echo "Commit head: $GIT_REPO_URL/commit/$(git rev-parse HEAD)"
+echo "Commit head: $GIT_REPO_URL/commit/$CURRENT_COMMIT"
+echo "Compare link: $GIT_REPO_URL/compare/$COMPARE_HASH...$CURRENT_COMMIT"

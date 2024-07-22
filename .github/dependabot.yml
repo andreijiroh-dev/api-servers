@@ -2,9 +2,9 @@ version: 2
 enable-beta-ecosystems: true
 updates:
   - directories:
-    - /
-    - apps/**
-    - packages/**
+      - /
+      - apps/**
+      - packages/**
     open-pull-requests-limit: 5
     rebase-strategy: auto
     package-ecosystem: npm

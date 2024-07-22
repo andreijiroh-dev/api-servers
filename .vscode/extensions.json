@@ -1,11 +1,13 @@
 {
-	"recommendations": [
-		"arcanis.vscode-zipfs",
-		"esbenp.prettier-vscode",
-		"prisma.prisma",
-		"redhat.vscode-yaml",
-		"codiium.wrangler",
-		"ms-vscode-remote.remote-containers",
-		"ms-azuretools.vscode-docker"
-	]
+  "recommendations": [
+    "arcanis.vscode-zipfs",
+    "esbenp.prettier-vscode",
+    "prisma.prisma",
+    "redhat.vscode-yaml",
+    "codiium.wrangler",
+    "ms-vscode-remote.remote-containers",
+    "ms-azuretools.vscode-docker",
+    "mtxr.sqltools-driver-sqlite",
+    "mtxr.sqltools"
+  ]
 }

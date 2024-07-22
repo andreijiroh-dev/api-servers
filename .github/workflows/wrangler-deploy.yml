@@ -10,13 +10,13 @@ jobs:
     outputs:
       golinks-next: ${{ steps.filter.outputs.golinks-next }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: dorny/paths-filter@v3
-      id: filter
-      with:
-        filters: |
-          golinks-next:
-            - 'apps/golinks-v2/**'
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            golinks-next:
+              - 'apps/golinks-v2/**'
   golinks-next:
     name: Deploy golinks-next to staging
     environment:
