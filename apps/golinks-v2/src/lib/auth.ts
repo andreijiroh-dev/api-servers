@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { Context, Next } from "hono";
 import { EnvBindings, Env } from "types";
 import { generateSlug } from "./utils";
+import { add } from "date-fns";
 import { error } from "console";
 
 export async function adminApiKeyAuth(c: Context, next: Next) {
@@ -65,7 +66,7 @@ export async function addBotToken(db: EnvBindings<Env>["golinks"], teamId: strin
     const result = await prisma.slackBotToken.create({
       data: {
         teamId,
-        enterprise_install,
+        enterprise_install: enterprise_install !== undefined ? enterprise_install : false,
         token,
       },
     });
@@ -121,17 +122,21 @@ export async function getUserInfoAndGenerateTicket(token: string, context: Conte
   }
 }
 
-export async function generateChallenge(db: EnvBindings<Env>["golinks"], metadata) {
+export async function addNewChallenge(db: EnvBindings<Env>["golinks"], challenge, metadata) {
   const adapter = new PrismaD1(db);
   const prisma = new PrismaClient({ adapter });
-  const newchallenge = generateSlug(24);
   try {
     const result = await prisma.gitHubOAuthChallenge.create({
       data: {
-        challenge: newchallenge,
+        challenge,
         metadata,
+        expires_on: add(Date(), {
+          minutes: 15,
+        }),
       },
     });
+    console.log(`[dbops] ${result}`);
+    return result;
   } catch (error) {
     console.error(error);
     return Promise.reject(Error(error));

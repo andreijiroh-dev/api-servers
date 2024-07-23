@@ -20,7 +20,7 @@ import { DeprecatedGoLinkPage } from "pages/deprecated-link";
 import { CommitHash, PingPong } from "api/meta";
 import { prettyJSON } from "hono/pretty-json";
 import { generateNewIssueUrl, handleOldUrls } from "lib/utils";
-import { handleSlackCommand, slackOAuth, slackOAuthCallback } from "api/slack";
+import { handleSlackCommand, handleSlackInteractivity, slackOAuth, slackOAuthCallback } from "api/slack";
 import { githubAuth } from "api/github";
 
 // Start a Hono app
@@ -75,6 +75,7 @@ openapi.post("/api/discord-invites", DiscordInviteLinkCreate);
 openapi.get("/api/ping", PingPong);
 openapi.get("/api/commit", CommitHash);
 app.post("/api/slack/slash-commands/:command", async (c) => handleSlackCommand(c));
+app.post("/api/slack/interactivity-feed", async (c) => handleSlackInteractivity(c));
 
 // Slack bot and slash commands
 app.get("/slack", async (c) => slackOAuth(c));

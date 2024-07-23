@@ -23,7 +23,7 @@ type SlackSlashCommand = {
 };
 
 async function helpMessage(context: Context, params: SlackSlashCommand) {
-  const challenge = await generateChallenge(context.env.golinks);
+  const challenge = generateSlug(24);
   const githubAuthUrl = `${context.env.BASE_URL}/auth/github?client_id=slack&slack_team=${params.team_id}&slack_id=${params.user_id}&state=${challenge}`;
   const templateJson = {
     blocks: [
@@ -97,7 +97,7 @@ async function helpMessage(context: Context, params: SlackSlashCommand) {
         type: "context",
         elements: [
           {
-            text: "If something go wrong, <https://go.andreijiroh.xyz/feedback/slackbot|please file a new issue> or ping @ajhalili2006 on the fediverse.",
+            text: "If something go wrong, <https://go.andreijiroh.xyz/feedback/slackbot|please file a new issue> or ping @ajhalili2006 on the fediverse (or here in the Slack if he's here).",
             type: "mrkdwn",
           },
         ],
@@ -160,6 +160,48 @@ function authChallengePrompt(context: Context, params: SlackSlashCommand) {
   };
 }
 
+async function sneakyWIPScreen(context: Context, params: SlackSlashCommand) {
+  const blocks = {
+    type: "modal",
+    close: {
+      type: "plain_text",
+      text: "Close",
+      emoji: true,
+    },
+    title: {
+      type: "plain_text",
+      text: "You're a bit sneaky!",
+      emoji: true,
+    },
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "This feature is currently under development and working on stablizing this for you to use them soon. ",
+        },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: ":speech_balloon: *Send feedback*\nWe want to know your experience with our Slack integration for @ajhalili2006's golinks service.",
+        },
+        accessory: {
+          type: "button",
+          text: {
+            type: "plain_text",
+            text: "Open in GitHub",
+            emoji: true,
+          },
+          url: "https://go.andreijiroh.xyz/feedback/slack-integration",
+        },
+      },
+    ],
+  };
+  return context.json(blocks);
+}
+
 /**
  * Handle requests for OAuth-based app installation
  * @param context
@@ -193,24 +235,28 @@ export async function slackOAuthCallback(context: Context) {
       return context.json({ ok: false, error: result.error }, api.status);
     }
 
-    const team = lookupBotToken(
+    const team = await lookupBotToken(
       context.env.golinks,
       result.is_enterprise_install == true ? result.enterprise.id : result.team.id,
       result.is_enterprise_install,
     );
+    console.log(`[prisma-client] ${JSON.stringify(team)}`);
 
-    if (!team) {
+    if (team == null) {
       const deploy = await addBotToken(
         context.env.golinks,
         result.is_enterprise_install == true ? result.enterprise.id : result.team.id,
         result.is_enterprise_install,
       );
+      console.log(`[db] ${deploy}`);
     } else {
       const deploy = await updateBotToken(
         context.env.golinks,
-        result.is_enterprise_install == true ? result.enterprise.id : result.team.id,
-        result.is_enterprise_install,
+        result.team.id,
+        result.access_token,
+        result.is_enterprise_install == true ? result.enterprise.id : false,
       );
+      console.log(`[db] ${deploy}`);
     }
     return context.newResponse(`Installation success! Try it now with "/go help" command.`);
   } catch (err) {
@@ -273,7 +319,14 @@ export async function handleSlackCommand(context: Context) {
   return context.newResponse("Unsupported command");
 }
 
-export async function handleSlackInteractivity(context: Context) {}
+export async function handleSlackInteractivity(context: Context) {
+  const authToken = await context.req.query("token");
+  const data = await context.req.parseBody();
+	const headers = await context.req.header()
+  await console.log(`[slack-interactivity] data:`, data);
+  await console.log(`[slack-interactivity] headers:`, headers);
+  return await sneakyWIPScreen(context, data);
+}
 
 /**
  * Validate request timestamps to ensure that we don't received forged requests
