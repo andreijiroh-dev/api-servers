@@ -1,4 +1,4 @@
-import { GoLinkCreate, GoLinkList } from "api/golinks";
+import { GoLinkCreate, GoLinkList, GoLinkUpdate } from "api/golinks";
 import { fromHono } from "chanfana";
 import { Context, Hono } from "hono";
 import { cors } from "hono/cors";
@@ -13,6 +13,7 @@ import {
   discordServerNotFound,
   golinkNotFound,
   tags,
+	userApiKey,
 } from "lib/constants";
 import { DiscordInviteLinkCreate, DiscordInviteLinkList } from "api/discord";
 import { adminApiKeyAuth } from "lib/auth";
@@ -66,14 +67,20 @@ const openapi = fromHono(app, {
 });
 
 openapi.registry.registerComponent("securitySchemes", "adminApiKey", adminApiKey);
+openapi.registry.registerComponent("securitySchemes", "userApiKey", userApiKey)
 
-// Register OpenAPI endpoints
+// Register OpenAPI endpoints in this section
 openapi.get("/api/links", GoLinkList);
 openapi.post("/api/links", GoLinkCreate);
+openapi.put("/api/links/:slug", GoLinkUpdate)
+// category:discord-invites
 openapi.get("/api/discord-invites", DiscordInviteLinkList);
 openapi.post("/api/discord-invites", DiscordInviteLinkCreate);
+// category:meta
 openapi.get("/api/ping", PingPong);
 openapi.get("/api/commit", CommitHash);
+
+// Undocumented API endpoints: Slack integration
 app.post("/api/slack/slash-commands/:command", async (c) => handleSlackCommand(c));
 app.post("/api/slack/interactivity-feed", async (c) => handleSlackInteractivity(c));
 
@@ -108,21 +115,13 @@ app.get("/:link", async (c) => {
     console.log(`[redirector]: incoming request with path - ${link}`);
     const result = await getLink(c.env.golinks, link);
     console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
-    if (!result.targetUrl) {
-      return c.newResponse(
-        JSON.stringify({
-          sucesss: false,
-          error: "Not Found",
-        }),
-        404,
-        {
-          "Content-Type": "application/json",
-        },
-      );
-    }
+		if (!result) {
+			return c.newResponse(golinkNotFound(c.req.url), 404)
+		}
     return c.redirect(result.targetUrl);
-  } catch {
-    return c.newResponse(golinkNotFound(c.req.url), 404);
+  } catch (error) {
+		console.error(`[redirector]: error`, error)
+    return c.newResponse(golinkNotFound(c.req.url), 500);
   }
 });
 app.get("/discord/:inviteCode", async (c) => {
@@ -130,13 +129,30 @@ app.get("/discord/:inviteCode", async (c) => {
     const { inviteCode } = c.req.param();
     console.log(`[redirector]: incoming request with path - /discord/${inviteCode}`);
     const result = await getDiscordInvite(c.env.golinks, inviteCode);
-
+		if (!result) {
+			return c.newResponse(discordServerNotFound(c.req.url), 404)
+		}
     return c.redirect(`https://discord.gg/${result.inviteCode}`);
   } catch (error) {
-    console.error(`[prisma-client]`, error);
-    return c.newResponse(discordServerNotFound(c.req.url), 404);
+		console.error(`[redirector]: error`, error)
+    return c.newResponse(discordServerNotFound(c.req.url), 500);
   }
 });
+app.get("/go/:link", async (c) => {
+	try {
+		const { link } = c.req.param();
+		console.log(`[redirector]: incoming request with path - ${link}`);
+		const result = await getLink(c.env.golinks, link, "wikilinks");
+		console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
+		if (!result) {
+			return c.newResponse(golinkNotFound(c.req.url), 404)
+		}
+		return c.redirect(result.targetUrl);
+	} catch (error) {
+		console.error(`[redirector]: error`, error)
+		return c.newResponse(golinkNotFound(c.req.url), 500);
+	}
+})
 
 /* Old /edit/* stuff */
 app.get("/edit", (c) => {

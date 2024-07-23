@@ -5,7 +5,22 @@ export const adminApiKey = {
   name: "X-Golinks-Admin-Key",
   in: "header",
   description: "Superadmin API key. This is temporary while we're working on support for managing API tokens in the database.",
+	externalDocs: {
+		description: "Learn more about admin access",
+		url: homepage
+	}
 };
+
+export const userApiKey = {
+	type: "http",
+	scheme: "bearer",
+	format: "JWT",
+	description: "User bearer token in JWT format. The token will be checked server-side for expiration status and if it is revoked manually.",
+	externalDocs: {
+		description: "Request API access",
+		url: "https://go.andreijiroh.xyz/request-api-access"
+	}
+}
 
 export const homepage = "https://wiki.andreijiroh.xyz/golinks";
 export const sources = "https://github.com/andreijiroh-dev/api-servers/tree/main/apps/golinks-v2";
@@ -63,10 +78,16 @@ export const tags = [
 ];
 
 export const discordServerNotFound = (url?: string) => `
-Either that server is not on our records or something went wrong on our side.
+Either that server is not on our records (perhaps the slug is just renamed) or
+something went wrong on our side.
 
-If you are still seeing this, please file a issue at https://go.andreijiroh.xyz/feedback/broken-link${url !== undefined ? `?url=${url}` : ""}`;
+Still seeing this? Submit a ticket in our issue tracker using the following URL:
+
+	https://go.andreijiroh.xyz/feedback/broken-link${url !== undefined ? `?url=${url}` : ""}`;
 export const golinkNotFound = (url?: string) => `\
-Either that golink is not on our records or has been changed.
+Either that golink is not on our records (perhaps the slug is just renamed) or something
+went wrong on our side.
 
-Still seeing this? File a issue at https://go.andreijiroh.xyz/feedback/broken-link${url !== undefined ? `?url=${url}` : ""}`;
+Still seeing this? Submit a ticket in our issue tracker using the following URL:
+
+	https://go.andreijiroh.xyz/feedback/broken-link${url !== undefined ? `?url=${url}` : ""}`;

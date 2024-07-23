@@ -1,8 +1,8 @@
 import { OpenAPIRoute, Num, Bool, Str, contentJson } from "chanfana";
 import { z } from "zod";
 import { GoLinks } from "types";
-import { addGoLink, getGoLinks } from "lib/db";
-import { adminApiKey } from "lib/constants";
+import { addGoLink, getGoLinks, updateGoLink } from "lib/db";
+import { adminApiKey, userApiKey } from "lib/constants";
 import { Context } from "hono";
 import { generateSlug } from "lib/utils";
 
@@ -10,6 +10,8 @@ export class GoLinkCreate extends OpenAPIRoute {
   schema = {
     tags: ["golinks"],
     summary: "Create a golink",
+    description:
+      "Creating a golink or a short link requires authenication, and access may varies on authenicated user. When `slug` left blank, it will generate a 12-character random text ([see the function in git sources](https://github.com/andreijiroh-dev/api-servers/blob/main/apps/golinks-v2/src/lib/utils.ts#L9) for how it is implemented behind the scenes).\n\n## API limits and required scopes\n* **Admin API token and users with `admin` role** - Can create both custom golinks and short links for 25 times per minute\n* **Regular users** - Can only create short links, submiting custom golinks will soft-deprecated after creation for review",
     request: {
       body: {
         content: {
@@ -25,6 +27,9 @@ export class GoLinkCreate extends OpenAPIRoute {
     security: [
       {
         adminApiKey: [],
+      },
+      {
+        userApiKey: [],
       },
     ],
     responses: {
@@ -59,7 +64,7 @@ export class GoLinkCreate extends OpenAPIRoute {
     console.log(`[golinks-api] received body for link creation ${JSON.stringify(linkToCreate)}`);
     const slug = linkToCreate.slug !== undefined ? linkToCreate.slug : generateSlug(12);
 
-    const result = await addGoLink(c.env.golinks, slug, linkToCreate.targetUrl);
+    const result = await addGoLink(c.env.golinks, slug, linkToCreate.targetUrl, "golinks");
 
     if (result) {
       return c.newResponse(
@@ -80,6 +85,7 @@ export class GoLinkList extends OpenAPIRoute {
   schema = {
     tags: ["golinks"],
     summary: "List all golinks",
+		description: "Accessing this API route does not require authenication, although we also added it for higher API limits.",
     request: {
       query: z.object({
         page: Num({
@@ -93,6 +99,14 @@ export class GoLinkList extends OpenAPIRoute {
         }),
       }),
     },
+		security: [
+			{
+				adminApiKey: []
+			},
+			{
+				userApiKey: []
+			}
+		],
     responses: {
       "200": {
         description: "Returns a list of golinks",
@@ -123,8 +137,61 @@ export class GoLinkList extends OpenAPIRoute {
   }
 }
 
-export class UpdateGoLink extends OpenAPIRoute {
+export class GoLinkUpdate extends OpenAPIRoute {
   schema = {
     summary: "Update a golink",
+    tags: ["golinks"],
+    parameters: [
+      {
+        name: "golink",
+        in: "path",
+      },
+    ],
+    request: {
+      body: {
+        content: {
+          "application/json": {
+            schema: z.object({
+              slug: Str({ required: false }),
+              targetUrl: Str({ example: "https://example.com" }),
+            }),
+          },
+        },
+      },
+    },
+    security: [
+      {
+        adminApiKey: [],
+      },
+			{
+				userApiKey: []
+			}
+    ],
+    responses: {
+      "200": {
+        description: "Shows the updated information about a golink",
+        content: {
+          "application/json": {
+            schema: GoLinks,
+          },
+        },
+      },
+    },
   };
-}
+	async handle(c) {
+		const data = await this.getValidatedData<typeof this.schema>();
+		const { slug, newSlug, targetUrl } = data.body
+		try {
+			const result = await updateGoLink(c.env.golinks, slug, targetUrl, "golinks", newSlug)
+			return c.json({
+				ok: true,
+				result
+			})
+		} catch(error) {
+			return c.json({
+        ok: false,
+				error
+      });
+		}
+		}
+	}
