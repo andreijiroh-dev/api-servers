@@ -60,6 +60,9 @@ model GitHubOAuthChallenge {
 	metadata String
 	username String?
 	userId String?
+	created_on        DateTime @default(now())
+	updated_on        DateTime @updatedAt()
+	expires_on        DateTime
 }
 
 model ApiToken {
