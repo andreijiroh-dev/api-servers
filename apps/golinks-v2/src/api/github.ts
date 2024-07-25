@@ -8,17 +8,10 @@ export async function githubAuth(context: Context) {
   const appId = context.env.GITHUB_OAUTH_ID;
   const appSecret = context.env.GITHUB_OAUTH_SECRET;
   const redirect_uri = `${context.env.BASE_URL}/auth/github/callback`;
-  const { slack_id, slack_team, state, client_id } = context.req.query();
+  const { state, client_id } = context.req.query();
   if (client_id == "slack") {
-    const requestState = encodeURIComponent(
-      JSON.stringify({
-        slack_id,
-        slack_team,
-        state,
-      }),
-    );
     return context.redirect(
-      `https://github.com/login/oauth/authorize?client_id=${appId}&redirect_uri=${redirect_uri}&state=${requestState}&scope=read:user,user:email`,
+      `https://github.com/login/oauth/authorize?client_id=${appId}&redirect_uri=${redirect_uri}&state=${state}&scope=read:user,user:email`,
     );
   }
 }

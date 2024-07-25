@@ -2,7 +2,7 @@ import { GoLinkCreate, GoLinkList, GoLinkUpdate } from "api/golinks";
 import { fromHono } from "chanfana";
 import { Context, Hono } from "hono";
 import { cors } from "hono/cors";
-import { EnvBindings, Env } from "./types";
+import { EnvBindings } from "./types";
 import { getDiscordInvite, getLink } from "lib/db";
 import {
   adminApiKey,
@@ -25,7 +25,7 @@ import { handleSlackCommand, handleSlackInteractivity, slackOAuth, slackOAuthCal
 import { githubAuth } from "api/github";
 
 // Start a Hono app
-const app = new Hono<{ Bindings: EnvBindings<Env> }>();
+const app = new Hono<{ Bindings: EnvBindings }>();
 app.use(prettyJSON());
 app.use("/openapi.*", cors());
 app.use(

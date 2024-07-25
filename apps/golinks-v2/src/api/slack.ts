@@ -5,7 +5,8 @@ import { Buffer } from "node:buffer";
 import { generateSlug } from "lib/utils";
 import { PrismaD1 } from "@prisma/adapter-d1";
 import { Prisma, PrismaClient } from "@prisma/client";
-import { addBotToken, generateChallenge, lookupBotToken, slackOAuthExchange, updateBotToken } from "lib/auth";
+import { addBotToken, lookupBotToken, slackOAuthExchange, updateBotToken } from "lib/auth";
+import jwt from "jsonwebtoken"
 
 type SlackSlashCommand = {
   token?: string;
@@ -22,9 +23,54 @@ type SlackSlashCommand = {
   trigger_id: string;
 };
 
+type SlackInteractivityPayload = {
+	type: string;
+	user: {
+		id: string,
+		username: string,
+		name: string,
+		team_id: string
+	},
+	api_app_id: string
+	token: string,
+	container: {
+		channel_id: string,
+		is_epheral: boolean
+		message_ts: string,
+		type: string
+	},
+	trigger_id: string,
+	team: {
+		id: string,
+		name: string
+	},
+	enterprise: null | {
+		id: string,
+		name: string
+	}
+	is_enterprise_install: boolean,
+	channel: {
+		values: object
+	},
+	response_url: string,
+	actions: SlackInteractivityActions[]
+}
+
+type SlackInteractivityActions = {
+	block_id: string,
+	action_id: string,
+	type: string,
+	text: {
+		type: string,
+		text: string,
+		emoji: boolean
+	},
+	value: string,
+	action_ts: string
+}
+
 async function helpMessage(context: Context, params: SlackSlashCommand) {
   const challenge = generateSlug(24);
-  const githubAuthUrl = `${context.env.BASE_URL}/auth/github?client_id=slack&slack_team=${params.team_id}&slack_id=${params.user_id}&state=${challenge}`;
   const templateJson = {
     blocks: [
       {
@@ -74,7 +120,6 @@ async function helpMessage(context: Context, params: SlackSlashCommand) {
           },
           value: challenge,
           action_id: "github-auth-challenge",
-          url: githubAuthUrl,
         },
       },
       {
@@ -107,16 +152,50 @@ async function helpMessage(context: Context, params: SlackSlashCommand) {
   return context.json(templateJson);
 }
 
-function authChallengePrompt(context: Context, params: SlackSlashCommand) {
-  const newchallenge = `challenge_${generateSlug(24)}`;
-  const githubAuthUrl = `${context.env.BASE_URL}/auth/github?client_id=slack&slack_team=${params.team_id}&slack_id=${params.user_id}&state=${challenge}`;
+async function authChallengePrompt(context: Context, params: SlackInteractivityPayload) {
+  const challenge = params.actions[0].value;
+	const jwtState = jwt.sign({
+		slack_id: params.user.id,
+		slack_team: params.team.id,
+		slack_enterprise_id: params.enterprise !== null ? params.enterprise.id : null,
+		slack_enterprise_install: params.is_enterprise_install,
+		challenge
+},
+context.env.JWT_SIGNING_KEY,
+{
+	issuer: context.env.BASE_URL,
+	expiresIn: '15m',
+})
+  const githubAuthUrl = `${context.env.BASE_URL}/auth/github?client_id=slack&state=${jwtState}`;
   const templateCallback = {
     blocks: [
       {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "You should be redirected to the GitHub OAuth flow soon. Once you copied the code, press the button below and paste the code in the popout.",
+          text: "First, authenicate with GitHub using the button below. Note that we included your Slack ID and the team you are currently in to help us monitor API key requests.",
+        },
+      },
+      {
+        type: "actions",
+        elements: [
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: "Sign in with GitHub",
+              emoji: true,
+            },
+            url: githubAuthUrl,
+						style: "primary"
+          },
+        ],
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "Once you copied the code, press the button below and paste the code in the popout.",
         },
       },
       {
@@ -135,32 +214,12 @@ function authChallengePrompt(context: Context, params: SlackSlashCommand) {
           },
         ],
       },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: "Having issues? Try authenicating again by using the button below or get a new challenge with `/go login` command.",
-        },
-      },
-      {
-        type: "actions",
-        elements: [
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: "Retry OAuth flow",
-              emoji: true,
-            },
-            url: "https://todo",
-          },
-        ],
-      },
     ],
   };
+	return context.json(templateCallback, 200);
 }
 
-async function sneakyWIPScreen(context: Context, params: SlackSlashCommand) {
+async function sneakyWIPScreen(context: Context, params: SlackInteractivityPayload) {
   const blocks = {
     type: "modal",
     close: {
@@ -178,7 +237,7 @@ async function sneakyWIPScreen(context: Context, params: SlackSlashCommand) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "This feature is currently under development and working on stablizing this for you to use them soon. ",
+          text: "This feature is currently under development and working on stablizing this for you to use them soon.",
         },
       },
       {
@@ -199,7 +258,7 @@ async function sneakyWIPScreen(context: Context, params: SlackSlashCommand) {
       },
     ],
   };
-  return context.json(blocks);
+  return context.json(blocks, 200);
 }
 
 /**
@@ -321,11 +380,18 @@ export async function handleSlackCommand(context: Context) {
 
 export async function handleSlackInteractivity(context: Context) {
   const authToken = await context.req.query("token");
-  const data = await context.req.parseBody();
+  const { payload } = await context.req.parseBody();
+	const parsedPayload: SlackInteractivityPayload = JSON.parse(payload)
 	const headers = await context.req.header()
-  await console.log(`[slack-interactivity] data:`, data);
+  await console.log(`[slack-interactivity] data:`, parsedPayload);
+	await console.log(`[slack-interactivity] actions:`, parsedPayload.actions)
   await console.log(`[slack-interactivity] headers:`, headers);
-  return await sneakyWIPScreen(context, data);
+
+	if (parsedPayload.actions[0].action_id == "github-auth-challenge") {
+		return await authChallengePrompt(context, parsedPayload)
+	} else {
+		return await sneakyWIPScreen(context, parsedPayload);
+	}
 }
 
 /**

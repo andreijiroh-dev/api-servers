@@ -29,7 +29,7 @@ export const DiscordInvites = z.object({
  */
 export const WikiLinks = GoLinks;
 
-export interface Env {
+export interface EnvBindings {
   DEPLOY_ENV: "production" | "staging" | "development";
   GIT_DEPLOY_COMMIT: string;
   SLACK_OAUTH_ID: string;
@@ -41,9 +41,10 @@ export interface Env {
   golinks: D1Database;
   ADMIN_KEY: string;
   BASE_URL: string;
+	JWT_SIGNING_KEY: string
 }
 
-export type EnvBindings<Env> = {
+/*type EnvBindings = {
   golinks: D1Database;
   BASE_URL: string;
   DEPLOY_ENV: "production" | "staging" | "development";
@@ -55,4 +56,5 @@ export type EnvBindings<Env> = {
   SLACK_SIGNING_SECRET: string;
   GITHUB_OAUTH_ID: string;
   GITHUB_OAUTH_SECRET: string;
-};
+	JWT_SIGNING_KEY: string
+};*/
