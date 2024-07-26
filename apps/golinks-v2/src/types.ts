@@ -41,7 +41,9 @@ export interface EnvBindings {
   golinks: D1Database;
   ADMIN_KEY: string;
   BASE_URL: string;
-	JWT_SIGNING_KEY: string
+  JWT_SIGNING_KEY: string;
+  SLACK_OAUTH_STATE_SECRET: string;
+  slackBotTokens: KVNamespace;
 }
 
 /*type EnvBindings = {

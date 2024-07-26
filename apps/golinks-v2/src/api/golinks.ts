@@ -1,8 +1,7 @@
 import { OpenAPIRoute, Num, Bool, Str, contentJson } from "chanfana";
 import { z } from "zod";
 import { GoLinks } from "types";
-import { addGoLink, getGoLinks, updateGoLink } from "lib/db";
-import { adminApiKey, userApiKey } from "lib/constants";
+import { addGoLink, getGoLinks, getLink, updateGoLink } from "lib/db";
 import { Context } from "hono";
 import { generateSlug } from "lib/utils";
 
@@ -85,7 +84,7 @@ export class GoLinkList extends OpenAPIRoute {
   schema = {
     tags: ["golinks"],
     summary: "List all golinks",
-		description: "Accessing this API route does not require authenication, although we also added it for higher API limits.",
+    description: "Accessing this API route does not require authenication, although we also added it for higher API limits.",
     request: {
       query: z.object({
         page: Num({
@@ -99,14 +98,14 @@ export class GoLinkList extends OpenAPIRoute {
         }),
       }),
     },
-		security: [
-			{
-				adminApiKey: []
-			},
-			{
-				userApiKey: []
-			}
-		],
+    security: [
+      {
+        adminApiKey: [],
+      },
+      {
+        userApiKey: [],
+      },
+    ],
     responses: {
       "200": {
         description: "Returns a list of golinks",
@@ -143,8 +142,9 @@ export class GoLinkUpdate extends OpenAPIRoute {
     tags: ["golinks"],
     parameters: [
       {
-        name: "golink",
+        name: "slug",
         in: "path",
+				description: "Slug name of the golink"
       },
     ],
     request: {
@@ -163,35 +163,66 @@ export class GoLinkUpdate extends OpenAPIRoute {
       {
         adminApiKey: [],
       },
-			{
-				userApiKey: []
-			}
+      {
+        userApiKey: [],
+      },
     ],
     responses: {
       "200": {
         description: "Shows the updated information about a golink",
         content: {
           "application/json": {
-            schema: GoLinks,
+            schema: z.object({
+							ok: Bool({default: true}),
+							result: GoLinks
+						}),
           },
         },
       },
     },
   };
-	async handle(c) {
-		const data = await this.getValidatedData<typeof this.schema>();
-		const { slug, newSlug, targetUrl } = data.body
-		try {
-			const result = await updateGoLink(c.env.golinks, slug, targetUrl, "golinks", newSlug)
-			return c.json({
-				ok: true,
-				result
-			})
-		} catch(error) {
-			return c.json({
-        ok: false,
-				error
+  async handle(c: Context) {
+    const data = await this.getValidatedData<typeof this.schema>();
+    const { newSlug, targetUrl } = data.body;
+		const { slug } = c.req.param()
+    try {
+      const result = await updateGoLink(c.env.golinks, slug, targetUrl, "golinks", newSlug);
+      return c.json({
+        ok: true,
+        result,
       });
+    } catch (error) {
+      return c.json({
+        ok: false,
+        error,
+      });
+    }
+  }
+}
+
+export class GoLinkInfo extends OpenAPIRoute {
+  schema = {
+    tags: ["golinks"],
+    summary: "Get an information about a golink",
+    parameters: [
+      {
+        name: "slug",
+        in: "path",
+        description: "Slug name of the golink",
+      },
+    ],
+		responses: {
+			"200": {
+
+			}
 		}
-		}
-	}
+  };
+  async handle(context: Context) {
+    const { slug } = context.req.param();
+    const result = await getLink(context.env.golinks, slug, "golinks");
+    if (!result) {
+      return context.json({ ok: false, error: "Not found" }, 404);
+    }
+    return context.json({ ok: true, result });
+  }
+}

@@ -6,6 +6,7 @@ import { z } from "zod";
 
 export class CommitHash extends OpenAPIRoute {
   schema = {
+    tags: ["meta"],
     description: "Get the latest commit hash",
     responses: {
       "200": {
@@ -34,6 +35,7 @@ export class CommitHash extends OpenAPIRoute {
 
 export class PingPong extends OpenAPIRoute {
   schema = {
+    tags: ["meta"],
     description: "Ping the API service if it's up.",
     responses: {
       "200": {

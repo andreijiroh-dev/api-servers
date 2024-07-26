@@ -4,9 +4,14 @@ import crypto from "node:crypto";
 import { Buffer } from "node:buffer";
 import { generateSlug } from "lib/utils";
 import { PrismaD1 } from "@prisma/adapter-d1";
-import { Prisma, PrismaClient } from "@prisma/client";
-import { addBotToken, lookupBotToken, slackOAuthExchange, updateBotToken } from "lib/auth";
-import jwt from "jsonwebtoken"
+import { PrismaClient } from "@prisma/client";
+import { addBotToken, lookupBotToken, slackAppInstaller, slackOAuthExchange, updateBotToken } from "lib/auth";
+import { SignJWT } from "jose";
+import URLSearchParams from "url-search-params";
+import { Installation, InstallationQuery } from "@slack/oauth";
+import { Bool, OpenAPIRoute, Str } from "chanfana";
+import { adminApiKey } from "lib/constants";
+import { z } from "zod";
 
 type SlackSlashCommand = {
   token?: string;
@@ -24,50 +29,50 @@ type SlackSlashCommand = {
 };
 
 type SlackInteractivityPayload = {
-	type: string;
-	user: {
-		id: string,
-		username: string,
-		name: string,
-		team_id: string
-	},
-	api_app_id: string
-	token: string,
-	container: {
-		channel_id: string,
-		is_epheral: boolean
-		message_ts: string,
-		type: string
-	},
-	trigger_id: string,
-	team: {
-		id: string,
-		name: string
-	},
-	enterprise: null | {
-		id: string,
-		name: string
-	}
-	is_enterprise_install: boolean,
-	channel: {
-		values: object
-	},
-	response_url: string,
-	actions: SlackInteractivityActions[]
-}
+  type: string;
+  user: {
+    id: string;
+    username: string;
+    name: string;
+    team_id: string;
+  };
+  api_app_id: string;
+  token: string;
+  container: {
+    channel_id: string;
+    is_epheral: boolean;
+    message_ts: string;
+    type: string;
+  };
+  trigger_id: string;
+  team: {
+    id: string;
+    name: string;
+  };
+  enterprise: null | {
+    id: string;
+    name: string;
+  };
+  is_enterprise_install: boolean;
+  channel: {
+    values: object;
+  };
+  response_url: string;
+  actions: SlackInteractivityActions[];
+};
 
 type SlackInteractivityActions = {
-	block_id: string,
-	action_id: string,
-	type: string,
-	text: {
-		type: string,
-		text: string,
-		emoji: boolean
-	},
-	value: string,
-	action_ts: string
-}
+  block_id: string;
+  action_id: string;
+  type: string;
+  text: {
+    type: string;
+    text: string;
+    emoji: boolean;
+  };
+  value: string;
+  action_ts: string;
+};
 
 async function helpMessage(context: Context, params: SlackSlashCommand) {
   const challenge = generateSlug(24);
@@ -153,19 +158,9 @@ async function helpMessage(context: Context, params: SlackSlashCommand) {
 }
 
 async function authChallengePrompt(context: Context, params: SlackInteractivityPayload) {
+  const secret = new TextEncoder().encode(context.env.JWT_SIGNING_KEY);
   const challenge = params.actions[0].value;
-	const jwtState = jwt.sign({
-		slack_id: params.user.id,
-		slack_team: params.team.id,
-		slack_enterprise_id: params.enterprise !== null ? params.enterprise.id : null,
-		slack_enterprise_install: params.is_enterprise_install,
-		challenge
-},
-context.env.JWT_SIGNING_KEY,
-{
-	issuer: context.env.BASE_URL,
-	expiresIn: '15m',
-})
+  const jwtState = await new SignJWT();
   const githubAuthUrl = `${context.env.BASE_URL}/auth/github?client_id=slack&state=${jwtState}`;
   const templateCallback = {
     blocks: [
@@ -187,7 +182,7 @@ context.env.JWT_SIGNING_KEY,
               emoji: true,
             },
             url: githubAuthUrl,
-						style: "primary"
+            style: "primary",
           },
         ],
       },
@@ -216,51 +211,47 @@ context.env.JWT_SIGNING_KEY,
       },
     ],
   };
-	return context.json(templateCallback, 200);
+  return context.json(templateCallback, 200);
 }
 
-async function sneakyWIPScreen(context: Context, params: SlackInteractivityPayload) {
-  const blocks = {
-    type: "modal",
-    close: {
-      type: "plain_text",
-      text: "Close",
-      emoji: true,
-    },
-    title: {
-      type: "plain_text",
-      text: "You're a bit sneaky!",
-      emoji: true,
-    },
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: "This feature is currently under development and working on stablizing this for you to use them soon.",
-        },
+const sneakyWIPScreen = {
+  type: "modal",
+  close: {
+    type: "plain_text",
+    text: "Close",
+    emoji: true,
+  },
+  title: {
+    type: "plain_text",
+    text: "You're a bit sneaky!",
+    emoji: true,
+  },
+  blocks: [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "This feature is currently under development and working on stablizing this for you to use them soon.",
       },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: ":speech_balloon: *Send feedback*\nWe want to know your experience with our Slack integration for @ajhalili2006's golinks service.",
-        },
-        accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            text: "Open in GitHub",
-            emoji: true,
-          },
-          url: "https://go.andreijiroh.xyz/feedback/slack-integration",
-        },
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: ":speech_balloon: *Send feedback*\nWe want to know your experience with our Slack integration for Andrei Jiroh's golinks service.",
       },
-    ],
-  };
-  return context.json(blocks, 200);
-}
-
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          text: "Open in GitHub",
+          emoji: true,
+        },
+        url: "https://go.andreijiroh.xyz/feedback/slack-integration",
+      },
+    },
+  ],
+};
 /**
  * Handle requests for OAuth-based app installation
  * @param context
@@ -290,33 +281,29 @@ export async function slackOAuthCallback(context: Context) {
     const result = await api.json();
 
     console.log(`[slack-oauth] result: ${JSON.stringify(result)} (${api.status})`);
+
     if (result.ok == false) {
       return context.json({ ok: false, error: result.error }, api.status);
     }
 
-    const team = await lookupBotToken(
-      context.env.golinks,
-      result.is_enterprise_install == true ? result.enterprise.id : result.team.id,
-      result.is_enterprise_install,
-    );
-    console.log(`[prisma-client] ${JSON.stringify(team)}`);
-
-    if (team == null) {
-      const deploy = await addBotToken(
-        context.env.golinks,
-        result.is_enterprise_install == true ? result.enterprise.id : result.team.id,
-        result.is_enterprise_install,
-      );
-      console.log(`[db] ${deploy}`);
-    } else {
-      const deploy = await updateBotToken(
-        context.env.golinks,
-        result.team.id,
-        result.access_token,
-        result.is_enterprise_install == true ? result.enterprise.id : false,
-      );
-      console.log(`[db] ${deploy}`);
-    }
+    const installation: Installation<"v2"> = {
+      isEnterpriseInstall: result.is_enterprise_install,
+      team: result.team,
+      appId: result.appId,
+      bot: {
+        id: result.bot_user_id,
+        token: result.access_token,
+        scopes: ["commands", "im:write"],
+        userId: result.bot_user_id,
+      },
+      authVersion: "v2",
+      user: result.authed_user,
+      enterprise: result.enterprise,
+      enterpriseUrl: result.enterprise !== null ? `https://${result.enterprise.name}.enterprise.slack.com` : undefined,
+      incomingWebhook: undefined,
+      tokenType: "bot",
+    };
+    await slackAppInstaller(context.env).installationStore.storeInstallation(installation);
     return context.newResponse(`Installation success! Try it now with "/go help" command.`);
   } catch (err) {
     console.error(err);
@@ -381,17 +368,127 @@ export async function handleSlackCommand(context: Context) {
 export async function handleSlackInteractivity(context: Context) {
   const authToken = await context.req.query("token");
   const { payload } = await context.req.parseBody();
-	const parsedPayload: SlackInteractivityPayload = JSON.parse(payload)
-	const headers = await context.req.header()
+  const parsedPayload: SlackInteractivityPayload = JSON.parse(payload);
+  const headers = await context.req.header();
   await console.log(`[slack-interactivity] data:`, parsedPayload);
-	await console.log(`[slack-interactivity] actions:`, parsedPayload.actions)
+  await console.log(`[slack-interactivity] actions:`, parsedPayload.actions);
   await console.log(`[slack-interactivity] headers:`, headers);
 
-	if (parsedPayload.actions[0].action_id == "github-auth-challenge") {
-		return await authChallengePrompt(context, parsedPayload)
-	} else {
-		return await sneakyWIPScreen(context, parsedPayload);
-	}
+  if (parsedPayload.actions[0].action_id == "github-auth-challenge") {
+    return await authChallengePrompt(context, parsedPayload);
+  } else {
+    return await context.json(sneakyWIPScreen, 200);
+  }
+}
+
+export class debugApiGetSlackBotToken extends OpenAPIRoute {
+  schema = {
+    tags: ["debug"],
+    summary: "Get a Slack bot token for a installation for manual admin access to Slack APIs.",
+    description: "Note that due to its nature, this is currently off-limits to public access and only documented here for convenience.",
+    request: {
+      query: z.object({
+        teamId: Str({
+          description: "Slack team ID",
+          required: true,
+        }),
+        enterpriseInstall: Bool({
+          description: "Set to `true` to enable queries to Enterprise Grid organization installs.",
+          required: false,
+        }),
+        enterpriseId: Str({
+          description: "Enterprise Grid organization ID",
+          required: false,
+        }),
+      }),
+    },
+    security: [
+      {
+        adminApiKey: [],
+      },
+    ],
+  };
+
+  async handle(context: Context) {
+    const data = await this.getValidatedData<typeof this.schema>();
+    const query = data.query;
+    const params: InstallationQuery<typeof query.enterpriseInstall> = {
+      teamId: query.teamId,
+      enterpriseId: query.enterpriseInstall == true ? query.enterpriseId : undefined,
+      isEnterpriseInstall: query.enterpriseInstall,
+    };
+    const installQuery = await slackAppInstaller(context.env).authorize(params);
+    return context.json({
+      ok: true,
+      result: installQuery,
+    });
+  }
+}
+
+export class debugApiTestSlackBotToken extends OpenAPIRoute {
+  schema = {
+    tags: ["debug"],
+    summary: "Calls `auth.test` Slack API method to test if the bot token is valid",
+    request: {
+      query: z.object({
+        teamId: Str({
+          description: "Slack team ID",
+          required: true,
+        }),
+        enterpriseInstall: Bool({
+          description: "Set to `true` to enable queries to Enterprise Grid organization installs.",
+          required: false,
+        }),
+        enterpriseId: Str({
+          description: "Enterprise Grid organization ID",
+          required: false,
+        }),
+      }),
+    },
+    security: [
+      {
+        adminApiKey: [],
+      },
+    ],
+  };
+
+  async handle(context: Context) {
+    const data = await this.getValidatedData<typeof this.schema>();
+    const query = data.query;
+		const enterpriseInstall = query.enterpriseInstall || false
+    const params: InstallationQuery<typeof enterpriseInstall> = {
+      teamId: query.teamId,
+      enterpriseId: query.enterpriseInstall == true ? query.enterpriseId : undefined,
+      isEnterpriseInstall: enterpriseInstall,
+    };
+    const botToken = await slackAppInstaller(context.env).installationStore.fetchInstallation(params);
+    if (!botToken) {
+      return context.json({ ok: false, error: "Installation not found" }, 404);
+    }
+    try {
+      const apiResult = await fetch("https://slack.com/api/auth.test", {
+        headers: {
+          Authorization: `Bearer ${botToken.bot.token}`,
+        },
+      });
+      return context.json({
+        ok: true,
+        result: {
+          installation: botToken,
+          authTest: await apiResult.json(),
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      return context.json(
+        {
+          ok: false,
+          error: "Something gone horribly wrong.",
+        },
+        500,
+      );
+    }
+  }
 }
 
 /**

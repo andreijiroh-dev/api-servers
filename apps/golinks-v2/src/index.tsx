@@ -1,4 +1,4 @@
-import { GoLinkCreate, GoLinkList, GoLinkUpdate } from "api/golinks";
+import { GoLinkCreate, GoLinkInfo, GoLinkList, GoLinkUpdate } from "api/golinks";
 import { fromHono } from "chanfana";
 import { Context, Hono } from "hono";
 import { cors } from "hono/cors";
@@ -13,16 +13,27 @@ import {
   discordServerNotFound,
   golinkNotFound,
   tags,
-	userApiKey,
+  userApiKey,
 } from "lib/constants";
 import { DiscordInviteLinkCreate, DiscordInviteLinkList } from "api/discord";
-import { adminApiKeyAuth } from "lib/auth";
+import { adminApiKeyAuth, slackAppInstaller } from "lib/auth";
 import { DeprecatedGoLinkPage } from "pages/deprecated-link";
 import { CommitHash, PingPong } from "api/meta";
 import { prettyJSON } from "hono/pretty-json";
 import { generateNewIssueUrl, handleOldUrls } from "lib/utils";
-import { handleSlackCommand, handleSlackInteractivity, slackOAuth, slackOAuthCallback } from "api/slack";
+import {
+  debugApiGetSlackBotToken,
+  debugApiTestSlackBotToken,
+  handleSlackCommand,
+  handleSlackInteractivity,
+  slackOAuth,
+  slackOAuthCallback,
+} from "api/slack";
 import { githubAuth } from "api/github";
+import * as jose from "jose";
+import { IncomingMessage, ServerResponse } from "node:http";
+import { InstallationQuery } from "@slack/oauth";
+import { WikiLinkCreate } from "api/wikilinks";
 
 // Start a Hono app
 const app = new Hono<{ Bindings: EnvBindings }>();
@@ -42,6 +53,7 @@ app.use(
   }),
 );
 app.use("/api/*", adminApiKeyAuth);
+app.use("/debug", adminApiKeyAuth);
 app.use("/*", async (c, next) => await handleOldUrls(c, next));
 
 // Setup OpenAPI registry
@@ -67,18 +79,24 @@ const openapi = fromHono(app, {
 });
 
 openapi.registry.registerComponent("securitySchemes", "adminApiKey", adminApiKey);
-openapi.registry.registerComponent("securitySchemes", "userApiKey", userApiKey)
+openapi.registry.registerComponent("securitySchemes", "userApiKey", userApiKey);
 
 // Register OpenAPI endpoints in this section
 openapi.get("/api/links", GoLinkList);
 openapi.post("/api/links", GoLinkCreate);
-openapi.put("/api/links/:slug", GoLinkUpdate)
+openapi.get("/api/links/:slug", GoLinkInfo)
+openapi.put("/api/links/:slug", GoLinkUpdate);
+// category:wikilinks
+openapi.post("/api/wikilinks", WikiLinkCreate)
 // category:discord-invites
 openapi.get("/api/discord-invites", DiscordInviteLinkList);
 openapi.post("/api/discord-invites", DiscordInviteLinkCreate);
 // category:meta
 openapi.get("/api/ping", PingPong);
 openapi.get("/api/commit", CommitHash);
+// category: debug
+openapi.get("/api/debug/slack/bot-token", debugApiGetSlackBotToken);
+openapi.get("/api/debug/slack/auth-test", debugApiTestSlackBotToken);
 
 // Undocumented API endpoints: Slack integration
 app.post("/api/slack/slash-commands/:command", async (c) => handleSlackCommand(c));
@@ -109,51 +127,6 @@ app.get("/workers", (c) => {
   return c.redirect(`${origin}/workers/dashboard`);
 });
 
-app.get("/:link", async (c) => {
-  try {
-    const { link } = c.req.param();
-    console.log(`[redirector]: incoming request with path - ${link}`);
-    const result = await getLink(c.env.golinks, link);
-    console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
-		if (!result) {
-			return c.newResponse(golinkNotFound(c.req.url), 404)
-		}
-    return c.redirect(result.targetUrl);
-  } catch (error) {
-		console.error(`[redirector]: error`, error)
-    return c.newResponse(golinkNotFound(c.req.url), 500);
-  }
-});
-app.get("/discord/:inviteCode", async (c) => {
-  try {
-    const { inviteCode } = c.req.param();
-    console.log(`[redirector]: incoming request with path - /discord/${inviteCode}`);
-    const result = await getDiscordInvite(c.env.golinks, inviteCode);
-		if (!result) {
-			return c.newResponse(discordServerNotFound(c.req.url), 404)
-		}
-    return c.redirect(`https://discord.gg/${result.inviteCode}`);
-  } catch (error) {
-		console.error(`[redirector]: error`, error)
-    return c.newResponse(discordServerNotFound(c.req.url), 500);
-  }
-});
-app.get("/go/:link", async (c) => {
-	try {
-		const { link } = c.req.param();
-		console.log(`[redirector]: incoming request with path - ${link}`);
-		const result = await getLink(c.env.golinks, link, "wikilinks");
-		console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
-		if (!result) {
-			return c.newResponse(golinkNotFound(c.req.url), 404)
-		}
-		return c.redirect(result.targetUrl);
-	} catch (error) {
-		console.error(`[redirector]: error`, error)
-		return c.newResponse(golinkNotFound(c.req.url), 500);
-	}
-})
-
 /* Old /edit/* stuff */
 app.get("/edit", (c) => {
   return c.redirect("/workers/edit");
@@ -173,6 +146,84 @@ app.get("/feedback/:type", (c) => {
   const { type } = c.req.param();
   const { url } = c.req.query();
   return c.redirect(generateNewIssueUrl(type, "golinks", url));
+});
+
+app.get("/api/debug/bindings", (context) => {
+  console.log(context.env);
+  return context.json(context.env);
+});
+app.get("/api/debug/jwt", async (c) => {
+  const { token } = c.req.query();
+  const secret = new TextEncoder().encode(c.env.JWT_SIGNING_KEY);
+  const payload = {
+    slack_team_id: "T1234",
+    slack_user_id: "U1234",
+    slack_enterprise_id: "E1234",
+    slack_enterprise_install: true,
+    example_jwt: true,
+  };
+
+  if (token == null) {
+    const exampleToken = await new jose.SignJWT(payload)
+      .setProtectedHeader({ alg: "HS256" })
+      .setAudience("challenge_1234abcd")
+      .setIssuer(c.env.BASE_URL)
+      .setIssuedAt()
+      .setExpirationTime("15 minutes")
+      .sign(secret);
+    return c.json({ ok: true, result: exampleToken });
+  }
+
+  const result = await jose.jwtVerify(token, secret, {
+    issuer: c.env.BASE_URL,
+    clockTolerance: 30,
+  });
+  return c.json({ ok: true, result });
+});
+
+app.get("/:link", async (c) => {
+  try {
+    const { link } = c.req.param();
+    console.log(`[redirector]: incoming request with path - ${link}`);
+    const result = await getLink(c.env.golinks, link);
+    console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
+    if (!result) {
+      return c.newResponse(golinkNotFound(c.req.url), 404);
+    }
+    return c.redirect(result.targetUrl);
+  } catch (error) {
+    console.error(`[redirector]: error`, error);
+    return c.newResponse(golinkNotFound(c.req.url), 500);
+  }
+});
+app.get("/discord/:inviteCode", async (c) => {
+  try {
+    const { inviteCode } = c.req.param();
+    console.log(`[redirector]: incoming request with path - /discord/${inviteCode}`);
+    const result = await getDiscordInvite(c.env.golinks, inviteCode);
+    if (!result) {
+      return c.newResponse(discordServerNotFound(c.req.url), 404);
+    }
+    return c.redirect(`https://discord.gg/${result.inviteCode}`);
+  } catch (error) {
+    console.error(`[redirector]: error`, error);
+    return c.newResponse(discordServerNotFound(c.req.url), 500);
+  }
+});
+app.get("/go/:link", async (c) => {
+  try {
+    const { link } = c.req.param();
+    console.log(`[redirector]: incoming request with path - ${link}`);
+    const result = await getLink(c.env.golinks, link, "wikilinks");
+    console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
+    if (!result) {
+      return c.newResponse(golinkNotFound(c.req.url), 404);
+    }
+    return c.redirect(result.targetUrl);
+  } catch (error) {
+    console.error(`[redirector]: error`, error);
+    return c.newResponse(golinkNotFound(c.req.url), 500);
+  }
 });
 
 // Export the Hono app

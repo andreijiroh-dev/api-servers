@@ -193,92 +193,92 @@ export async function updateGoLink(
 }
 
 export async function deprecateGoLink(db: EnvBindings<Env>["golinks"], slug: string, reason: string, type: "golinks" | "wikilinks" | null) {
-	  const adapter = new PrismaD1(db);
-    const prisma = new PrismaClient({ adapter });
+  const adapter = new PrismaD1(db);
+  const prisma = new PrismaClient({ adapter });
 
-		try {
-      if (type == "wikilinks") {
-        const result = prisma.wikiLinks.update({
-          where: {
-            slug,
-          },
-          data: {
-            is_active: false,
-            deactivation_reason: reason,
-          },
-        });
-        return result;
-      } else {
-				const result = prisma.goLink.update({
-          where: {
-            slug,
-          },
-          data: {
-            is_active: false,
-            deactivation_reason: reason,
-          },
-        });
-        return result;
-			}
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        console.error(`[prisma-client] known client error: ${error.code} - ${error.message}`);
-
-        if (error.code === "P2002") {
-          return Promise.reject(new Error("A Discord invite code with that slug already exists."));
-        }
-
-        return Promise.reject(new Error("A error occurred while querying the database."));
-      } else {
-        console.error(`[prisma-client]- Unexpected error`, error);
-        return Promise.reject(new Error("An unexpected error occurred."));
-      }
+  try {
+    if (type == "wikilinks") {
+      const result = prisma.wikiLinks.update({
+        where: {
+          slug,
+        },
+        data: {
+          is_active: false,
+          deactivation_reason: reason,
+        },
+      });
+      return result;
+    } else {
+      const result = prisma.goLink.update({
+        where: {
+          slug,
+        },
+        data: {
+          is_active: false,
+          deactivation_reason: reason,
+        },
+      });
+      return result;
     }
-};
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.error(`[prisma-client] known client error: ${error.code} - ${error.message}`);
+
+      if (error.code === "P2002") {
+        return Promise.reject(new Error("A Discord invite code with that slug already exists."));
+      }
+
+      return Promise.reject(new Error("A error occurred while querying the database."));
+    } else {
+      console.error(`[prisma-client]- Unexpected error`, error);
+      return Promise.reject(new Error("An unexpected error occurred."));
+    }
+  }
+}
 
 export async function undeprecateGoLink(db: EnvBindings<Env>["golinks"], slug: string, type: "golinks" | "wikilinks" | null) {
-	  const adapter = new PrismaD1(db);
-    const prisma = new PrismaClient({ adapter });
+  const adapter = new PrismaD1(db);
+  const prisma = new PrismaClient({ adapter });
 
-		try {
-      if (type == "wikilinks") {
-        const result = prisma.wikiLinks.update({
-          where: {
-            slug,
-          },
-          data: {
-            is_active: true,
-            deactivation_reason: null,
-          },
-        });
-        return result;
-      } else {
-				const result = prisma.goLink.update({
-          where: {
-            slug,
-          },
-          data: {
-            is_active: true,
-            deactivation_reason: null,
-          },
-        });
-        return result;
-			}
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        console.error(`[prisma-client] known client error: ${error.code} - ${error.message}`);
-
-        if (error.code === "P2002") {
-          return Promise.reject(new Error("A Discord invite code with that slug already exists."));
-        }
-
-        return Promise.reject(new Error("A error occurred while querying the database."));
-      } else {
-        console.error(`[prisma-client]- Unexpected error`, error);
-        return Promise.reject(new Error("An unexpected error occurred."));
-      }
+  try {
+    if (type == "wikilinks") {
+      const result = prisma.wikiLinks.update({
+        where: {
+          slug,
+        },
+        data: {
+          is_active: true,
+          deactivation_reason: null,
+        },
+      });
+      return result;
+    } else {
+      const result = prisma.goLink.update({
+        where: {
+          slug,
+        },
+        data: {
+          is_active: true,
+          deactivation_reason: null,
+        },
+      });
+      return result;
     }
-};
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.error(`[prisma-client] known client error: ${error.code} - ${error.message}`);
+
+      if (error.code === "P2002") {
+        return Promise.reject(new Error("A Discord invite code with that slug already exists."));
+      }
+
+      return Promise.reject(new Error("A error occurred while querying the database."));
+    } else {
+      console.error(`[prisma-client]- Unexpected error`, error);
+      return Promise.reject(new Error("An unexpected error occurred."));
+    }
+  }
+}
 
 export async function deleteGoLink(db: EnvBindings<Env>["golinks"], slug: string, type: "golinks" | "wikilinks" | null) {
   const adapter = new PrismaD1(db);
@@ -286,16 +286,16 @@ export async function deleteGoLink(db: EnvBindings<Env>["golinks"], slug: string
 
   try {
     if (type == "wikilinks") {
-			const result = prisma.wikiLinks.delete({
+      const result = prisma.wikiLinks.delete({
         where: { slug },
       });
       return result;
-		} else {
-			const result = prisma.goLink.delete({
+    } else {
+      const result = prisma.goLink.delete({
         where: { slug },
       });
       return result;
-		}
+    }
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       console.error(`[prisma-client] known client error: ${error.code} - ${error.message}`);
