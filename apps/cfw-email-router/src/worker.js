@@ -1,4 +1,4 @@
-import logops from "../../../packages/lib/mod";
+import { debug } from '../../../packages/lib/logging';
 
 export default {
 	async email(message, env, ctx) {
@@ -16,8 +16,8 @@ export default {
 		const emailUsername = message.headers.get('to').replace(regex, subst);
 
 		if (block.indexOf(message.headers.get('from')) == -1) {
-			logops.debug(`handling ${message.from}'s message with subject "${message.headers.get('subject')}"`, `incoming-email`)
-			logops.debug(`parsed email username:${emailUsername}`, `email-parser`)
+			debug(`handling ${message.from}'s message with subject "${message.headers.get('subject')}"`, `incoming-email`);
+			debug(`parsed email username:${emailUsername}`, `email-parser`);
 			switch (emailUsername) {
 				case 'ajhalili2006':
 					await message.forward(env.MAIN_ADDRESS);

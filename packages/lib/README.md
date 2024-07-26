@@ -14,5 +14,5 @@ yarn add @ajhalili2006/api-servers-lib
 // or via JSR in Deno
 // see https://jsr.io/docs/npm-compatibility if you want to use
 // JSR as part of your npm/yarn/pnpm workflow
-import * as stdlib from "jsr:@ajahlili2006/api-servers-lib"
+import * as stdlib from "jsr:@ajahlili2006/api-servers-lib";
 ```

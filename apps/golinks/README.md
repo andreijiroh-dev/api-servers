@@ -12,7 +12,7 @@ This whole server is currently implemented as a Cloudflare Worker, with two sepe
 If you are going to deploy your own using this codebase, complete the
 checklist to get things started.
 
-* [ ] Create two KV namespaces, one for regular golinks and another for wikilinks-styled ones.
-* [ ] Replace the KV namespace IDs with the ones you created in `wrangler.toml`.
-* [ ] Update routes in `wrangler.toml` to use your own domain and adjust as needed.
-* [ ] Sign in to CLI and deploy: `yarn wrangler login && yarn deploy`
+- [ ] Create two KV namespaces, one for regular golinks and another for wikilinks-styled ones.
+- [ ] Replace the KV namespace IDs with the ones you created in `wrangler.toml`.
+- [ ] Update routes in `wrangler.toml` to use your own domain and adjust as needed.
+- [ ] Sign in to CLI and deploy: `yarn wrangler login && yarn deploy`

@@ -1,5 +1,5 @@
 {
-    "name": "@ajhalili2006/api-servers-lib",
-    "version": "0.1.0",
-    "exports": "./mod.ts"
-  }
+  "name": "@ajhalili2006/api-servers-lib",
+  "version": "0.1.0",
+  "exports": "./mod.ts"
+}
