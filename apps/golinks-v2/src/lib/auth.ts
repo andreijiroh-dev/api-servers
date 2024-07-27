@@ -6,6 +6,7 @@ import { generateSlug } from "./utils";
 import { add } from "date-fns";
 import { error } from "console";
 import { InstallProvider } from "@slack/oauth";
+import { SignJWT } from "jose";
 
 export const slackAppInstaller = (env: EnvBindings) =>
   new InstallProvider({
@@ -45,38 +46,6 @@ export const slackAppInstaller = (env: EnvBindings) =>
       },
     },
   });
-
-export async function adminApiKeyAuth(c: Context, next: Next) {
-  const adminApiKey = c.env.ADMIN_KEY;
-  const apiKeyHeader = c.req.header("X-Golinks-Admin-Key");
-
-  if (c.req.path.startsWith("/api/slack")) {
-    return await next();
-  } else if (c.req.path.startsWith("/debug") || c.req.path.startsWith("/api/debug")) {
-    if (c.env.DEPLOY_ENV == "development") {
-      return await next();
-    }
-  }
-
-  console.debug(`[auth] ${adminApiKey}:${apiKeyHeader}`);
-
-  if (c.req.method == "GET" || c.req.method == "HEAD") {
-    if (!c.req.path.startsWith("/api/debug")) {
-      return await next();
-    }
-  }
-
-  if (!apiKeyHeader || apiKeyHeader !== adminApiKey) {
-    return c.json(
-      {
-        success: false,
-        error: "Unauthorized",
-      },
-      401,
-    );
-  }
-  return await next();
-}
 
 export async function slackOAuthExchange(payload: object) {
   let formBody = Object.entries(payload)
@@ -188,4 +157,48 @@ export async function addNewChallenge(db: EnvBindings["golinks"], challenge, met
     console.error(error);
     return Promise.reject(Error(error));
   }
+}
+
+/**
+ *
+ * @param env The `context.env` object from Hono
+ * @param aud User ID from the database
+ * @param clientSecret The `jwtKeypass_stuff` string as client secret from ApiToken Prisma model.
+ * @returns
+ */
+export async function generateJwt(env: EnvBindings, aud: string, clientSecret: string) {
+	const secret = new TextEncoder().encode(env.JWT_SIGNING_KEY);
+	const signature = new SignJWT()
+		.setIssuer(env.BASE_URL)
+		.setExpirationTime("90d")
+		.setSubject(clientSecret)
+		.setAudience(aud)
+		.sign(secret)
+	return signature
+}
+
+export async function handleApiKeyGeneration(env: EnvBindings, username: string) {
+	const adapter = new PrismaD1(env.golinks);
+  const prisma = new PrismaClient({ adapter });
+	const client_secret = `jwtKeypass_${generateSlug(64)}`
+	try {
+		const userData = await prisma.user.findFirst({
+			where: {
+				username
+			}
+		})
+		const jwt = await generateJwt(env, userData.id, client_secret)
+		const dbResult = await prisma.apiToken.create({
+			data: {
+				token: client_secret,
+				userId: userData.id
+			}
+		})
+		return {
+			jwt, dbResult
+		}
+	} catch (error) {
+		console.error(error)
+		return Promise.reject(new Error(error))
+	}
 }

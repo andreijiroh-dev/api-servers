@@ -14,6 +14,7 @@ import {
   golinkNotFound,
   tags,
   userApiKey,
+	wikilinkNotAvailable,
 } from "lib/constants";
 import { DiscordInviteLinkCreate, DiscordInviteLinkList } from "api/discord";
 import { adminApiKeyAuth, slackAppInstaller } from "lib/auth";
@@ -34,6 +35,8 @@ import * as jose from "jose";
 import { IncomingMessage, ServerResponse } from "node:http";
 import { InstallationQuery } from "@slack/oauth";
 import { WikiLinkCreate } from "api/wikilinks";
+import { debugApiGetBindings } from "api/debug";
+import { bearerAuth } from 'hono/bearer-auth'
 
 // Start a Hono app
 const app = new Hono<{ Bindings: EnvBindings }>();
@@ -52,8 +55,31 @@ app.use(
     credentials: true,
   }),
 );
-app.use("/api/*", adminApiKeyAuth);
-app.use("/debug", adminApiKeyAuth);
+const privilegedMethods = ["POST", "PUT", "PATCH", "DELETE"]
+const debugApiMethods = [ "GET", ...privilegedMethods ]
+app.on(debugApiMethods, "/api/debug/*", async (c, next) => {
+	const bearer = bearerAuth({
+		verifyToken(token, c) {
+			if (token == c.env.ADMIN_KEY) {
+				return true
+			}
+		}
+	})
+	return bearer(c, next)
+})
+app.on("POST", "/api/slack/*", async (c, next) => {
+	return await next()
+})
+app.on(privilegedMethods, "/api/*", async (c, next) => {
+	const bearer = bearerAuth({
+		verifyToken: async (token: string, context: Context) => {
+			if (token == context.env.ADMIN_KEY) {
+				return true
+			}
+		}
+	})
+	return bearer(c, next)
+})
 app.use("/*", async (c, next) => await handleOldUrls(c, next));
 
 // Setup OpenAPI registry
@@ -97,6 +123,7 @@ openapi.get("/api/commit", CommitHash);
 // category: debug
 openapi.get("/api/debug/slack/bot-token", debugApiGetSlackBotToken);
 openapi.get("/api/debug/slack/auth-test", debugApiTestSlackBotToken);
+openapi.get("/api/debug/bindings", debugApiGetBindings)
 
 // Undocumented API endpoints: Slack integration
 app.post("/api/slack/slash-commands/:command", async (c) => handleSlackCommand(c));
@@ -148,39 +175,6 @@ app.get("/feedback/:type", (c) => {
   return c.redirect(generateNewIssueUrl(type, "golinks", url));
 });
 
-app.get("/api/debug/bindings", (context) => {
-  console.log(context.env);
-  return context.json(context.env);
-});
-app.get("/api/debug/jwt", async (c) => {
-  const { token } = c.req.query();
-  const secret = new TextEncoder().encode(c.env.JWT_SIGNING_KEY);
-  const payload = {
-    slack_team_id: "T1234",
-    slack_user_id: "U1234",
-    slack_enterprise_id: "E1234",
-    slack_enterprise_install: true,
-    example_jwt: true,
-  };
-
-  if (token == null) {
-    const exampleToken = await new jose.SignJWT(payload)
-      .setProtectedHeader({ alg: "HS256" })
-      .setAudience("challenge_1234abcd")
-      .setIssuer(c.env.BASE_URL)
-      .setIssuedAt()
-      .setExpirationTime("15 minutes")
-      .sign(secret);
-    return c.json({ ok: true, result: exampleToken });
-  }
-
-  const result = await jose.jwtVerify(token, secret, {
-    issuer: c.env.BASE_URL,
-    clockTolerance: 30,
-  });
-  return c.json({ ok: true, result });
-});
-
 app.get("/:link", async (c) => {
   try {
     const { link } = c.req.param();
@@ -211,6 +205,15 @@ app.get("/discord/:inviteCode", async (c) => {
   }
 });
 app.get("/go/:link", async (c) => {
+	const url = new URL(c.req.url)
+	const { hostname } = url
+
+	if (c.env.DEPLOY_ENV != "production") {
+		if (!hostname.endsWith("andreijiroh.xyz")) {
+			return c.newResponse(wikilinkNotAvailable, 404)
+		}
+	}
+
   try {
     const { link } = c.req.param();
     console.log(`[redirector]: incoming request with path - ${link}`);
