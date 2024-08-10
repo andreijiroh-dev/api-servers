@@ -40,7 +40,7 @@ export function generateNewIssueUrl(type: string, prefix: "golinks" | "wikilinks
   if (prefix == "wikilinks") {
     templateUrl.searchParams.append("prefix", "wiki.andreijiroh.xyz/go/");
   } else {
-    templateUrl.searchParams.append("prefix", "go.andreijiroh.xyz");
+    templateUrl.searchParams.append("prefix", "go.andreijiroh.xyz/");
   }
   if (url) {
     templateUrl.searchParams.append("url", url);

@@ -1,15 +1,6 @@
 import { EnvBindings } from "types";
-
-export const adminApiKey = {
-  type: "apiKey",
-  name: "X-Golinks-Admin-Key",
-  in: "header",
-  description: "This is being deprecated for the use of bearer token-based `userApiKey` instead",
-  externalDocs: {
-    description: "Learn more about admin access",
-    url: homepage,
-  },
-};
+export const homepage = "https://wiki.andreijiroh.xyz/golinks";
+export const sources = "https://github.com/andreijiroh-dev/api-servers/tree/main/apps/golinks-v2";
 
 export const userApiKey = {
   type: "http",
@@ -22,9 +13,6 @@ export const userApiKey = {
     url: "https://go.andreijiroh.xyz/request-api-access",
   },
 };
-
-export const homepage = "https://wiki.andreijiroh.xyz/golinks";
-export const sources = "https://github.com/andreijiroh-dev/api-servers/tree/main/apps/golinks-v2";
 
 export const contact = {
   name: "Andrei Jiroh Halili",
@@ -68,6 +56,10 @@ export const tags = [
       url: homepage,
     },
   },
+	{
+		name: "wikilinks",
+		description: "golink-styled wikilinks"
+	},
   {
     name: "discord-invites",
     description: "Custom Discord invite links at `go/discord/<code>`",

@@ -1,6 +1,6 @@
 import { DiscordInviteLink, GoLink, Prisma, PrismaClient } from "@prisma/client";
 import { PrismaD1 } from "@prisma/adapter-d1";
-import { Env, EnvBindings } from "../types";
+import { EnvBindings } from "../types";
 import { Str } from "chanfana";
 import { getOffset, PAGE_SIZE } from "./utils";
 
@@ -11,7 +11,7 @@ import { getOffset, PAGE_SIZE } from "./utils";
  * @param isActive Filter by disabled links
  * @returns
  */
-export async function getGoLinks(db: EnvBindings<Env>["golinks"], page: number, isActive?: boolean, type?: "golinks" | "wikilinks" | null) {
+export async function getGoLinks(db: EnvBindings["golinks"], page: number, isActive?: boolean, type?: "golinks" | "wikilinks" | null) {
   const adapter = new PrismaD1(db);
   const prisma = new PrismaClient({ adapter }); // Assuming you have a Prisma client instance
 
@@ -64,7 +64,7 @@ export async function getGoLinks(db: EnvBindings<Env>["golinks"], page: number, 
  * @returns
  */
 export async function getLink(
-  db: EnvBindings<Env>["golinks"],
+  db: EnvBindings["golinks"],
   slug: string,
   type?: "golinks" | "wikilinks" | null,
 ): Promise<GoLink> | null {
@@ -100,7 +100,7 @@ export async function getLink(
 }
 
 export async function addGoLink(
-  db: EnvBindings<Env>["golinks"],
+  db: EnvBindings["golinks"],
   slug: string,
   targetUrl: string,
   type?: "golinks" | "wikilinks" | null,
@@ -143,7 +143,7 @@ export async function addGoLink(
 }
 
 export async function updateGoLink(
-  db: EnvBindings<Env>["golinks"],
+  db: EnvBindings["golinks"],
   slug: string,
   targetUrl: string,
   type?: "golinks" | "wikilinks" | null,
@@ -192,7 +192,7 @@ export async function updateGoLink(
   }
 }
 
-export async function deprecateGoLink(db: EnvBindings<Env>["golinks"], slug: string, reason: string, type: "golinks" | "wikilinks" | null) {
+export async function deprecateGoLink(db: EnvBindings["golinks"], slug: string, reason: string, type: "golinks" | "wikilinks" | null) {
   const adapter = new PrismaD1(db);
   const prisma = new PrismaClient({ adapter });
 
@@ -236,7 +236,7 @@ export async function deprecateGoLink(db: EnvBindings<Env>["golinks"], slug: str
   }
 }
 
-export async function undeprecateGoLink(db: EnvBindings<Env>["golinks"], slug: string, type: "golinks" | "wikilinks" | null) {
+export async function undeprecateGoLink(db: EnvBindings["golinks"], slug: string, type: "golinks" | "wikilinks" | null) {
   const adapter = new PrismaD1(db);
   const prisma = new PrismaClient({ adapter });
 
@@ -280,7 +280,7 @@ export async function undeprecateGoLink(db: EnvBindings<Env>["golinks"], slug: s
   }
 }
 
-export async function deleteGoLink(db: EnvBindings<Env>["golinks"], slug: string, type: "golinks" | "wikilinks" | null) {
+export async function deleteGoLink(db: EnvBindings["golinks"], slug: string, type: "golinks" | "wikilinks" | null) {
   const adapter = new PrismaD1(db);
   const prisma = new PrismaClient({ adapter });
 
@@ -320,7 +320,7 @@ export async function deleteGoLink(db: EnvBindings<Env>["golinks"], slug: string
  * @param isNsfw
  * @returns
  */
-export async function getDiscordInvites(db: EnvBindings<Env>["golinks"], page: number, isActive?: boolean, isNsfw?: boolean) {
+export async function getDiscordInvites(db: EnvBindings["golinks"], page: number, isActive?: boolean, isNsfw?: boolean) {
   const adapter = new PrismaD1(db);
   const prisma = new PrismaClient({ adapter }); // Assuming you have a Prisma client instance
 
@@ -341,7 +341,7 @@ export async function getDiscordInvites(db: EnvBindings<Env>["golinks"], page: n
   return result;
 }
 
-export async function getDiscordInvite(db: EnvBindings<Env>["golinks"], slug: string): Promise<DiscordInviteLink> | null {
+export async function getDiscordInvite(db: EnvBindings["golinks"], slug: string): Promise<DiscordInviteLink> | null {
   const adapter = new PrismaD1(db);
   const prisma = new PrismaClient({ adapter });
 
@@ -369,7 +369,7 @@ export async function getDiscordInvite(db: EnvBindings<Env>["golinks"], slug: st
 }
 
 export async function addDiscordInvite(
-  db: EnvBindings<Env>["golinks"],
+  db: EnvBindings["golinks"],
   slug: string,
   inviteCode: string,
   name: string,
@@ -408,7 +408,7 @@ export async function addDiscordInvite(
 }
 
 export async function updateDiscordLink(
-  db: EnvBindings<Env>["golinks"],
+  db: EnvBindings["golinks"],
   slug: string,
   inviteCode: string,
   name?: string,
@@ -451,7 +451,7 @@ export async function updateDiscordLink(
   }
 }
 
-export async function deleteDiscordLink(db: EnvBindings<Env>["golinks"], slug: string) {
+export async function deleteDiscordLink(db: EnvBindings["golinks"], slug: string) {
   const adapter = new PrismaD1(db);
   const prisma = new PrismaClient({ adapter });
 

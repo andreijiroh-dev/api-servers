@@ -59,59 +59,6 @@ export async function slackOAuthExchange(payload: object) {
   return api;
 }
 
-export async function lookupBotToken(db: EnvBindings["golinks"], teamId: string, is_enterprise_install?: boolean) {
-  const adapter = new PrismaD1(db);
-  const prisma = new PrismaClient({ adapter });
-  try {
-    const team = await prisma.slackBotToken.findFirst({
-      where: {
-        teamId,
-        enterprise_install: is_enterprise_install,
-      },
-    });
-    return team;
-  } catch (error) {
-    return Promise.reject(Error(`${error}`));
-  }
-}
-
-export async function addBotToken(db: EnvBindings["golinks"], teamId: string, token: string, enterprise_install?: boolean) {
-  const adapter = new PrismaD1(db);
-  const prisma = new PrismaClient({ adapter });
-  try {
-    const result = await prisma.slackBotToken.create({
-      data: {
-        teamId,
-        enterprise_install: enterprise_install !== undefined ? enterprise_install : false,
-        token,
-      },
-    });
-    return result;
-  } catch (error) {
-    return Promise.reject(Error(`${error}`));
-  }
-}
-
-export async function updateBotToken(db: EnvBindings["golinks"], teamId: string, token: string, enterprise_install?: boolean) {
-  const adapter = new PrismaD1(db);
-  const prisma = new PrismaClient({ adapter });
-  try {
-    const result = await prisma.slackBotToken.update({
-      where: {
-        teamId,
-      },
-      data: {
-        teamId,
-        enterprise_install,
-        token,
-      },
-    });
-    return result;
-  } catch (error) {
-    return Promise.reject(Error(`${error}`));
-  }
-}
-
 export async function githubOAuthExchange(payload: object) {
   let formBody = Object.entries(payload)
     .map(([key, value]) => encodeURIComponent(key) + "=" + encodeURIComponent(value))
@@ -134,27 +81,6 @@ export async function getUserInfoAndGenerateTicket(token: string, context: Conte
     });
     const { username, id, email } = profile.json();
   } catch (error) {
-    return Promise.reject(Error(error));
-  }
-}
-
-export async function addNewChallenge(db: EnvBindings["golinks"], challenge, metadata) {
-  const adapter = new PrismaD1(db);
-  const prisma = new PrismaClient({ adapter });
-  try {
-    const result = await prisma.gitHubOAuthChallenge.create({
-      data: {
-        challenge,
-        metadata,
-        expires_on: add(Date(), {
-          minutes: 15,
-        }),
-      },
-    });
-    console.log(`[dbops] ${result}`);
-    return result;
-  } catch (error) {
-    console.error(error);
     return Promise.reject(Error(error));
   }
 }
