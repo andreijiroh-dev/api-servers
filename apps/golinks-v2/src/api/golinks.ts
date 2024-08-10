@@ -131,7 +131,7 @@ export class GoLinkList extends OpenAPIRoute {
 export class GoLinkUpdate extends OpenAPIRoute {
   schema = {
     summary: "Update a golink",
-		description: `\
+    description: `\
 Updating a golink's slug and/or its target URL requires admin level permissions.
 
 If you generated a random slug or requested a new golink as a regular user, please contact Andrei Jiroh to get it sorted.`,
@@ -140,7 +140,7 @@ If you generated a random slug or requested a new golink as a regular user, plea
       {
         name: "slug",
         in: "path",
-				description: "Slug name of the golink to be changed"
+        description: "Slug name of the golink to be changed. Forward-slashes must be URL-encoded before sending the request.",
       },
     ],
     request: {
@@ -149,13 +149,13 @@ If you generated a random slug or requested a new golink as a regular user, plea
           "application/json": {
             schema: z.object({
               slug: Str({
-								required: false,
-								description: "The desired slug for the golinks."
-							}),
+                required: false,
+                description: "The desired slug for the golinks.",
+              }),
               targetUrl: Str({
-								example: "https://example.com",
-								description: "The target URL of the golink to redirect into"
-							}),
+                example: "https://example.com",
+                description: "The target URL of the golink to redirect into",
+              }),
             }),
           },
         },
@@ -172,9 +172,9 @@ If you generated a random slug or requested a new golink as a regular user, plea
         content: {
           "application/json": {
             schema: z.object({
-							ok: Bool({default: true}),
-							result: GoLinks
-						}),
+              ok: Bool({ default: true }),
+              result: GoLinks,
+            }),
           },
         },
       },
@@ -183,7 +183,7 @@ If you generated a random slug or requested a new golink as a regular user, plea
   async handle(c: Context) {
     const data = await this.getValidatedData<typeof this.schema>();
     const { newSlug, targetUrl } = data.body;
-		const { slug } = c.req.param()
+    const { slug } = c.req.param();
     try {
       const result = await updateGoLink(c.env.golinks, slug, targetUrl, "golinks", newSlug);
       return c.json({
@@ -207,22 +207,22 @@ export class GoLinkInfo extends OpenAPIRoute {
       {
         name: "slug",
         in: "path",
-        description: "Slug name of the golink",
+        description: "Slug name of the golink. Forward-slashes must be URL-encoded before sending the request.",
       },
     ],
-		responses: {
-			"200": {
-				description: "Shows a information about a golink",
+    responses: {
+      "200": {
+        description: "Shows a information about a golink",
         content: {
           "application/json": {
             schema: z.object({
-							ok: Bool({default: true}),
-							result: GoLinks
-						}),
+              ok: Bool({ default: true }),
+              result: GoLinks,
+            }),
           },
-				}
-			}
-		}
+        },
+      },
+    },
   };
   async handle(context: Context) {
     const { slug } = context.req.param();
@@ -246,7 +246,7 @@ If you are requesting to delete a golink for legal reasons, please contact Andre
       {
         name: "slug",
         in: "path",
-        description: "Slug name of the golink to be deleted.",
+        description: "Slug name of the golink to be deleted. Forward-slashes must be URL-encoded before sending the request.",
       },
     ],
     security: [

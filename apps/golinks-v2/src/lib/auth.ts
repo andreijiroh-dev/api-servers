@@ -22,7 +22,6 @@ export const slackAppInstaller = (env: EnvBindings) =>
           // single team app installation
           return await env.slackBotTokens.put(installation.team.id, JSON.stringify(installation));
         }
-        throw new Error("Failed saving installation data to installationStore");
       },
       fetchInstallation: async (query) => {
         if (query.isEnterpriseInstall && query.enterpriseId !== undefined) {

@@ -22,7 +22,7 @@ export class WikiLinkCreate extends OpenAPIRoute {
     },
     security: [
       {
-        adminApiKey: [],
+        userApiKey: [],
       },
     ],
   };
@@ -79,9 +79,6 @@ export class WikiLinkList extends OpenAPIRoute {
     },
     security: [
       {
-        adminApiKey: [],
-      },
-      {
         userApiKey: [],
       },
     ],
@@ -113,4 +110,19 @@ export class WikiLinkList extends OpenAPIRoute {
       result: links,
     };
   }
+}
+
+export class WikiLinkUpdate extends OpenAPIRoute {
+  schema = {
+    tags: ["wikilinks"],
+    summary: "Update a wikilink",
+    parameters: [
+      {
+        name: "slug",
+        in: "path",
+        description: "Slug name of the wikilink to be changed",
+      },
+    ],
+    security: [{ userApiKey: [] }],
+  };
 }

@@ -13,6 +13,7 @@ import { Bool, OpenAPIRoute, Str } from "chanfana";
 import { adminApiKey } from "lib/constants";
 import { z } from "zod";
 import { EnvBindings } from "types";
+import { addGoLink } from "lib/db";
 
 type SlackSlashCommand = {
   token?: string;
@@ -77,6 +78,13 @@ type SlackInteractivityActions = {
 
 async function helpMessage(context: Context, params: SlackSlashCommand) {
   const challenge = generateSlug(24);
+  const availableCommands = `*Available commands (add \`-stg\` to slash command for staging or \`-dev\` for localdev)*:
+
+* \`/go lookup </:golink>\` - look up a golink, Discord/Slack invite, or wikilink \
+(just paste the full link and it handles the rest)
+* \`/go help\` - this command (*you're here btw*)
+* \`/go shorten <link>\` - shorten a link for you
+* \`/ping\` or \`/go ping\` - check platform and API availability`;
   const templateJson = {
     blocks: [
       {
@@ -98,34 +106,7 @@ async function helpMessage(context: Context, params: SlackSlashCommand) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "Need to shorten a link, add a Discord or wikilink? Submit a request and you'll be notified via DMs if it's added.",
-        },
-        accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            text: "Request a link",
-            emoji: true,
-          },
-          value: "request-link",
-          action_id: "golinks-bot-action",
-        },
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: "Want to use me programmatically? You can request a API token using your GitHub account through the OAuth prompt.",
-        },
-        accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            text: "Sign in to get token",
-            emoji: true,
-          },
-          value: challenge,
-          action_id: "github-auth-challenge",
+          text: availableCommands,
         },
       },
       {
@@ -317,6 +298,49 @@ export async function slackOAuthCallback(context: Context) {
   }
 }
 
+export function generateQRCodeImgUrl(context: Context, url?: string) {
+	let base = "https://go.andreijiroh.xyz"
+	if (context.env.DEPLOY_ENV == "staging") {
+		base = context.env.BASE_URL || "https://staging.go-next.andreijiroh.xyz"
+	} else if (context.env.DEPLOY_ENV == "development") {
+		base = context.env.BASE_URL || "https://staging.go-next.andreijiroh.xyz";
+	}
+	return `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${base}/${url}`;
+}
+
+type sendMesgParams = {
+	teamId: string,
+	enterpriseId?: string,
+	channel: string,
+	blocks: Array<null>
+	text?: string
+}
+
+async function sendMessage(context: Context, params: sendMesgParams) {
+	try {
+		const { bot } = await slackAppInstaller(context.env).installationStore.fetchInstallation({
+		teamId: params.teamId,
+		isEnterpriseInstall: params.enterpriseId !== undefined ? true : false,
+		enterpriseId: params.enterpriseId !== undefined ? params.enterpriseId : null
+	})
+		const result = fetch("https://slack.com/api/chat.postMessage", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `bearer ${bot.token}`
+			},
+			body: {
+				channel: params.channel,
+				blocks: params.blocks,
+				text: params.text
+			}
+		});
+		return [result, null]
+	} catch (error) {
+		return [null, error]
+	}
+}
+
 /**
  * Function handler for `/api/slack/slash-commands/:command` POST requests
  * on Hono.
@@ -359,14 +383,148 @@ export async function handleSlackCommand(context: Context) {
   }
   */
 
+	const args = data.text.toString().split(" ")
+	console.log(args)
   if (command === "go") {
-    if (data.text == "" || data.text == "help") {
+    if (args[0] == "help" || data.text == "") {
       return await helpMessage(context, data);
-    }
+		} else if (args[0] == "ping") {
+			return context.json({
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: ":tw_white_check_mark: *golinks API is reachable at `https://go.andreijiroh.xyz/api` at the moment*\n\nIf the bot is up but still not reachable on your side, check your network or <https://go.andreijiroh.xyz/feedback/api-uptime|file a new issue>",
+            },
+          },
+          {
+            type: "context",
+            elements: [
+              {
+                text: "Check <https://cloudflarestatus.com|Cloudflare Status> and <https://status.andreijiroh.xyz|our status page> for updates.",
+                type: "mrkdwn",
+              },
+            ],
+          },
+        ],
+      });
+    } else if (args[0] == "shorten") {
+			if (args[1]) {
+				const linkToShorten = args[1].replace(/^<|>$/gm, '');
+				const randomSlug = generateSlug(12)
+				const result = await addGoLink(context.env.golinks, randomSlug, args[1], "golinks")
+				return context.json({
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: ":link: *Here's your short link*: https://go.andreijiroh.xyz/tbd\n\n:point_down: *Your QR code is also provided below, powered by `api.qrserver.com`.* Save the image to your device or share as you do.",
+              },
+            },
+            {
+              type: "image",
+              image_url: generateQRCodeImgUrl(context, randomSlug),
+              alt_text: "QR code of the shortened link",
+            },
+            {
+              type: "divider",
+            },
+            {
+              type: "rich_text",
+              elements: [
+                {
+                  type: "rich_text_section",
+                  elements: [
+                    {
+                      type: "emoji",
+                      name: "information_source",
+                      unicode: "2139-fe0f",
+                    },
+                    {
+                      type: "text",
+                      text: " ",
+                    },
+                    {
+                      type: "text",
+                      text: "Here's the resulting data from the backend",
+                      style: {
+                        bold: true,
+                      },
+                    },
+                    {
+                      type: "text",
+                      text: ":\n\n",
+                    },
+                  ],
+                },
+                {
+                  type: "rich_text_preformatted",
+                  border: 0,
+                  elements: [
+                    {
+                      type: "text",
+                      text: JSON.stringify(result),
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "context",
+              elements: [
+                {
+                  type: "mrkdwn",
+                  text: "@ajhalili2006 is being notified about this for abuse monitoring via Worker logs and in Slack.",
+                },
+              ],
+            },
+          ],
+        });
+			}
+		}
+		return context.json({
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: ":warning: Sorry, I don't understand that command. Have you tried `/go help`?",
+          },
+        },
+        {
+          type: "context",
+          elements: [
+            {
+              text: "If something go wrong, <https://go.andreijiroh.xyz/feedback/slackbot|please file a new issue> or ping @ajhalili2006 on the fediverse (or here in the Slack if he's here).",
+              type: "mrkdwn",
+            },
+          ],
+        },
+      ],
+    });
   } else if (command == "ping") {
-    const end = Date.now() - start;
-    await console.log(`Pong with ${end}ms`);
-    return context.newResponse(`Pong with ${end}ms response time in backend`);
+    return context.json({
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: ":tw_white_check_mark: *golinks API is reachable at `https://go.andreijiroh.xyz/api` at the moment*\n\nIf the bot is up but still not reachable on your side, check your network or <https://go.andreijiroh.xyz/feedback/api-uptime|file a new issue>",
+          },
+        },
+        {
+          type: "context",
+          elements: [
+            {
+              text: "Check <https://cloudflarestatus.com|Cloudflare Status> and <https://status.andreijiroh.xyz|our status page> for updates.",
+              type: "mrkdwn",
+            },
+          ],
+        },
+      ],
+    });
   }
   return context.newResponse("Unsupported command");
 }

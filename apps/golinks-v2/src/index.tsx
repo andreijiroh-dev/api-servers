@@ -16,7 +16,6 @@ import {
 	wikilinkNotAvailable,
 } from "lib/constants";
 import { DiscordInviteLinkCreate, DiscordInviteLinkList } from "api/discord";
-import { adminApiKeyAuth, slackAppInstaller } from "lib/auth";
 import { DeprecatedGoLinkPage } from "pages/deprecated-link";
 import { CommitHash, PingPong } from "api/meta";
 import { prettyJSON } from "hono/pretty-json";
@@ -31,10 +30,7 @@ import {
   slackOAuthCallback,
 } from "api/slack";
 import { githubAuth } from "api/github";
-import * as jose from "jose";
-import { IncomingMessage, ServerResponse } from "node:http";
-import { InstallationQuery } from "@slack/oauth";
-import { WikiLinkCreate } from "api/wikilinks";
+import { WikiLinkCreate, WikiLinkList } from "api/wikilinks";
 import { debugApiGetBindings } from "api/debug";
 import { bearerAuth } from 'hono/bearer-auth'
 
@@ -75,9 +71,6 @@ app.on(debugApiMethods, "/api/debug/*", async (c, next) => {
 	})
 	return bearer(c, next)
 })
-app.on("POST", "/api/slack/*", async (c, next) => {
-	return await next()
-})
 app.on(privilegedMethods, "/api/*", async (c, next) => {
 	const bearer = bearerAuth({
 		verifyToken: async (token: string, context: Context) => {
@@ -87,6 +80,10 @@ app.on(privilegedMethods, "/api/*", async (c, next) => {
 			}
 		}
 	})
+
+	if (c.req.path.startsWith("/api/slack")) {
+		return await next()
+	}
 	return bearer(c, next)
 })
 app.use("/*", async (c, next) => await handleOldUrls(c, next));
@@ -122,6 +119,7 @@ openapi.get("/api/links/:slug", GoLinkInfo)
 openapi.put("/api/links/:slug", GoLinkUpdate);
 openapi.delete("/api/links/:slug", GoLinkDelete)
 // category:wikilinks
+openapi.get("/api/wikilinks", WikiLinkList)
 openapi.post("/api/wikilinks", WikiLinkCreate)
 // category:discord-invites
 openapi.get("/api/discord-invites", DiscordInviteLinkList);
@@ -185,21 +183,29 @@ app.get("/feedback/:type", (c) => {
   return c.redirect(generateNewIssueUrl(type, "golinks", url));
 });
 
-app.get("/:link", async (c) => {
-  try {
-    const { link } = c.req.param();
-    console.log(`[redirector]: incoming request with path - ${link}`);
-    const result = await getLink(c.env.golinks, link);
-    console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
-    if (!result) {
-      return c.newResponse(golinkNotFound(c.req.url), 404);
-    }
-    return c.redirect(result.targetUrl);
-  } catch (error) {
-    console.error(`[redirector]: error`, error);
-    return c.newResponse(golinkNotFound(c.req.url), 500);
-  }
-});
+app.on("GET", "/*", async(c, next) => {
+	const path = c.req.path.replace(/^\/|\/$/g, '');;
+	const params = c.req.query()
+	console.log(`[redirector]: incoming request with path - ${path}`);
+	try {
+		if (path.startsWith("/api") || path.startsWith("/go") || path.startsWith("/discord")) {
+			return await next()
+		}
+		const result = await getLink(c.env.golinks, path);
+		console.log(`[redirector]: resulting data - ${JSON.stringify(result)}`);
+		if (!result) {
+			return c.newResponse(golinkNotFound(c.req.url), 404);
+		}
+
+		if (result.is_active == false && !params.force_redirect) {
+			return c.redirect(`/landing/deprecated?golink=${path}&reason=${result.deactivation_reason}`)
+		}
+		return c.redirect(result.targetUrl)
+	} catch (error) {
+		console.error(`[redirector]: error`, error);
+		return c.newResponse(golinkNotFound(c.req.url), 500);
+	}
+})
 app.get("/discord/:inviteCode", async (c) => {
   try {
     const { inviteCode } = c.req.param();
@@ -214,6 +220,7 @@ app.get("/discord/:inviteCode", async (c) => {
     return c.newResponse(discordServerNotFound(c.req.url), 500);
   }
 });
+
 app.get("/go/:link", async (c) => {
 	const url = new URL(c.req.url)
 	const { hostname } = url
