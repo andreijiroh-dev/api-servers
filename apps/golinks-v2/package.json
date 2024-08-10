@@ -5,8 +5,8 @@
   "scripts": {
     "deps:upgrade": "yarn yarn-upgrade-all",
     "deploy": "wrangler deploy --env staging",
-    "deploy:stg": "wrangler deploy --env staging",
-    "deploy:prod": "wrangler deploy --env production",
+    "deploy:stg": "wrangler deploy --env staging --minify",
+    "deploy:prod": "wrangler deploy --env production --minify",
     "dev": "wrangler dev --port 35120",
     "start": "wrangler dev --port 35120",
     "types:gen": "wrangler types && prisma generate",
@@ -22,30 +22,31 @@
     "args": "echo $*"
   },
   "dependencies": {
-    "@prisma/adapter-d1": "^5.17.0",
-    "@prisma/client": "^5.17.0",
+    "@prisma/adapter-d1": "^5.18.0",
+    "@prisma/client": "^5.18.0",
     "@slack/oauth": "^3.0.0",
-    "@slack/web-api": "^7.3.1",
+    "@slack/web-api": "^7.3.2",
     "chanfana": "^2.0.2",
     "cross-fetch": "^4.0.0",
     "date-fns": "^3.6.0",
-    "hono": "^4.5.1",
+    "hono": "^4.5.4",
     "jose": "^5.6.3",
     "jsonwebtoken": "^9.0.2",
     "url-search-params": "^1.1.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240718.0",
-    "@types/jsonwebtoken": "^9",
-    "@types/node": "^20.14.11",
+    "@cloudflare/workers-types": "^4.20240806.0",
+    "@dotenvx/dotenvx": "^1.7.0",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^22.2.0",
     "@types/service-worker-mock": "^2.0.4",
-    "@types/url-search-params": "^1",
-    "prisma": "^5.17.0",
+    "@types/url-search-params": "^1.1.2",
+    "prisma": "^5.18.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.3",
-    "wrangler": "^3.65.1",
-    "yarn-upgrade-all": "^0.7.2"
+    "typescript": "^5.5.4",
+    "wrangler": "^3.70.0",
+    "yarn-upgrade-all": "^0.7.4"
   },
   "type": "module"
 }
