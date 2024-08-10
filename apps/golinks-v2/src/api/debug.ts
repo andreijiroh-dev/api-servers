@@ -51,6 +51,8 @@ export class debugApiGenerateJwt extends OpenAPIRoute {
 export class debugApiGetBindings extends OpenAPIRoute {
 	schema = {
 		summary: "Show all Worker bindings associated with this instance, including secrets.",
+		description: "Due to nature of this endpoint, you need to have the value of `ADMIN_KEY` secret on hand for this request.",
+		tags: ["debug"],
 		security: [
 			{userApiKey: []}
 		]

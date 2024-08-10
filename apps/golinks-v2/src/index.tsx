@@ -1,11 +1,10 @@
-import { GoLinkCreate, GoLinkInfo, GoLinkList, GoLinkUpdate } from "api/golinks";
+import { GoLinkCreate, GoLinkDelete, GoLinkInfo, GoLinkList, GoLinkUpdate } from "api/golinks";
 import { fromHono } from "chanfana";
 import { Context, Hono } from "hono";
 import { cors } from "hono/cors";
 import { EnvBindings } from "./types";
 import { getDiscordInvite, getLink } from "lib/db";
 import {
-  adminApiKey,
   contact,
   getWorkersDashboardUrl,
   homepage,
@@ -24,6 +23,7 @@ import { prettyJSON } from "hono/pretty-json";
 import { generateNewIssueUrl, handleOldUrls } from "lib/utils";
 import {
   debugApiGetSlackBotToken,
+  debugApiListSlackAppInstalls,
   debugApiTestSlackBotToken,
   handleSlackCommand,
   handleSlackInteractivity,
@@ -55,7 +55,15 @@ app.use(
     credentials: true,
   }),
 );
+
+/**
+ * Array of strings containing priviledged HTTP methods when calling the API.
+ */
 const privilegedMethods = ["POST", "PUT", "PATCH", "DELETE"]
+/**
+ * In addition to the values of `priviledgedMethods`, we also add `GET` requests
+ * for debug API endpoints.
+ */
 const debugApiMethods = [ "GET", ...privilegedMethods ]
 app.on(debugApiMethods, "/api/debug/*", async (c, next) => {
 	const bearer = bearerAuth({
@@ -73,6 +81,7 @@ app.on("POST", "/api/slack/*", async (c, next) => {
 app.on(privilegedMethods, "/api/*", async (c, next) => {
 	const bearer = bearerAuth({
 		verifyToken: async (token: string, context: Context) => {
+			await console.log(`[auth]: received token - ${token}`)
 			if (token == context.env.ADMIN_KEY) {
 				return true
 			}
@@ -104,7 +113,6 @@ const openapi = fromHono(app, {
   },
 });
 
-openapi.registry.registerComponent("securitySchemes", "adminApiKey", adminApiKey);
 openapi.registry.registerComponent("securitySchemes", "userApiKey", userApiKey);
 
 // Register OpenAPI endpoints in this section
@@ -112,6 +120,7 @@ openapi.get("/api/links", GoLinkList);
 openapi.post("/api/links", GoLinkCreate);
 openapi.get("/api/links/:slug", GoLinkInfo)
 openapi.put("/api/links/:slug", GoLinkUpdate);
+openapi.delete("/api/links/:slug", GoLinkDelete)
 // category:wikilinks
 openapi.post("/api/wikilinks", WikiLinkCreate)
 // category:discord-invites
@@ -123,6 +132,7 @@ openapi.get("/api/commit", CommitHash);
 // category: debug
 openapi.get("/api/debug/slack/bot-token", debugApiGetSlackBotToken);
 openapi.get("/api/debug/slack/auth-test", debugApiTestSlackBotToken);
+openapi.get("/api/debug/slack/installs", debugApiListSlackAppInstalls)
 openapi.get("/api/debug/bindings", debugApiGetBindings)
 
 // Undocumented API endpoints: Slack integration

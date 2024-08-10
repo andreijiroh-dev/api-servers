@@ -1,7 +1,7 @@
-import { OpenAPIRoute, Num, Bool, Str, contentJson } from "chanfana";
+import { OpenAPIRoute, Num, Bool, Str, contentJson, Obj } from "chanfana";
 import { z } from "zod";
 import { GoLinks } from "types";
-import { addGoLink, getGoLinks, getLink, updateGoLink } from "lib/db";
+import { addGoLink, deleteGoLink, getGoLinks, getLink, updateGoLink } from "lib/db";
 import { Context } from "hono";
 import { generateSlug } from "lib/utils";
 
@@ -25,9 +25,6 @@ export class GoLinkCreate extends OpenAPIRoute {
     },
     security: [
       {
-        adminApiKey: [],
-      },
-      {
         userApiKey: [],
       },
     ],
@@ -48,8 +45,9 @@ export class GoLinkCreate extends OpenAPIRoute {
         content: {
           "application/json": {
             schema: z.object({
-              success: Bool({ default: false }).default(false),
-              error: Str({ default: "Existing entry found (error code: PrismaClientKnownRequestError:P2002)" }),
+              ok: Bool({ default: false }).default(false),
+							result: Obj({}),
+              error: Str({ default: "That slug exists on the backend." }),
             }),
           },
         },
@@ -63,19 +61,16 @@ export class GoLinkCreate extends OpenAPIRoute {
     console.log(`[golinks-api] received body for link creation ${JSON.stringify(linkToCreate)}`);
     const slug = linkToCreate.slug !== undefined ? linkToCreate.slug : generateSlug(12);
 
-    const result = await addGoLink(c.env.golinks, slug, linkToCreate.targetUrl, "golinks");
-
-    if (result) {
-      return c.newResponse(
-        JSON.stringify({
-          success: true,
-          result: result,
-        }),
-        200,
-        { "Content-Type": "application/json" },
-      );
-    } else {
-      return c.newResponse("Something went wrong", 400);
+    try {
+      const result = await addGoLink(c.env.golinks, slug, linkToCreate.targetUrl, "golinks");
+      return c.json({ ok: true, result });
+    } catch ({ code, meta, message, clientVersion }) {
+      Error(`[prisma] ${code} ${message} (${JSON.stringify(meta)})`);
+      if (code == "P2002") {
+        return c.json({ ok: false, result: {}, error: "That slug exists on the backend." });
+      } else {
+        return c.json({ ok: false, result: {}, error: "Something went wrong on our side." });
+      }
     }
   }
 }
@@ -99,9 +94,6 @@ export class GoLinkList extends OpenAPIRoute {
       }),
     },
     security: [
-      {
-        adminApiKey: [],
-      },
       {
         userApiKey: [],
       },
@@ -139,12 +131,16 @@ export class GoLinkList extends OpenAPIRoute {
 export class GoLinkUpdate extends OpenAPIRoute {
   schema = {
     summary: "Update a golink",
+		description: `\
+Updating a golink's slug and/or its target URL requires admin level permissions.
+
+If you generated a random slug or requested a new golink as a regular user, please contact Andrei Jiroh to get it sorted.`,
     tags: ["golinks"],
     parameters: [
       {
         name: "slug",
         in: "path",
-				description: "Slug name of the golink"
+				description: "Slug name of the golink to be changed"
       },
     ],
     request: {
@@ -152,17 +148,20 @@ export class GoLinkUpdate extends OpenAPIRoute {
         content: {
           "application/json": {
             schema: z.object({
-              slug: Str({ required: false }),
-              targetUrl: Str({ example: "https://example.com" }),
+              slug: Str({
+								required: false,
+								description: "The desired slug for the golinks."
+							}),
+              targetUrl: Str({
+								example: "https://example.com",
+								description: "The target URL of the golink to redirect into"
+							}),
             }),
           },
         },
       },
     },
     security: [
-      {
-        adminApiKey: [],
-      },
       {
         userApiKey: [],
       },
@@ -213,7 +212,15 @@ export class GoLinkInfo extends OpenAPIRoute {
     ],
 		responses: {
 			"200": {
-
+				description: "Shows a information about a golink",
+        content: {
+          "application/json": {
+            schema: z.object({
+							ok: Bool({default: true}),
+							result: GoLinks
+						}),
+          },
+				}
 			}
 		}
   };
@@ -221,8 +228,45 @@ export class GoLinkInfo extends OpenAPIRoute {
     const { slug } = context.req.param();
     const result = await getLink(context.env.golinks, slug, "golinks");
     if (!result) {
-      return context.json({ ok: false, error: "Not found" }, 404);
+      return context.json({ ok: false, result: {}, error: "Not found" }, 404);
     }
     return context.json({ ok: true, result });
+  }
+}
+
+export class GoLinkDelete extends OpenAPIRoute {
+  schema = {
+    tags: ["golinks"],
+    summary: "Deletes a existing golink",
+		description: `\
+This API endpoint is reserved to those with admin permissions due to abuse.
+
+If you are requesting to delete a golink for legal reasons, please contact Andrei Jiroh to get it sorted.`,
+    parameters: [
+      {
+        name: "slug",
+        in: "path",
+        description: "Slug name of the golink to be deleted.",
+      },
+    ],
+    security: [
+      {
+        userApiKey: [],
+      },
+    ],
+  };
+
+  async handle(c: Context) {
+    const { slug } = c.req.param();
+    try {
+			await deleteGoLink(c.env.golinks, slug, "golinks");
+			return c.json({ok: true, result: { deleted: true }})
+		} catch({code}) {
+			if (code == "P2025") {
+				return c.json({ok: false, result: {}, error: "Either that slug is deleted on server-side or does not exist."}, 400)
+			} else {
+				return c.json({ok: false, result: {}, error: "Something went wrong on our side."}, 500)
+			}
+		}
   }
 }

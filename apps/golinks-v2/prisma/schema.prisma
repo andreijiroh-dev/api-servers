@@ -45,26 +45,6 @@ model WikiLinks {
   updated_on DateTime @updatedAt()
 }
 
-model SlackBotToken {
-	teamId             String  @id @unique
-	enterprise_install Boolean @default(false)
-	token              String
-	created_on        DateTime @default(now())
-	updated_on        DateTime @updatedAt()
-}
-
-model GitHubOAuthChallenge {
-	id  String @id @default(uuid())
-	challenge String
-	code String?
-	metadata String
-	username String?
-	userId String?
-	created_on        DateTime @default(now())
-	updated_on        DateTime @updatedAt()
-	expires_on        DateTime
-}
-
 model ApiToken {
   id     String @id @default(uuid())
   token  String @unique

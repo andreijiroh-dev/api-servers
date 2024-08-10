@@ -12,6 +12,7 @@ import { Installation, InstallationQuery } from "@slack/oauth";
 import { Bool, OpenAPIRoute, Str } from "chanfana";
 import { adminApiKey } from "lib/constants";
 import { z } from "zod";
+import { EnvBindings } from "types";
 
 type SlackSlashCommand = {
   token?: string;
@@ -279,6 +280,11 @@ export async function slackOAuthCallback(context: Context) {
   try {
     const api = await slackOAuthExchange(payload);
     const result = await api.json();
+		const testAuthData = await fetch("https://slakc.com/api/auth.test", {
+			headers: {
+				Authorization: `bearer ${result.access_token}`
+			}
+		})
 
     console.log(`[slack-oauth] result: ${JSON.stringify(result)} (${api.status})`);
 
@@ -489,6 +495,20 @@ export class debugApiTestSlackBotToken extends OpenAPIRoute {
       );
     }
   }
+}
+
+export class debugApiListSlackAppInstalls extends OpenAPIRoute {
+	schema = {
+		tags: ["debug"],
+		summary: "Get a list of Slack app installations recorded from KV storage for bot tokens",
+		security: [{userApiKey: []}]
+	}
+	async handle(context: Context) {
+		const env: EnvBindings = context.env
+		const result = await env.slackBotTokens.list()
+
+		return context.json({ok: true, result})
+	}
 }
 
 /**
