@@ -221,17 +221,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cloudflare/workers-types@npm:^4.20240605.0":
-  version: 4.20240605.0
-  resolution: "@cloudflare/workers-types@npm:4.20240605.0"
-  checksum: 10c0/ad7e2d1f3155be559bb2ec67d32198b071c514c4bbd9ea0a0340645ade57304d70f71530b208cbed49e18e4a8e2491072d762e01af8709b4e286f3fb0d29f178
-  languageName: node
-  linkType: hard
-
-"@cloudflare/workers-types@npm:^4.20240806.0":
-  version: 4.20240806.0
-  resolution: "@cloudflare/workers-types@npm:4.20240806.0"
-  checksum: 10c0/09dc7152915b63dc251c612f94bd875dcb145fab652d334a99d6cb829becc924e41efa0e5711fbef05d2f42a1bdfe6dd90f652f9a338dd1af47d81b198aeffc5
+"@cloudflare/workers-types@npm:^4.20240605.0, @cloudflare/workers-types@npm:^4.20240806.0":
+  version: 4.20241011.0
+  resolution: "@cloudflare/workers-types@npm:4.20241011.0"
+  checksum: 10c0/f5a414e82a0a80885ab25f01e7f608e5e9a8be587c5d57ae976c3356adfa2fff9babe3c33201cf94e71d3afd54732b09885376c3caf13c75d5d23772850fece6
   languageName: node
   linkType: hard
 
