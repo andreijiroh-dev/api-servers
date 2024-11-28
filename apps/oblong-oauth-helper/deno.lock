@@ -1,0 +1,30 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "jsr:@hono/hono@^4.5.5": "jsr:@hono/hono@4.5.5",
+      "jsr:@std/bytes@^1.0.1-rc.3": "jsr:@std/bytes@1.0.2",
+      "jsr:@std/crypto@^1.0.0-rc.1": "jsr:@std/crypto@1.0.2",
+      "jsr:@std/uuid": "jsr:@std/uuid@1.0.0"
+    },
+    "jsr": {
+      "@hono/hono@4.5.5": {
+        "integrity": "e5a63b5f535475cd80974b65fed23a138d0cbb91fe1cc9a17a7c7278e835c308"
+      },
+      "@std/bytes@1.0.2": {
+        "integrity": "fbdee322bbd8c599a6af186a1603b3355e59a5fb1baa139f8f4c3c9a1b3e3d57"
+      },
+      "@std/crypto@1.0.2": {
+        "integrity": "bb515dbcd4d67aacf0ffece643a434811ea06e5b544f03c33ba58552fbdb87c7"
+      },
+      "@std/uuid@1.0.0": {
+        "integrity": "32595ccd31756728c9110cb98e25000e72b8d63151b7211034ea081761ed2104",
+        "dependencies": [
+          "jsr:@std/bytes@^1.0.1-rc.3",
+          "jsr:@std/crypto@^1.0.0-rc.1"
+        ]
+      }
+    }
+  },
+  "remote": {}
+}

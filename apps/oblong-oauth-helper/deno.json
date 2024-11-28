@@ -1,0 +1,18 @@
+{
+  "imports": {
+    "hono": "jsr:@hono/hono@^4.5.5",
+    "uuid": "jsr:@std/uuid"
+  },
+  "tasks": {
+    "start": "deno run --allow-net main.ts",
+    "deploy:prod": "deno run -A jsr:@deno/deployctl deploy --prod --project=oblong-oauth-helper --entrypoint=main.ts"
+  },
+  "deploy": {
+    "project": "dfafc8d0-0841-4651-9003-5ef2249136e0",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "main.ts"
+  }
+}

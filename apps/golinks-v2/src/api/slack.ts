@@ -10,7 +10,7 @@ import { SignJWT } from "jose";
 import URLSearchParams from "url-search-params";
 import { Installation, InstallationQuery } from "@slack/oauth";
 import { Bool, OpenAPIRoute, Str } from "chanfana";
-import { adminApiKey } from "lib/constants";
+import { adminApiKey, userApiKey } from "lib/constants";
 import { z } from "zod";
 import { EnvBindings } from "types";
 import { addGoLink } from "lib/db";
@@ -568,7 +568,7 @@ export class debugApiGetSlackBotToken extends OpenAPIRoute {
     },
     security: [
       {
-        adminApiKey: [],
+        userApiKey: [],
       },
     ],
   };
@@ -611,7 +611,7 @@ export class debugApiTestSlackBotToken extends OpenAPIRoute {
     },
     security: [
       {
-        adminApiKey: [],
+        userApiKey: [],
       },
     ],
   };

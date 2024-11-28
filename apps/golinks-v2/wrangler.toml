@@ -9,7 +9,7 @@
 
 name = "golinks-next"
 main = "src/index.tsx"
-compatibility_date = "2024-07-12"               # TODO: Update this once a month.
+compatibility_date = "2024-07-12"
 account_id = "cf0bd808c6a294fd8c4d8f6d2cdeca05"
 
 placement = { mode = "smart" }
