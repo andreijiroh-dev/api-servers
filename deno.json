@@ -1,0 +1,14 @@
+{
+  "name": "@andreijiroh-dev/api-servers",
+  "workspace": ["apps/**"],
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "hono/jsx"
+  },
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.6.12",
+    "chanfana": "npm:chanfana@^2.3.0",
+    "zod": "npm:zod@^3.23.8"
+  },
+  "unstable": ["kv", "cron"]
+}

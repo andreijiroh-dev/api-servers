@@ -1,7 +1,13 @@
 # `@andreijiroh-dev/api-servers`
 
+![Hack Club](https://badges.api.lorebooks.wiki/badges/hackclub/hackclub)
+
 Monorepo for different Cloudflare Workers and Deno Deploy hosted APIs I build.
-Licensed under MPL-2.0
+
+## Currently maintained
+
+- [`go.andreijiroh.dev`](./apps/golinks-v2/) - personal golinks and link shortener
+- [`api.andreijiroh.dev`](./apps/website-api/) - website and personal utility API
 
 ## CI
 
