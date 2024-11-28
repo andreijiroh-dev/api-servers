@@ -17,7 +17,18 @@
       "apps/golinks-v2/dev-manifest.yml"
     ]
   },
-  "conventionalCommits.scopes": ["golinks", "global", "github-actions"],
+  "conventionalCommits.scopes": [
+    "golinks",
+    "global",
+    "github-actions",
+    "deps",
+    "website-api",
+		"oauth-helpers",
+		"stdlib",
+		"docs",
+		"issue-forms",
+		"vscode"
+  ],
   "dotenv.enableAutocloaking": false,
   "sqltools.connections": [
     {
@@ -27,5 +38,9 @@
       "name": "d1-localdev-go"
     }
   ],
-  "sqltools.useNodeRuntime": true
+  "sqltools.useNodeRuntime": true,
+	"deno.enablePaths": [
+		"./apps/website-api"
+	],
+	//"deno.enable": true,
 }
