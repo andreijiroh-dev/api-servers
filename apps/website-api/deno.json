@@ -1,0 +1,25 @@
+{
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.6.12",
+    "@soundify/web-api": "jsr:@soundify/web-api@^1.1.5",
+    "chanfana": "npm:chanfana@^2.3.0",
+    "zod": "npm:zod@^3.23.8"
+  },
+  "tasks": {
+    "dev": "deno run --watch -EN server.ts",
+    "start": "deno run -EN server.ts",
+    "deploy:prod": "deno run -A jsr:@deno/deployctl deploy --prod --project=ajhalili2006-api-toolkit --entrypoint=server.ts"
+  },
+  "deploy": {
+    "project": "326956e6-f368-4ede-b5ff-ccbae6ec3e88",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "server.ts"
+  },
+	"unstable": [
+		"kv",
+		"cron"
+	]
+}
