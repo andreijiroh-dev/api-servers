@@ -1,0 +1,27 @@
+schemaVersion: 2.2.2
+components:
+  - name: runtime
+    container:
+      image: registry.access.redhat.com/ubi8/nodejs-18:1-32
+      args: ["tail", "-f", "/dev/null"]
+      memoryLimit: 1024Mi
+      mountSources: true
+      env:
+        - name: PORT
+          value: "3000"
+      endpoints:
+        - name: wrangler-dev
+          targetPort: 3000
+          protocol: https
+        - exposure: none
+          name: debug
+          targetPort: 5858
+commands:
+  - id: install
+    exec:
+      component: runtime
+      commandLine: yarn
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: build
+        isDefault: true
