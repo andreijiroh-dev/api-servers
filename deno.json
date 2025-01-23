@@ -1,6 +1,8 @@
 {
   "name": "@andreijiroh-dev/api-servers",
-  "workspace": ["apps/**"],
+  "workspace": [
+    "apps/website-api"
+  ],
   "compilerOptions": {
     "jsx": "precompile",
     "jsxImportSource": "hono/jsx"

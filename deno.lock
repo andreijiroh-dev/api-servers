@@ -1,14 +1,9 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@hono/hono@*": "4.6.12",
-    "jsr:@hono/hono@^4.5.5": "4.6.12",
-    "jsr:@hono/hono@^4.6.12": "4.6.12",
+    "jsr:@hono/hono@^4.6.12": "4.6.17",
     "jsr:@soundify/web-api@*": "1.1.5",
     "jsr:@soundify/web-api@^1.1.5": "1.1.5",
-    "jsr:@std/bytes@^1.0.2": "1.0.4",
-    "jsr:@std/crypto@^1.0.3": "1.0.3",
-    "jsr:@std/uuid@*": "1.0.4",
     "npm:@cloudflare/workers-types@^4.20240605.0": "4.20241112.0",
     "npm:@cloudflare/workers-types@^4.20240806.0": "4.20241112.0",
     "npm:@cloudflare/workers-types@^4.20240925.0": "4.20241112.0",
@@ -46,24 +41,11 @@
     "npm:zod@^3.23.8": "3.23.8"
   },
   "jsr": {
-    "@hono/hono@4.6.12": {
-      "integrity": "fa0b97fa7c3292f0d9957109ac07a475fe485868795b71b8e3114c284152cdb5"
+    "@hono/hono@4.6.17": {
+      "integrity": "932fcc61d043b14a8b2cb65242716eb32da44e91f2ee117fd7390508669fea31"
     },
     "@soundify/web-api@1.1.5": {
       "integrity": "4916a2cdad9a6a25003524a9389230e157ff2c21c6954f3fa8b9f28436fd6835"
-    },
-    "@std/bytes@1.0.4": {
-      "integrity": "11a0debe522707c95c7b7ef89b478c13fb1583a7cfb9a85674cd2cc2e3a28abc"
-    },
-    "@std/crypto@1.0.3": {
-      "integrity": "a2a32f51ddef632d299e3879cd027c630dcd4d1d9a5285d6e6788072f4e51e7f"
-    },
-    "@std/uuid@1.0.4": {
-      "integrity": "f4233149cc8b4753cc3763fd83a7c4101699491f55c7be78dc7b30281946d7a0",
-      "dependencies": [
-        "jsr:@std/bytes",
-        "jsr:@std/crypto"
-      ]
     }
   },
   "npm": {
@@ -1635,12 +1617,6 @@
             "npm:zod@^3.23.8"
           ]
         }
-      },
-      "apps/oblong-oauth-helper": {
-        "dependencies": [
-          "jsr:@hono/hono@^4.5.5",
-          "jsr:@std/uuid@*"
-        ]
       },
       "apps/website-api": {
         "dependencies": [

@@ -34,8 +34,16 @@
     {
       "previewLimit": 50,
       "driver": "SQLite",
+      "name": "kv-localdev-go",
+      "group": "golinks-rewrite",
+      "database": "${workspaceFolder:api-servers}/apps/golinks-v2/.wrangler/state/v3/kv/miniflare-KVNamespaceObject/182e9426e068d8623233d7a037d22158fec3fd46f91fff1515b3aff052864eb2.sqlite"
+    },
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
       "database": "${workspaceFolder:api-servers}/apps/golinks-v2/.wrangler/state/v3/d1/miniflare-D1DatabaseObject/0c387ee1750819f278da29686bfd9e894e71486eed5952c4c869b0b96c99e1d0.sqlite",
-      "name": "d1-localdev-go"
+      "name": "d1-localdev-go",
+      "group": "golinks-rewrite"
     }
   ],
   "sqltools.useNodeRuntime": true,

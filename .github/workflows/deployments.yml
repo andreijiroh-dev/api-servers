@@ -1,4 +1,4 @@
-name: Cloudflare Workers Deployments
+name: Deploybot
 
 on:
   push:
@@ -17,42 +17,15 @@ jobs:
           filters: |
             golinks-next:
               - 'apps/golinks-v2/**'
+            personal-api:
+              - 'apps/website-api/**'
   golinks-next:
-    name: Deploy golinks-next to staging
-    environment:
-      name: golinks-next/staging
-      url: https://staging.go-next.andreijiroh.xyz/api/docs
-    runs-on: ubuntu-latest
-    needs: [paths-filter]
-    if: needs.paths-filter.outputs.golinks-next == 'true'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: andreijiroh-dev/dotenvx-action@main
-        id: dotenvx
-        with:
-          key: ${{ secrets.DOTENV_PRIVATE_KEY_CI }}
-          path: .env.ci
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-      - name: Install dependencies and generate Prisma client code
-        run: |
-          yarn install
-          yarn workspace @andreijiroh-dev/golinks-rewrite prisma generate
-      - name: Deploy to Workers in staging
-        id: deploy
-        run: |
-          yarn workspace @andreijiroh-dev/golinks-rewrite deploy:stg
-          git rev-parse HEAD | yarn workspace @andreijiroh-dev/golinks-rewrite wrangler secret put GIT_DEPLOY_COMMIT --env staging
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ steps.dotenvx.outputs.WRANGLER_DEPLOY_TOKEN }}
-  golinks-next-prod:
     name: Deploy golinks-next to production
     environment:
       name: golinks-next/production
       url: https://go.andreijiroh.xyz/api/docs
     runs-on: ubuntu-latest
-    needs: [paths-filter, golinks-next]
+    needs: [paths-filter]
     if: needs.paths-filter.outputs.golinks-next == 'true'
     steps:
       - uses: actions/checkout@v4
