@@ -45,8 +45,9 @@ export const me = {
 			},
 			url: "https://matrix.to/#/@ajhalili2006:andreijiroh.dev",
 			homeserver_details: {
-        host: "uberspace.de",
-				open_registrations: false
+        		host: "uberspace.de",
+				open_registrations: false,
+				invite_only: false
 			}
 		},
 		{
@@ -61,7 +62,7 @@ export const me = {
 			permalink: "https://bsky.app/profile/did:plc:wcx4c3osbuzrwmxkqdfqygwv"
 		},
 		{
-      type: "centralized",
+     		type: "centralized",
 			platform: "substack",
 			handle: {
 				primary_publication: "ajhalili2006",
@@ -142,6 +143,34 @@ export const techStack = {
 		{
 			name: "Deno Deploy",
 			website: "https://deno.com/deploy"
+		},
+		{
+			name: "Uberspace",
+			website: "https://uberspace.de"
+		},
+		{
+			name: "Hack Club Nest",
+			website: "https://hackclub.app"
+		}
+	]
+}
+
+export const linuxSetup = {
+	distros: [
+		{
+			name: "NixOS",
+			website: "https://nixos.org",
+			primary: true,
+			sources: [
+				"https://github.com/NixOS/nixpkgs",
+				"https://github.com/NixOS/nix"
+			]
+		},
+		{
+			name: "Alpine Linux",
+			website: "https://alpinelinux.org",
+			primary: false,
+			docker: true
 		}
 	]
 }
@@ -150,11 +179,16 @@ export const techStack = {
  * This is chaos indeed.
  */
 export const pingMessageValues = [
+	// me ooc
+	"Do you have any thoughts about abandoning the children? (Andrei Jiroh on Hack Club Slack)",
+
 	"We are so back. (Jet Lag: The Game)",
 
 	// Hermits out of context
 	"What could possibly go wrong? (GoodTimesWithScar, Hermitcraft Season 8)",
+	"The slap is how you get hard (GoodTimesWithScar)",
 	"100 percent fully sus(tainable) (Mumbo Jumbo, Hermitcraft Season 9)",
+	"I am gonna milk you dry (Rendog)",
 
 	// every single Life Series SMP / Hermitcraft episode
 	"SCAR NO! (Grian)",
@@ -162,6 +196,7 @@ export const pingMessageValues = [
 	// Story 6 Pre-Premiere April's Fools Special
 	"Gildedguy (Michael Moy): how do i abandon the children? (from a Twitch chat screenshot, taken out of context)",
 
+	// iykyk
 	"The more you fuck around, the more you find out. And also, if you never fucked around, you will never find out.",
 
 	// lyrics?
@@ -170,6 +205,7 @@ export const pingMessageValues = [
 	"Are you a lion in the guise of the lamb? (from the lyrics of CONQUEST by Pick Up Goliath)",
 
 	// copious amount of spoilers
-	"Five become four become three become two become one become nothing. (Cult of The Lamb)"
+	"Five become four become three become two become one become nothing. (Cult of The Lamb)",
+	"Long story short, this is my grave. (Hunter, The Owl House S02EP09)"
 	// TODO: Find "summoning a demon" quote from YGO ARC-V
 ]

@@ -44,11 +44,18 @@
       "database": "${workspaceFolder:api-servers}/apps/golinks-v2/.wrangler/state/v3/d1/miniflare-D1DatabaseObject/0c387ee1750819f278da29686bfd9e894e71486eed5952c4c869b0b96c99e1d0.sqlite",
       "name": "d1-localdev-go",
       "group": "golinks-rewrite"
+    },
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "${workspaceFolder:api-servers}/apps/golinks/data/personal-devapi.db",
+      "name": "deno-kv_go-localdev"
     }
   ],
   "sqltools.useNodeRuntime": true,
-	"deno.enablePaths": [
-		"./apps/website-api"
-	],
-	//"deno.enable": true,
+  // "deno.enablePaths": [
+  //   "./apps/website-api",
+  //   "./apps/golinks"
+  // ],
+	"deno.enable": true,
 }
