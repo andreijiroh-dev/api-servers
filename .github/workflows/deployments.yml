@@ -9,21 +9,22 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       golinks-next: ${{ steps.filter.outputs.golinks-next }}
+      personal-api: ${{ steps.filter.outputs.personal-api }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: filter
         with:
           filters: |
-            golinks-next:
-              - 'apps/golinks-v2/**'
+            golinks-cfw-legacy:
+              - 'apps/golinks-v2-cf/**'
             personal-api:
               - 'apps/website-api/**'
   golinks-next:
     name: Deploy golinks-next to production
     environment:
       name: golinks-next/production
-      url: https://go.andreijiroh.xyz/api/docs
+      url: https://go-next.andreijiroh.dev/api/docs
     runs-on: ubuntu-latest
     needs: [paths-filter]
     if: needs.paths-filter.outputs.golinks-next == 'true'
