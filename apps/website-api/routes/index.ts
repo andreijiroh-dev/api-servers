@@ -1,9 +1,8 @@
-import { Context } from "hono";
-import { OpenAPIRoute } from "chanfana";
+import { Context } from "jsr:@hono/hono";
+import { OpenAPIRoute } from "npm:chanfana";
 import { me, techStack } from "../lib/staticDataConstraints.ts";
 import { pingServer } from "./ping.ts";
-import { object } from "zod";
-import { boolean } from "zod";
+import { object, boolean } from "npm:zod";
 import { meSchema } from "../lib/types.ts";
 import { getMe, getTechStack } from "./seperatedStacks.ts";
 

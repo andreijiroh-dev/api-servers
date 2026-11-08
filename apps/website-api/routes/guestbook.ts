@@ -1,6 +1,6 @@
-import { OpenAPIRoute, OpenAPIRouteSchema, Str, Num, Bool } from "chanfana";
-import { Context } from "@hono/hono";
-import { z } from "zod";
+import { OpenAPIRoute, OpenAPIRouteSchema } from "npm:chanfana";
+import { Context } from "jsr:@hono/hono";
+import { z } from "npm:zod";
 import {
 	parseAtUri,
 	fetchRecord,
@@ -22,9 +22,18 @@ export class getGuestbookMessages extends OpenAPIRoute {
 		summary: "Get guestbook messages (random entry or paginated list of approved entries)",
 		request: {
 			query: z.object({
-				all: Bool({ required: false }).describe("Set true to fetch a list of entries rather than a single random entry"),
-				limit: Num({ required: false }).describe("Maximum entries to return (when all=true, max 50)"),
-				offset: Num({ required: false }).describe("Offset for pagination (when all=true)"),
+				all: z.coerce
+					.boolean()
+					.optional()
+					.describe("Set true to fetch a list of entries rather than a single random entry"),
+				limit: z.coerce
+					.number()
+					.optional()
+					.describe("Maximum entries to return (when all=true, max 50)"),
+				offset: z.coerce
+					.number()
+					.optional()
+					.describe("Offset for pagination (when all=true)"),
 			}),
 		},
 	};
@@ -76,9 +85,9 @@ The server validates the record from the signer's PDS, checks moderation status,
 				content: {
 					"application/json": {
 						schema: z.object({
-							at_uri: Str({
-								example: "at://did:plc:ragtjsm2j2vknwk2uhgahuro/dev.andreijiroh.guestbook.entry/3lb4abcde",
-							}).describe("AT-URI of the guestbook signature record"),
+							at_uri: z
+								.string()
+								.describe("AT-URI of the guestbook signature record"),
 						}),
 					},
 				},
@@ -133,7 +142,8 @@ The server validates the record from the signer's PDS, checks moderation status,
 		const profile = await fetchActorProfile(parsed.did);
 
 		// 3. Moderation checks (blocks, mutes, automated filtering)
-		const hostDid = Deno.env.get("HOST_DID");
+		const hostDid =
+			Deno.env.get("ATPROTO_HOST_DID") || Deno.env.get("HOST_DID");
 		let isMutedOrBlocked = false;
 		if (hostDid) {
 			isMutedOrBlocked = await checkIsMutedOrBlocked(hostDid, parsed.did);

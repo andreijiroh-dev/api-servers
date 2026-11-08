@@ -1,7 +1,7 @@
 # Migration Plan: apps/website-api from Deno Deploy to Appwrite Functions
 
 **Date:** November 2026  
-**Status:** Phases 1–4 Complete, Appwrite Cloud Resources Provisioned on `ajhalili2006-lairland` (sfo)  
+**Status:** Deployed & Verified Live on Appwrite Cloud Functions (`deno-2.6`)  
 **Target:** Appwrite Functions (`deno-2.6` runtime) + Appwrite Databases (TablesDB) + Atmosphere (AT Protocol)  
 **Upstream Consumer:** Zensical-based static site (`https://gitlab.com/andreijiroh-dev/website`)
 **AI tooling used**: Gemini 3.8 Flash via OpenCode

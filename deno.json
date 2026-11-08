@@ -6,6 +6,7 @@
     "packages/lib"
   ],
   "tasks": {
+    "appwrite": "appwrite",
     "dotenvx": "deno run -A @dotenvx/dotenvx",
     "utils:dotenvx": "deno run -A @dotenvx/dotenvx",
     "dotenvx:run": "deno task dotenvx run",

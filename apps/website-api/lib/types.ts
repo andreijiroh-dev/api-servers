@@ -1,4 +1,4 @@
-import { z, string, object, array } from 'zod';
+import { z, string, object, array } from "npm:zod";
 
 export const meSchema = z.object({
 	city: string(),

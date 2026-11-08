@@ -45,7 +45,7 @@ In Appwrite Cloud Function settings:
 - `DOTENV_PRIVATE_KEY` - Encryption key for runtime decryption.
 - `APPWRITE_DATABASE_ID` - Target database ID (defaults to `default`).
 - `APPWRITE_TABLE_GUESTBOOK` - Table name for indexed guestbook entries (default: `guestbook_entries`).
-- `HOST_DID` - Andrei's DID (e.g. `did:plc:...`) used for block/mute checks and backlink verification.
+- `ATPROTO_HOST_DID` (or `HOST_DID`) - Andrei's DID (`did:plc:wcx4c3osbuzrwmxkqdfqygwv`) used for block/mute checks and backlink verification.
 - `REQUIRE_MANUAL_APPROVAL` - Set to `true` to require manual approval before entries become public.
 
 ---

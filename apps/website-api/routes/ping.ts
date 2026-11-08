@@ -1,5 +1,5 @@
-import { Context } from "hono";
-import { OpenAPIRoute } from "chanfana";
+import { Context } from "jsr:@hono/hono";
+import { OpenAPIRoute } from "npm:chanfana";
 import { randomPingPong } from "../lib/utils.ts";
 
 export class pingServer extends OpenAPIRoute {

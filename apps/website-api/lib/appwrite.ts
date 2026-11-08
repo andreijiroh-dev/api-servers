@@ -3,7 +3,7 @@
  * Manages indexed guestbook signatures with moderation state.
  */
 
-import { Client, TablesDB, Databases, ID, Query } from "node-appwrite";
+import { Client, TablesDB, Databases, ID, Query } from "npm:node-appwrite";
 
 export interface GuestbookEntryRow {
 	$id?: string;

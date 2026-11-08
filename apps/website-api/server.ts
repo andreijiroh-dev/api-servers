@@ -1,5 +1,5 @@
-import { Context, Hono } from "hono";
-import { fromHono } from "chanfana";
+import { Context, Hono } from "jsr:@hono/hono";
+import { fromHono } from "npm:chanfana";
 import { rootRouter } from "./routes/index.ts";
 import { getTechStack, getLinuxSetup, getMe } from "./routes/seperatedStacks.ts";
 import { pingServer } from "./routes/ping.ts";
@@ -121,6 +121,12 @@ export default async function ({ req, res, log, error }: any) {
 
 /** Local development fallback */
 if (import.meta.main) {
+	try {
+		const dotenvx = await import("npm:@dotenvx/dotenvx");
+		dotenvx.default.config();
+	} catch {
+		// Ignore if dotenvx is not needed or not configured
+	}
 	const port = Number(Deno.env.get("PORT")) || 3000;
 	console.log(`[website-api] Server listening locally on http://localhost:${port}`);
 	Deno.serve({ port }, app.fetch);
