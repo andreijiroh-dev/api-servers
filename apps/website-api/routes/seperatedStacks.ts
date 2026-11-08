@@ -1,8 +1,8 @@
-import { Context } from "jsr:@hono/hono";
-import { OpenAPIRoute } from "npm:chanfana";
+import { Context } from "hono";
+import { OpenAPIRoute } from "chanfana";
 import { linuxSetup, me, techStack } from "../lib/staticDataConstraints.ts";
-import { object } from "npm:zod";
-import { boolean } from "npm:zod";
+import { object } from "zod";
+import { boolean } from "zod";
 import { meSchema } from "../lib/types.ts";
 
 export class getMe extends OpenAPIRoute {

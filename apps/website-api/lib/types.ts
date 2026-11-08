@@ -1,4 +1,4 @@
-import { z, string, object, array } from 'npm:zod';
+import { z, string, object, array } from 'zod';
 
 export const meSchema = z.object({
 	city: string(),
@@ -37,10 +37,3 @@ export const metaSchema = z.object({
 		}
 	])
 })
-
-export type OAuthTokenResponse = {
-	access_token: string,
-	token_type: "Bearer",
-	expires_in: number,
-	refresh_token: string
-}

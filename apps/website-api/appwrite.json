@@ -1,0 +1,26 @@
+{
+  "projectId": "ajhalili2006-lairland",
+  "projectName": "Andrei Jiroh's Lairland",
+  "functions": [
+    {
+      "$id": "website-api",
+      "name": "website-api",
+      "runtime": "deno-2.6",
+      "specification": "s-1vcpu-512mb",
+      "entrypoint": "server.ts",
+      "path": ".",
+      "commands": "deno cache server.ts",
+      "scopes": [
+        "databases.read",
+        "databases.write",
+        "tables.read",
+        "tables.write",
+        "rows.read",
+        "rows.write"
+      ],
+      "events": [],
+      "schedule": "",
+      "timeout": 15
+    }
+  ]
+}

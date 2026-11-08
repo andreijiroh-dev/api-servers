@@ -1,143 +1,194 @@
-import {OpenAPIRoute, OpenAPIRouteSchema, Str} from "chanfana";
+import { OpenAPIRoute, OpenAPIRouteSchema, Str, Num, Bool } from "chanfana";
 import { Context } from "@hono/hono";
-import {z} from "zod";
-import {Octokit} from "npm:@octokit/rest";
-import * as uuid from "@std/uuid";
-import { kv } from "../server.ts";
+import { z } from "zod";
+import {
+	parseAtUri,
+	fetchRecord,
+	fetchActorProfile,
+	checkIsMutedOrBlocked,
+	SUPPORTED_COLLECTIONS,
+	type SupportedCollection,
+} from "../lib/atproto.ts";
+import {
+	upsertGuestbookEntry,
+	getRandomApprovedGuestbookEntry,
+	listApprovedGuestbookEntries,
+	type GuestbookEntryRow,
+} from "../lib/appwrite.ts";
 
-type GuestbookUserGitHub = {
-    username: string,
-    name?: string | null,
-    email?: string | null,
-    node_id: string,
-    banned?: boolean,
-    ban_reason?: string
+export class getGuestbookMessages extends OpenAPIRoute {
+	override schema: OpenAPIRouteSchema = {
+		tags: ["guestbook"],
+		summary: "Get guestbook messages (random entry or paginated list of approved entries)",
+		request: {
+			query: z.object({
+				all: Bool({ required: false }).describe("Set true to fetch a list of entries rather than a single random entry"),
+				limit: Num({ required: false }).describe("Maximum entries to return (when all=true, max 50)"),
+				offset: Num({ required: false }).describe("Offset for pagination (when all=true)"),
+			}),
+		},
+	};
+
+	override async handle(c: Context) {
+		const data = await this.getValidatedData<typeof this.schema>();
+		const showAll = data.query?.all ?? false;
+		const limit = Math.min(data.query?.limit || 25, 50);
+		const offset = data.query?.offset || 0;
+		const apiKeyOverride = c.req.header("x-appwrite-key");
+
+		if (showAll) {
+			const { total, entries } = await listApprovedGuestbookEntries(
+				limit,
+				offset,
+				apiKeyOverride,
+			);
+			return c.json({
+				ok: true,
+				total,
+				limit,
+				offset,
+				result: entries,
+			});
+		}
+
+		const randomEntry = await getRandomApprovedGuestbookEntry(apiKeyOverride);
+		if (!randomEntry) {
+			return c.json({ ok: false, error: "No approved guestbook messages found yet" }, 404);
+		}
+
+		return c.json({
+			ok: true,
+			result: randomEntry,
+		});
+	}
 }
 
-async function lookupGuestbookUser_github(user: string) {
-    const data = kv.get<GuestbookUserGitHub>(["guestbook", "github_users", user])
+export class indexGuestbookEntryRoute extends OpenAPIRoute {
+	override schema: OpenAPIRouteSchema = {
+		tags: ["guestbook"],
+		summary: "Index an Atmosphere (AT Protocol) guestbook entry",
+		description: `\
+Registers an AT-URI from a visitor's Personal Data Server (PDS).
+Supported collections: \`dev.andreijiroh.guestbook.entry\` (primary) and \`is.dame.guestbook.entry\` (compatibility).
+The server validates the record from the signer's PDS, checks moderation status, and indexes it in Appwrite TablesDB.`,
+		request: {
+			body: {
+				content: {
+					"application/json": {
+						schema: z.object({
+							at_uri: Str({
+								example: "at://did:plc:ragtjsm2j2vknwk2uhgahuro/dev.andreijiroh.guestbook.entry/3lb4abcde",
+							}).describe("AT-URI of the guestbook signature record"),
+						}),
+					},
+				},
+			},
+		},
+	};
 
-    return data
-}
+	override async handle(c: Context) {
+		const data = await this.getValidatedData<typeof this.schema>();
+		const atUriStr = data.body.at_uri.trim();
 
-async function saveGuestbookUserData_github(user: string, data: GuestbookUserGitHub) {
-    return await kv.set(["guestbook", "github_users", user], data)
-}
+		const parsed = parseAtUri(atUriStr);
+		if (!parsed) {
+			return c.json(
+				{
+					ok: false,
+					error: "Invalid AT-URI format. Expected at://<did>/<collection>/<rkey>",
+				},
+				400,
+			);
+		}
 
-async function banGitHubUser(user: string, reason: GuestbookUserGitHub["ban_reason"]) {
-    const current = await lookupGuestbookUser_github(user)
-    return await kv.set(current.key, {
-        ...current.value,
-        banned: true,
-        ban_reason: reason
-    })
-}
+		if (
+			!SUPPORTED_COLLECTIONS.includes(
+				parsed.collection as SupportedCollection,
+			)
+		) {
+			return c.json(
+				{
+					ok: false,
+					error: `Unsupported collection: ${parsed.collection}. Supported: ${SUPPORTED_COLLECTIONS.join(", ")}`,
+				},
+				400,
+			);
+		}
 
-async function unbanGitHubUser(user: string) {
-    const current = await lookupGuestbookUser_github(user)
-    return await kv.set(current.key, {
-        ...current.value,
-        banned: false,
-        ban_reason: null
-    })
-}
+		// 1. Fetch the record from signer's PDS / Slingshot
+		const recordData = await fetchRecord(parsed.did, parsed.collection, parsed.rkey);
+		if (!recordData || !recordData.value) {
+			return c.json(
+				{
+					ok: false,
+					error: "Could not resolve or verify record from the signer's PDS repository",
+				},
+				404,
+			);
+		}
 
-async function storeGuestbookMessage(userKey: Array<string>, body: string) {
-    const id = ["guestbook", "messages", crypto.randomUUID()]
-    const db = await kv.set(id, {
-        userKey,
-        body,
-        date: (new Date).toISOString()
-    })
-    return {
-        ...db,
-        id: id[2]
-    }
-}
+		const record = recordData.value;
 
-export class showRandomGuestbookMessage extends OpenAPIRoute {
-    override schema = {
-        tags: ["guestbook"],
-        summary: "Get a random guestbook message"
-    }
-    override async handle (c: Context) {
-        const getDb = await kv.list({prefix: ["guestbook", "messages"]})
-        const db = [];
+		// 2. Hydrate signer profile from public AppView
+		const profile = await fetchActorProfile(parsed.did);
 
-        for await (const message of getDb) {
-            db.push(message)
-        };
+		// 3. Moderation checks (blocks, mutes, automated filtering)
+		const hostDid = Deno.env.get("HOST_DID");
+		let isMutedOrBlocked = false;
+		if (hostDid) {
+			isMutedOrBlocked = await checkIsMutedOrBlocked(hostDid, parsed.did);
+		}
 
-        if (db.length === 0) return c.json({ok: false, error: "Nothing to see here yet"}, 404);
+		const status: GuestbookEntryRow["status"] = isMutedOrBlocked
+			? "hidden"
+			: Deno.env.get("REQUIRE_MANUAL_APPROVAL") === "true"
+				? "pending"
+				: "approved";
 
-        const randomIndex = Math.floor(Math.random() * db.length);
-        const randomMessage = db[randomIndex]
+		// 4. Upsert entry into Appwrite TablesDB
+		const apiKeyOverride = c.req.header("x-appwrite-key");
+		const dbResult = await upsertGuestbookEntry(
+			{
+				at_uri: parsed.raw,
+				author_did: parsed.did,
+				author_handle: profile?.handle || "",
+				author_name: profile?.displayName || record.signature || "",
+				author_avatar: profile?.avatar || "",
+				collection: parsed.collection,
+				rkey: parsed.rkey,
+				cid: recordData.cid || "",
+				subject: record.subject,
+				text: record.text || "",
+				signature: record.signature || "",
+				mark: record.mark || "",
+				location: record.location || "",
+				status,
+				signed_at: record.createdAt || new Date().toISOString(),
+				indexed_at: new Date().toISOString(),
+			},
+			apiKeyOverride,
+		);
 
-        return c.json({
-            ok: true,
-            result: {
-                id: randomMessage.key[2],
-                message: randomMessage.value.body,
-                userKey: randomMessage.value.userKey,
-                date: randomMessage.value.date
-            }
-        })
-    }
-}
+		if (!dbResult.ok) {
+			return c.json(
+				{
+					ok: false,
+					error: dbResult.error || "Failed to persist guestbook entry to Appwrite database",
+				},
+				500,
+			);
+		}
 
-export class writeToGuestbook_gh extends OpenAPIRoute {
-    override schema: OpenAPIRouteSchema = {
-        tags: ["guestbook"],
-        summary: "Write a message to my public guestbook by authenicating with your GitHub token.",
-        description: `\
-This API endpoint requires you to authenicate with your GitHub PAT, which will \
-only used to get your GitHub user ID (and GraphQL node ID) and to check if you're \
-banned from using the Guestbook APIs.`,
-        request: {
-            body: {
-                content: {
-                    "application/json": {
-                        schema: z.object({
-                            message: Str().describe("The message body itself").max(128)
-                        }),
-                    }
-                }
-            },
-            headers: z.object({
-                GITHUB_TOKEN: Str().describe("GitHub token")
-            })
-        }
-    }
-
-    override async handle(c: Context) {
-        const data = await this.getValidatedData<typeof this.schema>()
-        
-        const github = new Octokit({
-            auth: data.headers.GITHUB_TOKEN
-        })
-
-        try {
-            const whoami = await github.users.getAuthenticated()
-            const db_user = await lookupGuestbookUser_github(whoami.data.id.toString())
-            let db_user_key: Array<string> = db_user.key as Array<string>
-
-            if (db_user.value == null) {
-                await saveGuestbookUserData_github(whoami.data.id.toString(), {
-                    name: whoami.data.name,
-                    username: whoami.data.login,
-                    email: whoami.data.email,
-                    node_id: whoami.data.node_id
-                })
-                db_user_key = ["guestbook", "github_users", whoami.data.id.toString()]
-            }
-            const result = await storeGuestbookMessage(db_user_key, data.body?.message)
-
-            return c.json({ok: true, result})
-        } catch (error) {
-            return c.json({
-                ok: false,
-                error
-            }, 500)
-        }
-    }
+		return c.json({
+			ok: true,
+			result: {
+				id: dbResult.id,
+				status,
+				at_uri: parsed.raw,
+				author_did: parsed.did,
+				author_handle: profile?.handle,
+				signed_at: record.createdAt,
+			},
+		});
+	}
 }
