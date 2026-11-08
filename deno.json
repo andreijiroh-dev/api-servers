@@ -1,7 +1,8 @@
 {
   "name": "@andreijiroh-dev/api-servers",
   "workspace": [
-    "apps/website-api"
+    "apps/website-api",
+    "packages/lib"
   ],
   "compilerOptions": {
     "jsx": "precompile",
@@ -12,9 +13,10 @@
     "hono": "jsr:@hono/hono",
     "chanfana": "npm:chanfana",
     "zod": "npm:zod",
-    "@soundify/web-api": "jsr:@soundify/web-api",
-    "@std/uuid": "jsr:@std/uuid"
+    "@std/uuid": "jsr:@std/uuid",
+    "node-appwrite": "npm:node-appwrite"
   },
   "unstable": ["kv", "cron"],
-  "nodeModulesDir": "auto"
+  "nodeModulesDir": "auto",
+  "allowScripts": ["npm:@prisma/client@5.22.0", "npm:@prisma/engines@5.22.0", "npm:esbuild@0.17.19", "npm:prisma@5.22.0", "npm:workerd@1.20241106.1"]
 }
