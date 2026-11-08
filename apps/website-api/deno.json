@@ -1,5 +1,6 @@
 {
   "imports": {
+    "@dotenvx/dotenvx": "npm:@dotenvx/dotenvx@^2.38.2",
     "hono": "jsr:@hono/hono",
     "@hono/hono": "jsr:@hono/hono",
     "chanfana": "npm:chanfana",
@@ -10,6 +11,12 @@
   "tasks": {
     "dev": "deno run --watch -A server.ts",
     "start": "deno run -A server.ts",
-    "cache": "deno cache server.ts"
+    "cache": "deno cache server.ts",
+    "dotenvx": "deno run -A @dotenvx/dotenvx",
+    "utils:dotenvx": "deno run -A @dotenvx/dotenvx",
+    "dotenvx:run": "deno task dotenvx run",
+    "dotenvx:set": "deno task dotenvx set",
+    "dotenvx:get": "deno task dotenvx get",
+    "dotenvx:del": "deno task dotenvx del"
   }
 }

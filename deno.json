@@ -1,20 +1,25 @@
 {
   "name": "@andreijiroh-dev/api-servers",
+  "exports": {},
   "workspace": [
     "apps/website-api",
     "packages/lib"
   ],
+  "tasks": {
+    "dotenvx": "deno run -A @dotenvx/dotenvx",
+    "utils:dotenvx": "deno run -A @dotenvx/dotenvx",
+    "dotenvx:run": "deno task dotenvx run",
+    "dotenvx:set": "deno task dotenvx set",
+    "dotenvx:get": "deno task dotenvx get",
+    "dotenvx:del": "deno task dotenvx del"
+  },
   "compilerOptions": {
     "jsx": "precompile",
     "jsxImportSource": "hono/jsx"
   },
   "imports": {
-    "@hono/hono": "jsr:@hono/hono",
-    "hono": "jsr:@hono/hono",
-    "chanfana": "npm:chanfana",
-    "zod": "npm:zod",
-    "@std/uuid": "jsr:@std/uuid",
-    "node-appwrite": "npm:node-appwrite"
+    "node-appwrite": "npm:node-appwrite",
+    "@dotenvx/dotenvx": "npm:@dotenvx/dotenvx"
   },
   "unstable": ["kv", "cron"],
   "nodeModulesDir": "auto",
